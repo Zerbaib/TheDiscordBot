@@ -1,0 +1,15 @@
+# Folder bot
+config/
+logs/
+
+# Folder IDE
+.idea/
+.vs/
+.vscode/
+
+# V-Environment
+.env/
+.venv/
+
+# Python cache
+__pycache__/
