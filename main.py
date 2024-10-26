@@ -1,11 +1,20 @@
 import src.utils.creator
 import src.utils.loader
 from src.utils.logger import Log
+import disnake
+from disnake.ext import commands
+
+bot = commands.Bot(
+    command_prefix="!",
+    intents=disnake.Intents.all(),
+    case_insensitive=True
+)
 
 class main():
     def __init__(self):
+        self.bot = bot
         src.utils.creator.Creator()
-        src.utils.loader.Loader()
+        src.utils.loader.Loader(self.bot)
 
 if __name__ == '__main__':
     try:

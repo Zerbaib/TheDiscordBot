@@ -1,6 +1,6 @@
-import disnake
 import os
 from data.var import *
+from src.utils.logger import Log
 
 class Loader():
     def __init__(self, bot):
@@ -16,10 +16,10 @@ class Loader():
                             cogName = filename[:-3]
                             try:
                                 self.bot.load_extension(f'cogs.{element}.{cogName}')
-                                print(f"Loaded {filename}")
+                                Log.info(f"Loaded {filename}")
                             except Exception as e:
-                                print(f"Failed to load {filename}")
-                                print(e)
+                                Log.error(f"Failed to load {filename}")
+                                Log.error(e)
             except Exception as e:
                 print(e)
                 return
