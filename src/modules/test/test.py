@@ -15,7 +15,7 @@ class PingCommand(commands.Cog):
         try:
             embed = disnake.Embed(
                 title="🏓 Pong!",
-                description=f"Latency: {round(self.bot.latency * 1000)}ms",
+                description=f"Latency: `{round(self.bot.latency * 1000)}ms`",
                 color=disnake.Color.blurple()
                 )
             await ctx.response.defer()
