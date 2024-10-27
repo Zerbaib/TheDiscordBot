@@ -1,5 +1,6 @@
 import disnake
 from disnake.ext import commands
+from src.utils.error import error_embed as error
 from src.utils.logger import Log
 
 class PingCommand(commands.Cog):
@@ -8,7 +9,7 @@ class PingCommand(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print('🔩 /ping has been loaded')
+        Log.info('🔩 /ping has been loaded')
 
     @commands.slash_command(name="ping", description="Check the bot's latency")
     async def ping(self, ctx):
@@ -21,8 +22,7 @@ class PingCommand(commands.Cog):
             await ctx.response.defer()
             await ctx.send(ephemeral=True, embed=embed)
         except Exception as e:
-            #embed = error.error_embed(e)
-            Log.error(e)
+            embed = error.error_embed(e)
             await ctx.send(embed=embed)
 
 def setup(bot):

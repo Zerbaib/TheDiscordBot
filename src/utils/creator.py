@@ -1,12 +1,14 @@
 import os
 from data.var import *
 from src.utils.logger import *
+from src.utils.saver import Saver
 import json
 
 class Creator:
     def __init__(self):
         self.log_file()
         self.config_file()
+        Saver()
 
     def config_folder(self):
         if os.path.exists(configFolder):

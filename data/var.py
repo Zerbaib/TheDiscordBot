@@ -1,7 +1,11 @@
 configFolder = "./config/"
 cogsFolder = "./src/modules/"
 logFolder = "./logs/"
+dataFolder = "./data/"
 
+dbInstuctionsFile = f"{dataFolder}structure.sqlite"
+
+dbFile = f"{dataFolder}bdd.db"
 configFile = f"{configFolder}config.json"
 logFile = f"{logFolder}log.txt"
 
