@@ -5,6 +5,7 @@ from src.utils.logger import Log
 class Loader():
     def __init__(self, bot):
         self.bot = bot
+        self.load_cogs()
 
     def load_cogs(self):
         for element in os.listdir(cogsFolder):
@@ -15,7 +16,7 @@ class Loader():
                         if filename.endswith(".py"):
                             cogName = filename[:-3]
                             try:
-                                self.bot.load_extension(f'cogs.{element}.{cogName}')
+                                self.bot.load_extension(f'src.modules.{element}.{cogName}')
                                 Log.info(f"Loaded {filename}")
                             except Exception as e:
                                 Log.error(f"Failed to load {filename}")

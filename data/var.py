@@ -2,6 +2,7 @@ configFolder = "./config/"
 cogsFolder = "./src/modules/"
 logFolder = "./logs/"
 
+configFile = f"{configFolder}config.json"
 logFile = f"{logFolder}log.txt"
 
 class Color():
@@ -10,3 +11,17 @@ class Color():
     orange = "\033[33m"
     green = "\033[32m"
     blue = "\033[34m"
+
+def load_config():
+    try:
+        with open(configFile, 'r') as f:
+            import json
+            data = json.load(f)
+            token = data['token']
+            prefix = data['prefix']
+            return token, prefix
+    except Exception as e:
+        print(e)
+        return
+
+token, prefix = load_config()
