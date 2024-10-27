@@ -21,6 +21,8 @@ class Loader():
                             except Exception as e:
                                 Log.error(f"Failed to load {filename}")
                                 Log.error(e)
+                                exit()
             except Exception as e:
-                print(e)
-                return
+                Log.error(f"Failed to load {element}")
+                Log.error(e)
+                exit()

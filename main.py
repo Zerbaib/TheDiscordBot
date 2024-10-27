@@ -5,6 +5,7 @@ from src.utils.starter import Launch
 import disnake
 from disnake.ext import commands
 import src.utils.starter
+import os
 
 bot = commands.Bot(
     command_prefix="!",

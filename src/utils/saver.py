@@ -45,5 +45,40 @@ class Saver():
             Log.error(e)
             exit()
 
+    def lookup(self, query):
+        try:
+            cur, conn = connectDB()
+            cur.execute(query)
+            data = cur.fetchone()
+            conn.close()
+            return data
+        except Exception as e:
+            Log.error("Failed to lookup data")
+            Log.error(e)
+            return
+
+    def fetch(self, query):
+        try:
+            cur, conn = connectDB()
+            cur.execute(query)
+            data = cur.fetchall()
+            conn.close()
+            return data
+        except Exception as e:
+            Log.error("Failed to fetch data")
+            Log.error(e)
+            return
+
+    def save(self, query):
+        try:
+            cur, conn = connectDB()
+            cur.execute(query)
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            Log.error("Failed to save data")
+            Log.error(e)
+            return
+
     def close(self):
         self.conn.close()
