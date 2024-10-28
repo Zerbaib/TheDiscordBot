@@ -9,5 +9,6 @@ CREATE TABLE IF NOT EXISTS economy (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     guildID INTEGER,
     userID INTEGER,
-    coins INTEGER
+    coins INTEGER,
+    cooldown INTEGER
 );
