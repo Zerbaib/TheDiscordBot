@@ -34,7 +34,7 @@ class sysRank(commands.Cog):
 
                 oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
                 oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
-                xpWin = random.randint(1, 15)
+                xpWin = random.randint(1, 5)
                 newXP = oldXP + xpWin
 
                 nextLevelXP = 5 * (oldLevel ** 2) + 10 * oldLevel + 10
