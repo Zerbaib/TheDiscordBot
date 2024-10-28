@@ -7,7 +7,7 @@ dbInstuctionsFile = f"{dataFolder}structure.sql"
 
 dbFile = f"{dataFolder}bdd.db"
 configFile = f"{configFolder}config.json"
-logFile = f"{logFolder}log.txt"
+logFile = f"{logFolder}.log"
 
 class Color():
     reset = "\033[0m"
