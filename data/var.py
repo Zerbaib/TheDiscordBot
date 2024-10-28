@@ -28,4 +28,4 @@ def load_config():
         print(e)
         return
 
-token, prefix = load_config()
+#token, prefix = load_config()
