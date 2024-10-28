@@ -39,12 +39,12 @@ class Version():
     fileName = "version"
     localVersionFile = f"./{fileName}"
     onlineVersionFile = f"{Git.rawLink}{Git.repos}{Git.branch}/{fileName}"
-    
+
     def getLocal():
         with open(Version.localVersionFile, 'r') as f:
             localVer = f.read()
         return localVer
-    
+
     def getOnline():
         from src.utils.logger import Log
         try:
