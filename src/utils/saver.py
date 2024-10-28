@@ -53,6 +53,8 @@ class Saver():
             conn.close()
             return data[0][0]
         except Exception as e:
+            if "list index out of range" in str(e):
+                return 0
             Log.error("Failed to fetch data")
             Log.error(e)
             return

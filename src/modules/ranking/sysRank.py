@@ -48,7 +48,7 @@ class sysRank(commands.Cog):
                         description=message,
                         color=disnake.Color.blurple()
                         )
-                    await ctx.send(embed=embed, delete_after=10)
+                    #await ctx.send(embed=embed, delete_after=10)
 
                     Saver.save(f"UPDATE ranking SET level = {newLevel} WHERE userID = {userID} AND guildID = {guildID}")
                     Log.log(f"LEVEL on {guildID} user {userID} [+] {oldLevel} -> {newLevel}")
