@@ -3,7 +3,7 @@ cogsFolder = "./src/modules/"
 logFolder = "./logs/"
 dataFolder = "./data/"
 
-dbInstuctionsFile = f"{dataFolder}structure.sqlite"
+dbInstuctionsFile = f"{dataFolder}structure.sql"
 
 dbFile = f"{dataFolder}bdd.db"
 configFile = f"{configFolder}config.json"
@@ -26,4 +26,32 @@ def load_config():
             return token, prefix
     except Exception as e:
         print(e)
-        return
+        return None, None
+
+class Git():
+    from subprocess import check_output
+    link = "https://github.com"
+    rawLink = "https://raw.githubusercontent.com"
+    branch = f"/{check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode().strip()}"
+    repos = "/Zerbaib/TheDiscordBot"
+
+class Version():
+    fileName = "version"
+    localVersionFile = f"./{fileName}"
+    onlineVersionFile = f"{Git.rawLink}{Git.repos}{Git.branch}/{fileName}"
+
+    def getLocal():
+        with open(Version.localVersionFile, 'r') as f:
+            localVer = f.read()
+        return localVer
+
+    def getOnline():
+        from src.utils.logger import Log
+        try:
+            with open(Version.onlineVersionFile, 'r') as f:
+                onlineVer = f.read()
+            return onlineVer
+        except Exception as e:
+            Log.warn("Can't open online version")
+            Log.warn(e)
+            return

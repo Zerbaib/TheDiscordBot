@@ -45,31 +45,21 @@ class Saver():
             Log.error(e)
             exit()
 
-    def lookup(self, query):
-        try:
-            cur, conn = connectDB()
-            cur.execute(query)
-            data = cur.fetchone()
-            conn.close()
-            return data
-        except Exception as e:
-            Log.error("Failed to lookup data")
-            Log.error(e)
-            return
-
-    def fetch(self, query):
+    def fetch(query):
         try:
             cur, conn = connectDB()
             cur.execute(query)
             data = cur.fetchall()
             conn.close()
-            return data
+            return data#[0][0]
         except Exception as e:
+            if "list index out of range" in str(e):
+                return 0
             Log.error("Failed to fetch data")
             Log.error(e)
             return
 
-    def save(self, query):
+    def save(query):
         try:
             cur, conn = connectDB()
             cur.execute(query)
