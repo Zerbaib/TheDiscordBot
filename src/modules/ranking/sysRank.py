@@ -12,13 +12,12 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         Log.info("🧰 Ranking system has been loaded")
-    
+
     @commands.Cog.listener()
     async def on_message(self, message):
         try:
             if message.author.bot:
                 return
-
             if message.guild is None:
                 return
 
@@ -32,8 +31,8 @@ class sysRank(commands.Cog):
                     Saver.save(f"INSERT OR IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({userID}, {guildID}, 0, 0)")
                     pass
 
-                oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
-                oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
+                oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+                oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
                 xpWin = random.randint(1, 5)
                 newXP = oldXP + xpWin
 

@@ -20,8 +20,8 @@ class Rank(commands.Cog):
             guild = ctx.guild
             guildID = guild.id
 
-            xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
-            level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
+            xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+            level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
 
             nextLevelXP = 5 * (level ** 2) + 10 * level + 10
             message = f"Your rank is level `{level}` with `{xp}` XP ```{xp}/{nextLevelXP} XP```"

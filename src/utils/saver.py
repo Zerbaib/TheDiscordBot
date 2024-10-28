@@ -51,7 +51,7 @@ class Saver():
             cur.execute(query)
             data = cur.fetchall()
             conn.close()
-            return data[0][0]
+            return data#[0][0]
         except Exception as e:
             if "list index out of range" in str(e):
                 return 0

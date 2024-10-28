@@ -19,24 +19,24 @@ class Leaderboard(commands.Cog):
             guild = ctx.guild
             guildID = guild.id
 
-            sortedUser = Saver.fetch(f"SELECT * FROM ranking WHERE guildID = {guildID} ORDER BY xp DESC")
-            print(sortedUser)
+            embed = disnake.Embed(
+                title=f"📊 Leaderboard",
+                color=disnake.Color.blurple()
+                )
+
+            sortedUser = Saver.fetch(f"SELECT userID FROM ranking WHERE guildID = {str(guildID)} ORDER BY xp DESC")
+
             for i, userData in enumerate(sortedUser):
                 try:
                     user = await self.bot.fetch_user(int(userData[0]))
-                    xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")
-                    level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")
-                    message = f"Level `{level}` with `{xp}` XP"
-                    embed = disnake.Embed(
-                        title=f"📊 Leaderboard",
-                        description=f"{i+1}. {user.mention} {message}",
-                        color=disnake.Color.blurple()
-                        )
-                    await ctx.send(embed=embed)
+                    xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
+                    level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
+                    embed.add_field(name=f"{i+1}. {user.display_name}", value=f"Level `{level}` with `{xp}` XP", inline=False)
                 except Exception as e:
                     Log.error("Failed to fetch user")
                     Log.error(e)
                     continue
+            await ctx.send(embed=embed)
         except Exception as e:
             embed = error(e)
             Log.error("Failed to execute /leaderboard")
