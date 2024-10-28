@@ -5,8 +5,6 @@ from src.utils.starter import Launch
 from data.var import load_config
 import disnake
 from disnake.ext import commands
-import src.utils.starter
-import os
 
 t, prefix = load_config()
 

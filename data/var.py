@@ -26,7 +26,7 @@ def load_config():
             return token, prefix
     except Exception as e:
         print(e)
-        return
+        return None, None
 
 class Git():
     from subprocess import check_output
