@@ -1,7 +1,7 @@
 configFolder = "./config/"
 cogsFolder = "./src/modules/"
 logFolder = "./logs/"
-dataFolder = "./data/"
+dataFolder = "./src/data/"
 
 dbInstuctionsFile = f"{dataFolder}structure.sql"
 

@@ -1,7 +1,7 @@
 import json
 import os
 
-from data.var import *
+from src.data.var import *
 from src.utils.logger import *
 from src.utils.saver import Saver
 

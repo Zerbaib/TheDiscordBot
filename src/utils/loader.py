@@ -1,6 +1,6 @@
 import os
 
-from data.var import *
+from src.data.var import *
 from src.utils.logger import Log
 
 

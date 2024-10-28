@@ -1,6 +1,6 @@
 import sqlite3
 
-from data.var import *
+from src.data.var import *
 from src.utils.logger import Log
 
 with open(dbInstuctionsFile, 'r') as f:

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from data.var import *
+from src.data.var import *
 
 
 def write(cat, message):

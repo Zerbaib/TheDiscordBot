@@ -2,7 +2,7 @@ import disnake
 import src.utils.creator
 import src.utils.loader
 import src.utils.starter
-from data.var import load_config
+from src.data.var import load_config
 from disnake.ext import commands
 from src.utils.logger import Log
 
