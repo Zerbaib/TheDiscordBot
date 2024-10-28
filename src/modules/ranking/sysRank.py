@@ -14,18 +14,18 @@ class sysRank(commands.Cog):
         Log.info("🧰 Ranking system has been loaded")
     
     @commands.Cog.listener()
-    async def on_message(self, ctx):
+    async def on_message(self, message):
         try:
-            if ctx.author.bot:
+            if message.author.bot:
                 return
 
-            if ctx.guild is None:
+            if message.guild is None:
                 return
 
             try:
-                user = ctx.author
+                user = message.author
                 userID = user.id
-                guild = ctx.guild
+                guild = message.guild
                 guildID = guild.id
 
                 if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {userID} AND guildID = {guildID}"):
@@ -41,14 +41,14 @@ class sysRank(commands.Cog):
 
                 if newXP > nextLevelXP:
                     newLevel = oldLevel + 1
-
-                    message = f"Congratulations {user.mention}, you have leveled up to level `{newLevel}`!"
+                    nextLevelXP = 5 * (newLevel ** 2) + 10 * newLevel + 10
+                    mess = f"Congratulations {user.mention}, you have leveled up to level `{newLevel}`!\nneed `{newXP}/{nextLevelXP}` XP to level up again."
                     embed = disnake.Embed(
                         title="🎉 Level Up",
-                        description=message,
+                        description=mess,
                         color=disnake.Color.blurple()
                         )
-                    #await ctx.send(embed=embed, delete_after=10)
+                    await message.channel.send(embed=embed)
 
                     Saver.save(f"UPDATE ranking SET level = {newLevel} WHERE userID = {userID} AND guildID = {guildID}")
                     Log.log(f"LEVEL on {guildID} user {userID} [+] {oldLevel} -> {newLevel}")

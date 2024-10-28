@@ -22,7 +22,9 @@ class Rank(commands.Cog):
 
             xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
             level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
-            message = f"Your rank is level `{level}` with `{xp}` XP"
+
+            nextLevelXP = 5 * (level ** 2) + 10 * level + 10
+            message = f"Your rank is level `{level}` with `{xp}` XP ```{xp}/{nextLevelXP} XP```"
 
             embed = disnake.Embed(
                 title="📊 Rank",
