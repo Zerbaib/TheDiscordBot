@@ -1,8 +1,10 @@
+import json
 import os
+
 from data.var import *
 from src.utils.logger import *
 from src.utils.saver import Saver
-import json
+
 
 class Creator:
     def __init__(self):

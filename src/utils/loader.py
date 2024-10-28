@@ -1,6 +1,8 @@
 import os
+
 from data.var import *
 from src.utils.logger import Log
+
 
 class Loader():
     def __init__(self, bot):

@@ -1,9 +1,11 @@
-import disnake
 import random
+
+import disnake
+from data.var import *
 from disnake.ext import commands
 from src.utils.logger import Log
-from data.var import *
 from src.utils.saver import Saver
+
 
 class sysRank(commands.Cog):
     def __init__(self, bot):
