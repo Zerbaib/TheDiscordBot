@@ -62,8 +62,8 @@ class Earn(commands.Cog):
                     )
                 await ctx.send(embed=embed)
             except Exception as e:
-                Log.error("Failed to update user coins")
-                Log.error(e)
+                Log.warn("Failed to update user coins")
+                Log.warn(e)
                 embed = error(e)
                 await ctx.send(embed=embed)
                 return

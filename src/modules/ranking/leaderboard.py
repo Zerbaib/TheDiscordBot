@@ -34,8 +34,8 @@ class Leaderboard(commands.Cog):
                     level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
                     embed.add_field(name=f"{i+1}. {user.display_name}", value=f"Level `{level}` with `{xp}` XP", inline=False)
                 except Exception as e:
-                    Log.error("Failed to fetch user")
-                    Log.error(e)
+                    Log.warn("Failed to fetch user")
+                    Log.warn(e)
                     continue
             await ctx.send(embed=embed)
         except Exception as e:
