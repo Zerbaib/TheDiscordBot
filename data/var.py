@@ -27,5 +27,3 @@ def load_config():
     except Exception as e:
         print(e)
         return
-
-#token, prefix = load_config()
