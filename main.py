@@ -2,13 +2,14 @@ import src.utils.creator
 import src.utils.loader
 from src.utils.logger import Log
 from src.utils.starter import Launch
+from data.var import load_config
 import disnake
 from disnake.ext import commands
-import src.utils.starter
-import os
+
+t, prefix = load_config()
 
 bot = commands.Bot(
-    command_prefix="!",
+    command_prefix=prefix,
     intents=disnake.Intents.all(),
     case_insensitive=True
 )
