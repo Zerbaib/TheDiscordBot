@@ -8,7 +8,6 @@ from src.utils.saver import Saver
 class sysRank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.saver = Saver()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -29,14 +28,15 @@ class sysRank(commands.Cog):
                 guild = message.guild
                 guildID = guild.id
 
-                if not self.saver.lookup(f"SELECT * FROM ranking WHERE userID = {userID} AND guildID = {guildID}"):
-                    self.saver.save(f"INSERT OR IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({userID}, {guildID}, 0, 0)")
+                if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {userID} AND guildID = {guildID}"):
+                    Saver.save(f"INSERT OR IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({userID}, {guildID}, 0, 0)")
+                    pass
 
-                oldXP = self.saver.lookup(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0]
+                oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
                 xpWin = random.randint(1, 15)
                 newXP = oldXP + xpWin
 
-                self.saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {userID} AND guildID = {guildID}")
+                Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {userID} AND guildID = {guildID}")
                 Log.log(f"XP on {guildID} user {userID} [+] {xpWin} -> {newXP}")
             except Exception as e:
                 Log.error("Failed to update user xp")
@@ -44,7 +44,7 @@ class sysRank(commands.Cog):
                 return
         except Exception as e:
             Log.error("Failed to execute ranking system")
-            log.error(e)
+            Log.error(e)
             return
 
 

@@ -3,7 +3,7 @@ cogsFolder = "./src/modules/"
 logFolder = "./logs/"
 dataFolder = "./data/"
 
-dbInstuctionsFile = f"{dataFolder}structure.sqlite"
+dbInstuctionsFile = f"{dataFolder}structure.sql"
 
 dbFile = f"{dataFolder}bdd.db"
 configFile = f"{configFolder}config.json"
