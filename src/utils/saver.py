@@ -55,7 +55,7 @@ class Saver():
             return data
         except Exception as e:
             if "list index out of range" in str(e):
-                return 0
+                Log.warn(e)
             Log.error("Failed to fetch data")
             Log.error(e)
             return

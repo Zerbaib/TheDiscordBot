@@ -22,7 +22,11 @@ class Earn(commands.Cog):
         try:
             user = ctx.author
             userID = user.id
-            userLastEarn = Saver.fetch(f"SELECT cooldown FROM economy WHERE userID = {userID}")[0][0]
+            try:
+                userLastEarn = Saver.fetch(f"SELECT cooldown FROM economy WHERE userID = {userID} and guildID = {ctx.guild.id}")[0][0]
+            except Exception as e:
+                if "list index out of range" in str(e):
+                    userLastEarn = None
             guild = ctx.guild
             guildID = guild.id
             timeNow = int(datetime.datetime.now().timestamp())
@@ -47,7 +51,7 @@ class Earn(commands.Cog):
             Saver.save(f"UPDATE economy SET cooldown = {timeNow} WHERE userID = {userID}")
 
             if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins) VALUES ({userID}, {guildID}, 0)")
+                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({userID}, {guildID}, 0, {timeNow})")
                 pass
 
             userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}")[0][0]
