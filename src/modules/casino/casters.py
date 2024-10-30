@@ -16,7 +16,7 @@ class Caster(commands.Cog):
     async def on_ready(self):
         Log.info('🔩 /caster has been loaded')
         pass
-    
+
     @commands.slash_command(name="caster", description="nothing goes anymore")
     async def caster(self, ctx, choice, bet: int):
         try:
@@ -26,7 +26,7 @@ class Caster(commands.Cog):
             userID = user.id
             guild = ctx.guild
             guildID = guild.id
-            
+
             if bet < 1:
                 embed = disnake.Embed(
                     title="🚫 Invalid Bet",
@@ -34,7 +34,7 @@ class Caster(commands.Cog):
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
-            
+
             if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}"):
                 Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({userID}, {guildID}, 0, 0)")
                 embed = disnake.Embed(
@@ -44,9 +44,9 @@ class Caster(commands.Cog):
                 )
                 await ctx.send(embed=embed)
                 return
-            
+
             userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}")[0][0]
-            
+
             if userBal < bet:
                 embed = disnake.Embed(
                     title="🚫 Insufficient Balance",
@@ -54,7 +54,7 @@ class Caster(commands.Cog):
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
-            
+
             if not choice.lower() in choices:
                 embed = disnake.Embed(
                     title="🚫 Invalid Choice",
@@ -80,7 +80,7 @@ class Caster(commands.Cog):
             else:
                 multiplier = 36
                 cases = [choice.lower()]
-        
+
             embed = disnake.Embed(
                 title="nothing goes anymore",
                 description=f"It's turning...",
