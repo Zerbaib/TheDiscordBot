@@ -58,8 +58,8 @@ class sysRank(commands.Cog):
                 Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {userID} AND guildID = {guildID}")
                 Log.log(f"XP on {guildID} user {userID} [+] {xpWin} -> {newXP}")
             except Exception as e:
-                Log.error("Failed to update user xp")
-                Log.error(e)
+                Log.warn("Failed to update user xp")
+                Log.warn(e)
                 return
         except Exception as e:
             Log.error("Failed to execute ranking system")

@@ -22,7 +22,10 @@ class PingCommand(commands.Cog):
                 )
             await ctx.response.defer()
             await ctx.send(ephemeral=True, embed=embed)
+            Log.log(f"🏓 Pong! Latency: {round(self.bot.latency * 1000)}ms")
         except Exception as e:
+            Log.error("An error occured while executing /ping command")
+            Log.error(e)
             embed = error.error_embed(e)
             await ctx.send(embed=embed)
 

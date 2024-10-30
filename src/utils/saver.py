@@ -3,7 +3,8 @@ import sqlite3
 from src.data.var import *
 from src.utils.logger import Log
 
-with open(dbInstuctionsFile, 'r') as f:
+
+with open(dbInstructionsFile, 'r') as f:
     dbInstructions = f.read()
 
 def connectDB():
@@ -20,12 +21,12 @@ def createDB():
     try:
         conn = sqlite3.connect(dbFile)
         cur = conn.cursor()
-        cur.execute(dbInstructions)
+        cur.executescript(dbInstructions)
         conn.commit()
         conn.close()
         return cur, conn
     except Exception as e:
-        Log.error("Failed to initialize database")
+        Log.error("Failed to create database")
         Log.error(e)
         exit()
 
@@ -37,7 +38,6 @@ class Saver():
     def initDB(self):
         try:
             cur, conn = connectDB()
-            cur.execute(dbInstructions)
             conn.commit()
             conn.close()
             Log.info("Database initialized")
@@ -52,10 +52,10 @@ class Saver():
             cur.execute(query)
             data = cur.fetchall()
             conn.close()
-            return data#[0][0]
+            return data
         except Exception as e:
             if "list index out of range" in str(e):
-                return 0
+                Log.warn(e)
             Log.error("Failed to fetch data")
             Log.error(e)
             return
