@@ -1,5 +1,7 @@
-from data.var import *
 from datetime import datetime
+
+from src.data.var import *
+
 
 def write(cat, message):
     with open(logFile, 'a', encoding="utf-8") as f:

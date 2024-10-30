@@ -3,6 +3,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 
+
 class PingCommand(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,7 +22,10 @@ class PingCommand(commands.Cog):
                 )
             await ctx.response.defer()
             await ctx.send(ephemeral=True, embed=embed)
+            Log.log(f"🏓 Pong! Latency: {round(self.bot.latency * 1000)}ms")
         except Exception as e:
+            Log.error("An error occured while executing /ping command")
+            Log.error(e)
             embed = error.error_embed(e)
             await ctx.send(embed=embed)
 

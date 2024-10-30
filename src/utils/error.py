@@ -1,6 +1,7 @@
 import disnake
 from src.utils.logger import Log
 
+
 def error_embed(e):
     """
     Create an embed with an error message.
@@ -24,5 +25,4 @@ def error_embed(e):
         name="You can now create a Issue on GitHub",
         value=f"Tell us what command and the exeption [**here**]({issue_link})"
     )
-    Log.error(e)
     return embed
