@@ -1,6 +1,7 @@
-import disnake
-import time
 import random
+import time
+
+import disnake
 from disnake.ext import commands
 from src.data.var import *
 from src.utils.error import error_embed as error
@@ -108,6 +109,8 @@ class Caster(commands.Cog):
                 embed.set_image(url="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHJvejVwNjZscnpteWd2YTlpZWczOXY2MzhmeGVleW5nZ3VkMjBraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26uflBhaGt5lQsaCA/giphy.gif")
             Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {userID} AND guildID = {guildID}")
             time.sleep(4)
+
+            embed.set_footer(text=f"User: {user.display_name} | Balance: {userBal} coins")
             await ctx.send(embed=embed)
             Log.log(f"CASINO on {guildID} user {userID} [{choice}] {result} -> {userBal}")
         except Exception as e:
