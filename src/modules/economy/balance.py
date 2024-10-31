@@ -30,7 +30,7 @@ class Balance(commands.Cog):
 
             message = f"Your balance is `{userBal}` coins"
             embed = disnake.Embed(
-                title="💰 Balance",
+                title="💰 Balance 💰",
                 description=message,
                 color=disnake.Color.blurple()
                 )

@@ -59,8 +59,8 @@ class Earn(commands.Cog):
             try:
                 Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {userID} AND guildID = {guildID}")
                 embed = disnake.Embed(
-                    title="💰 Earned",
-                    description=f"You earned `{coinEarn}` coins!\nTotal coins: `{userBal}`",
+                    title="💸 Earn Coins 💸",
+                    description=f"You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
                     color=disnake.Color.blurple()
                     )
                 await ctx.send(embed=embed)
