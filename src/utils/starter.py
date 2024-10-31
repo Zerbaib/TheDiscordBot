@@ -17,6 +17,7 @@ class Launch():
             Log.info('------')
             Log.info(f'Version local: {Version.getLocal()}')
             Log.info(f'Version online: {Version.getOnline()}')
+            Log.info(f'On {len(self.bot.guilds)} guilds')
             Log.info(f'Logged in as {self.bot.user} (ID: {self.bot.user.id})')
             Log.info('------')
 
