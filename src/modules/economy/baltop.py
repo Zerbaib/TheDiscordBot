@@ -13,7 +13,7 @@ class Baltop(commands.Cog):
         Log.info('🔩 /baltop has been loaded')
         pass
 
-    @commands.slash_command(name="top_balance", description="See the top 10 users with the highest balances")
+    @commands.slash_command(name="baltop", description="See the top 10 users with the highest balances")
     async def baltop(self, ctx):
             try:
                 guildID = ctx.guild.id
@@ -31,7 +31,7 @@ class Baltop(commands.Cog):
 
             except Exception as e:
                 embed = error(e)
-                Log.error("Failed to execute /top_balance")
+                Log.error("Failed to execute /baltop")
                 Log.error(e)
                 await ctx.send(embed=embed)
 
