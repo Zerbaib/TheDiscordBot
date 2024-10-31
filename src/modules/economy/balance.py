@@ -4,6 +4,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
+
 class Balance(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -12,7 +13,7 @@ class Balance(commands.Cog):
     async def on_ready(self):
         Log.info('🔩 /balance has been loaded')
         pass
-    
+
     @commands.slash_command(name="balance", description="Check your balance")
     async def balance(self, ctx):
         try:

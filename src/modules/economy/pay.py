@@ -1,12 +1,10 @@
-import datetime
-
 import disnake
 from disnake.ext import commands
 from src.data.var import *
+from src.modules.economy.earn import Earn
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
-from src.modules.economy.earn import Earn
 
 
 class Pay(commands.Cog):

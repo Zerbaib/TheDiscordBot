@@ -1,11 +1,13 @@
-import disnake
-import time
 import random
+import time
+
+import disnake
 from disnake.ext import commands
 from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+
 
 class Dice(commands.Cog):
     def __init__(self, bot):
@@ -82,7 +84,7 @@ class Dice(commands.Cog):
 
             Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {user.id} AND guildID = {guild.id}")
             time.sleep(2)
-            
+
             embed.set_footer(text=f"User: {user.display_name} | Balance: {userBal} coins")
             await ctx.send(embed=embed)
             Log.log(f"CASINO on {guild.id} by {user.id} - {dice1} and {dice2} - {userBal}")

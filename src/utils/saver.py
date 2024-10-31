@@ -3,7 +3,6 @@ import sqlite3
 from src.data.var import *
 from src.utils.logger import Log
 
-
 with open(dbInstructionsFile, 'r') as f:
     dbInstructions = f.read()
 
