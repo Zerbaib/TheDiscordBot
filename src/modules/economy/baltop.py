@@ -14,7 +14,7 @@ class Baltop(commands.Cog):
         pass
 
     @commands.slash_command(name="top_balance", description="See the top 10 users with the highest balances")
-    async def top_balance(self, ctx):
+    async def baltop(self, ctx):
             try:
                 guildID = ctx.guild.id
                 # Requête pour obtenir le top 10 des utilisateurs avec les balances les plus élevées dans la guilde
