@@ -82,6 +82,8 @@ class Dice(commands.Cog):
 
             Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {user.id} AND guildID = {guild.id}")
             time.sleep(2)
+            
+            embed.set_footer(text=f"User: {user.display_name} | Balance: {userBal} coins")
             await ctx.send(embed=embed)
             Log.log(f"CASINO on {guild.id} by {user.id} - {dice1} and {dice2} - {userBal}")
         except Exception as e:
