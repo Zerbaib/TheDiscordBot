@@ -12,3 +12,11 @@ CREATE TABLE IF NOT EXISTS economy (
     coins INTEGER,
     cooldown INTEGER
 );
+CREATE TABLE IF NOT EXISTS servers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER,
+    server_name TEXT,
+    server_ip INTEGER,
+    server_port INTEGER,
+    service_name TEXT
+);
