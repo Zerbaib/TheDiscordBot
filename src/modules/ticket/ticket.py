@@ -42,7 +42,7 @@ class TicketSystem(commands.Cog):
             category = guild.get_channel(config[2])  # Assuming 'ticket_category' is the third element
 
             for channel in category.channels:
-                if channel.name == f"ticket-{user.id}":
+                if channel.name == f"ticket-{user.name}":
                     await ctx.send("You already have an open ticket.", ephemeral=True)
                     return
 
