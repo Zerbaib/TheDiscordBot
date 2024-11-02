@@ -72,7 +72,7 @@ class Set(commands.Cog):
         except Exception as e:
             Log.error("Failed to execute /set")
             Log.error(e)
-            await inter.response.send_message(embed=error('An error occurred while setting the configuration.'), ephemeral=True)
+            await inter.response.send_message(embed=error(e))
 
 def setup(bot):
     bot.add_cog(Set(bot))
