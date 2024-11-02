@@ -26,12 +26,12 @@ class Show(commands.Cog):
             config = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}")[0]
             
             server_name = guild.name
-            ticket_category = guild.get_channel(config[2]).mention if config[2] else 'None'
+            ticket_category = guild.get_channel(config[2]).name if config[2] else 'None'
             support_role = guild.get_role(config[3]).mention if config[3] else '``None``'
             welcome_channel = guild.get_channel(config[4]).mention if config[4] else '``None``'
             leave_channel = guild.get_channel(config[5]).mention if config[5] else '``None``'
             
-            message = f"**Server Name:** ``{server_name}``\n**Ticket Category:** ``{ticket_category}``\n**Support Role:** {support_role}\n**Welcome Channel:** {welcome_channel}\n**Leave Channel:** {leave_channel}"
+            message = f"**Server Name:** ``{server_name}``\n**Ticket Category:** ``#{ticket_category}``\n**Support Role:** {support_role}\n**Welcome Channel:** {welcome_channel}\n**Leave Channel:** {leave_channel}"
             
             embed = disnake.Embed(
                 title="🔧 Configuration",
