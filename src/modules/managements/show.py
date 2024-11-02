@@ -38,6 +38,7 @@ class Show(commands.Cog):
                 description=message,
                 color=disnake.Color.blurple()
             )
+            embed.set_thumbnail(url=guild.icon.url)
             await ctx.send(embed=embed)
         except Exception as e:
             embed = error(e)
