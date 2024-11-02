@@ -6,7 +6,7 @@ from src.utils.saver import Saver
 
 def get_guild_config(guild_id):
     try:
-        data = Saver.fetch(f"SELECT * FROM config WHERE guild_id = {guild_id}")
+        data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild_id}")
         if data:
             return data[0]
         return False
