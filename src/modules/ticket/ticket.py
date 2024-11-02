@@ -57,7 +57,7 @@ class TicketSystem(commands.Cog):
                 category=category,
                 overwrites=overwrites
             )
-            await ticket_channel.send(f"{user.mention} Thank you for opening a ticket! A support member will respond shortly.")
+            await ticket_channel.send(f"{user.mention} Thank you for opening a ticket! A support member will respond shortly.\n{support_role.mention}")
             await ctx.send(f"Your ticket has been created: {ticket_channel.mention}", ephemeral=True)
             Log.log(f'TICKET on {guild.id} [+] {user.name} has opened a ticket.')
         except Exception as e:
