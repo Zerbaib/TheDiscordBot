@@ -70,6 +70,7 @@ class Set(commands.Cog):
             await inter.response.send_message(embed=embed)
             Log.log(f'SETTING on {inter.guild.id} [+] {keys[key]} has been set to {value}.')
         except Exception as e:
+            Log.error("Failed to execute /set")
             Log.error(e)
             await inter.response.send_message(embed=error('An error occurred while setting the configuration.'), ephemeral=True)
 
