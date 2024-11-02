@@ -37,8 +37,9 @@ class TicketSystem(commands.Cog):
                 await ctx.send(embed=embed)
                 return
 
-            support_role = guild.get_role(get_guild_config(guild.id)['support_role'])
-            category = guild.get_channel(get_guild_config(guild.id)['ticket_category'])
+            config = get_guild_config(guild.id)
+            support_role = guild.get_role(config[1])  # Assuming 'support_role' is the second element
+            category = guild.get_channel(config[2])  # Assuming 'ticket_category' is the third element
 
             for channel in category.channels:
                 if channel.name == f"ticket-{user.id}":
