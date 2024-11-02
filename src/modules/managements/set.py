@@ -58,7 +58,7 @@ class Set(commands.Cog):
             Saver.save(f"UPDATE guilds SET {key} = '{value}'")
             embed = disnake.Embed(
                 title='Success',
-                description=f'{keys[key]} has been set to {value}.',
+                description=f'{keys[key]} has been set to ``{value}``.',
                 color=disnake.Color.green()
             )
             data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {inter.guild.id}")[0]
