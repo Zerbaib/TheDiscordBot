@@ -67,7 +67,7 @@ class Set(commands.Cog):
             welcomeChannelName = inter.guild.get_channel(data[4]).mention if data[4] else '``None``'
             leaveChannelName = inter.guild.get_channel(data[5]).mention if data[5] else '``None``'
             embed.add_field(name='Configuration', value=f"Ticket Category: {categoryName}\nSupport Role: {supportRoleName}\nWelcome Channel: {welcomeChannelName}\nLeave Channel: {leaveChannelName}")
-            await inter.response.send_message(embed=embed)
+            await inter.response.send_message(embed=embed, ephemeral=True)
             Log.log(f'SETTING on {inter.guild.id} [+] {keys[key]} has been set to {value}.')
         except Exception as e:
             Log.error("Failed to execute /set")
