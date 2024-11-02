@@ -62,10 +62,10 @@ class Set(commands.Cog):
                 color=disnake.Color.green()
             )
             data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {inter.guild.id}")[0]
-            categoryName = inter.guild.get_channel(data[1]).name if data[2] else 'None'
-            supportRoleName = inter.guild.get_role(data[2]).name if data[3] else 'None'
-            welcomeChannelName = inter.guild.get_channel(data[3]).name if data[4] else 'None'
-            leaveChannelName = inter.guild.get_channel(data[4]).name if data[5] else 'None'
+            categoryName = inter.guild.get_channel(data[2]).name if data[2] else 'None'
+            supportRoleName = inter.guild.get_role(data[3]).name if data[3] else 'None'
+            welcomeChannelName = inter.guild.get_channel(data[4]).name if data[4] else 'None'
+            leaveChannelName = inter.guild.get_channel(data[5]).name if data[5] else 'None'
             embed.add_field(name='Configuration', value=f"Ticket Category: {categoryName}\nSupport Role: {supportRoleName}\nWelcome Channel: {welcomeChannelName}\nLeave Channel: {leaveChannelName}")
             await inter.response.send_message(embed=embed)
             Log.log(f'SETTING on {inter.guild.id} [+] {keys[key]} has been set to {value}.')
