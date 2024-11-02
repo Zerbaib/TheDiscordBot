@@ -57,3 +57,10 @@ class Version():
             Log.warn("Can't open online version")
             Log.warn(e)
             return
+
+keys = {
+    'ticket_category': 'Ticket Category',
+    'support_role': 'Support Role',
+    'welcome_channel': 'Welcome Channel',
+    'leave_channel': 'Leave Channel'
+}

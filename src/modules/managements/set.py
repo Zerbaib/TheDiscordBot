@@ -1,5 +1,6 @@
 import disnake
 from disnake.ext import commands
+from src.data.var import keys
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -27,12 +28,6 @@ class Set(commands.Cog):
                 await inter.response.send_message(embed=embed)
                 return
             user = inter.author
-            keys = {
-                'ticket_category': 'Ticket Category',
-                'support_role': 'Support Role',
-                'welcome_channel': 'Welcome Channel',
-                'leave_channel': 'Leave Channel'
-            }
             
             if not user.guild_permissions.administrator:
                 embed = disnake.Embed(
