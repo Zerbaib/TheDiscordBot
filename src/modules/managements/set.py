@@ -61,6 +61,8 @@ class Set(commands.Cog):
                 description=f'{keys[key]} has been set to {value}.',
                 color=disnake.Color.green()
             )
+            data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {inter.guild.id}")[0]
+            embed.add_field(name='Configuration', value=f"Ticket Category: {data[1]}\nSupport Role: {data[2]}\nWelcome Channel: {data[3]}\nLeave Channel: {data[4]}", inline=False)
             await inter.response.send_message(embed=embed)
             Log.log(f'SETTING on {inter.guild.id} [+] {keys[key]} has been set to {value}.')
         except Exception as e:
