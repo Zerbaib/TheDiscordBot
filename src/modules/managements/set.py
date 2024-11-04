@@ -1,6 +1,6 @@
 import disnake
 from disnake.ext import commands
-from src.data.var import keys
+from src.data.var import keys_values, keys
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -56,11 +56,13 @@ class Set(commands.Cog):
                 description=f'{keys[key]} has been set to ``{value}``.',
                 color=disnake.Color.green()
             )
-            data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {inter.guild.id}")[0]
-            categoryName = inter.guild.get_channel(data[2]).mention if data[2] else '``None``'
-            supportRoleName = inter.guild.get_role(data[3]).mention if data[3] else '``None``'
-            welcomeChannelName = inter.guild.get_channel(data[4]).mention if data[4] else '``None``'
-            leaveChannelName = inter.guild.get_channel(data[5]).mention if data[5] else '``None``'
+            
+            guild = inter.guild
+            config = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}")[0]
+            categoryName = guild.get_channel(config[keys_values["ticket_category"]]).name if config[keys_values["ticket_category"]] else 'None'
+            supportRoleName = guild.get_role(keys_values["support_role"]).mention if config[keys_values["support_role"]] else '``None``'
+            welcomeChannelName = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] else '``None``'
+            leaveChannelName = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] else '``None``'
             embed.add_field(name='Configuration', value=f"Ticket Category: {categoryName}\nSupport Role: {supportRoleName}\nWelcome Channel: {welcomeChannelName}\nLeave Channel: {leaveChannelName}")
             await inter.response.send_message(embed=embed, ephemeral=True)
             Log.log(f'SETTING on {inter.guild.id} [+] {keys[key]} has been set to {value}.')

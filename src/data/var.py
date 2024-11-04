@@ -66,3 +66,9 @@ keys = {
     'welcome_channel': 'Welcome Channel',
     'leave_channel': 'Leave Channel'
 }
+keys_values = {
+    'ticket_category': 2,
+    'support_role': 3,
+    'welcome_channel': 4,
+    'leave_channel': 5
+}
