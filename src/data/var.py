@@ -49,11 +49,13 @@ class Version():
 
     def getOnline():
         from src.utils.logger import Log
+        import requests
         try:
-            with open(Version.onlineVersionFile, 'r') as f:
-                onlineVer = f.read()
+            response = requests.get(Version.onlineVersionFile)
+            response.raise_for_status()
+            onlineVer = response.text
             return onlineVer
-        except Exception as e:
+        except requests.RequestException as e:
             Log.warn("Can't open online version")
             Log.warn(e)
             return
