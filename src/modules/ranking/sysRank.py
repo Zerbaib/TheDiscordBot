@@ -30,7 +30,7 @@ class sysRank(commands.Cog):
                 guildID = guild.id
 
                 if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {userID} AND guildID = {guildID}"):
-                    print("test")
+                    print("test0")
                     Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({userID}, {guildID}, 0, 0)")
                     print("test")
                     pass

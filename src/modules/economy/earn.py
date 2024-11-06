@@ -32,7 +32,7 @@ class Earn(commands.Cog):
             timeNow = int(datetime.datetime.now().timestamp())
             cooldown_period = 2 * 60 * 60
 
-            if result == []:
+            if not result:
                 print("is None")
                 Saver.save(f"INSERT INTO economy (guildID, userID, coins, cooldown) VALUES ({guildID}, {userID}, 0, {timeNow})")
                 print("inserted")
