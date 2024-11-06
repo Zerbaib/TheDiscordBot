@@ -1,5 +1,6 @@
 import disnake
 from disnake.ext import commands
+from src.data.var import keys_values, keys
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -27,12 +28,6 @@ class Set(commands.Cog):
                 await inter.response.send_message(embed=embed)
                 return
             user = inter.author
-            keys = {
-                'ticket_category': 'Ticket Category',
-                'support_role': 'Support Role',
-                'welcome_channel': 'Welcome Channel',
-                'leave_channel': 'Leave Channel'
-            }
             
             if not user.guild_permissions.administrator:
                 embed = disnake.Embed(
@@ -58,14 +53,23 @@ class Set(commands.Cog):
             Saver.save(f"UPDATE guilds SET {key} = '{value}'")
             embed = disnake.Embed(
                 title='Success',
-                description=f'{keys[key]} has been set to {value}.',
+                description=f'{keys[key]} has been set to ``{value}``.',
                 color=disnake.Color.green()
             )
-            await inter.response.send_message(embed=embed)
+            
+            guild = inter.guild
+            config = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}")[0]
+            categoryName = guild.get_channel(config[keys_values["ticket_category"]]).name if config[keys_values["ticket_category"]] else 'None'
+            supportRoleName = guild.get_role(keys_values["support_role"]).mention if config[keys_values["support_role"]] else '``None``'
+            welcomeChannelName = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] else '``None``'
+            leaveChannelName = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] else '``None``'
+            embed.add_field(name='Configuration', value=f"Ticket Category: {categoryName}\nSupport Role: {supportRoleName}\nWelcome Channel: {welcomeChannelName}\nLeave Channel: {leaveChannelName}")
+            await inter.response.send_message(embed=embed, ephemeral=True)
             Log.log(f'SETTING on {inter.guild.id} [+] {keys[key]} has been set to {value}.')
         except Exception as e:
+            Log.error("Failed to execute /set")
             Log.error(e)
-            await inter.response.send_message(embed=error('An error occurred while setting the configuration.'), ephemeral=True)
+            await inter.response.send_message(embed=error(e))
 
 def setup(bot):
     bot.add_cog(Set(bot))

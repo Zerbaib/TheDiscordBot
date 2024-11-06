@@ -6,7 +6,7 @@ from src.utils.saver import Saver
 
 def get_guild_config(guild_id):
     try:
-        data = Saver.fetch(f"SELECT * FROM config WHERE guild_id = {guild_id}")
+        data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild_id}")
         if data:
             return data[0]
         return False
@@ -37,11 +37,12 @@ class TicketSystem(commands.Cog):
                 await ctx.send(embed=embed)
                 return
 
-            support_role = guild.get_role(get_guild_config(guild.id)['support_role'])
-            category = guild.get_channel(get_guild_config(guild.id)['ticket_category'])
+            config = get_guild_config(guild.id)
+            support_role = guild.get_role(config[1])  # Assuming 'support_role' is the second element
+            category = guild.get_channel(config[2])  # Assuming 'ticket_category' is the third element
 
             for channel in category.channels:
-                if channel.name == f"ticket-{user.id}":
+                if channel.name == f"ticket-{user.name}":
                     await ctx.send("You already have an open ticket.", ephemeral=True)
                     return
 
@@ -56,7 +57,7 @@ class TicketSystem(commands.Cog):
                 category=category,
                 overwrites=overwrites
             )
-            await ticket_channel.send(f"{user.mention} Thank you for opening a ticket! A support member will respond shortly.")
+            await ticket_channel.send(f"{user.mention} Thank you for opening a ticket! A support member will respond shortly.\n{support_role.mention}")
             await ctx.send(f"Your ticket has been created: {ticket_channel.mention}", ephemeral=True)
             Log.log(f'TICKET on {guild.id} [+] {user.name} has opened a ticket.')
         except Exception as e:
