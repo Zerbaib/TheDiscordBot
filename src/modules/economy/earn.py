@@ -22,16 +22,20 @@ class Earn(commands.Cog):
             user = ctx.author
             userID = user.id
             try:
-                userLastEarn = Saver.fetch(f"SELECT cooldown FROM economy WHERE userID = {userID} and guildID = {ctx.guild.id}")[0][0]
+                result = Saver.fetch(f"SELECT cooldown FROM economy WHERE userID = {userID} AND guildID = {ctx.guild.id}")
+                userLastEarn = result[0][0] if result else 0
             except Exception as e:
                 if "list index out of range" in str(e):
-                    userLastEarn = None
+                    userLastEarn = 0
             guild = ctx.guild
             guildID = guild.id
             timeNow = int(datetime.datetime.now().timestamp())
             cooldown_period = 2 * 60 * 60
 
-            if userLastEarn is None:
+            if result == []:
+                print("is None")
+                Saver.save(f"INSERT INTO economy (guildID, userID, coins, cooldown) VALUES ({guildID}, {userID}, 0, {timeNow})")
+                print("inserted")
                 userLastEarn = 0
 
             if timeNow - userLastEarn < cooldown_period:
@@ -47,13 +51,12 @@ class Earn(commands.Cog):
                 return
 
             coinEarn = 100
-            Saver.save(f"UPDATE economy SET cooldown = {timeNow} WHERE userID = {userID}")
+            Saver.save(f"UPDATE economy SET cooldown = {timeNow} WHERE userID = {userID} AND guildID = {guildID}")
 
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({userID}, {guildID}, 0, {timeNow})")
-                pass
-
+            userData = Saver.fetch(f"SELECT * FROM economy WHERE userID = {userID} AND guildID = {guildID}")
+            print(userData)
             userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+
             userBal += coinEarn
 
             try:
@@ -62,7 +65,7 @@ class Earn(commands.Cog):
                     title="💸 Earn Coins 💸",
                     description=f"You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
                     color=disnake.Color.blurple()
-                    )
+                )
                 await ctx.send(embed=embed)
             except Exception as e:
                 Log.warn("Failed to update user coins")
@@ -74,7 +77,7 @@ class Earn(commands.Cog):
             Log.log(f"COINS on {guildID} user {userID} [+] {coinEarn} -> {userBal}")
 
         except Exception as e:
-            Log.error("An error occured while executing /earn command")
+            Log.error("An error occurred while executing /earn command")
             Log.error(e)
             embed = error(e)
             await ctx.send(embed=embed)
