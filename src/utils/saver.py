@@ -1,4 +1,5 @@
 import sqlite3
+import mariadb
 
 from src.data.var import *
 from src.utils.logger import Log
