@@ -26,7 +26,7 @@ def display_table(tables):
     # Adjust headers to match the transposed data
     headers = [f"Table {i+1}" for i in range(len(transposed_data[0]))] + ["Table"]
 
-    log.log(tabulate(transposed_data, headers=headers, tablefmt="grid"))
+    Log.log(tabulate(transposed_data, headers=headers, tablefmt="grid"))
 
 
 def connectDB():
