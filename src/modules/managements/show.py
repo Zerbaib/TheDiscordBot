@@ -35,7 +35,8 @@ class Show(commands.Cog):
 
             server_name = guild.name
             ticket_category = guild.get_channel(config[keys_values["ticket_category"]]).name if config[keys_values["ticket_category"]] else 'None'
-            support_role = guild.get_role(keys_values["support_role"]).mention if config[keys_values["support_role"]] else '``None``'
+            supportRole = guild.get_role(config[keys_values["support_role"]])
+            support_role = supportRole.mention if supportRole else '``None``'
             welcome_channel = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] else '``None``'
             leave_channel = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] else '``None``'
 
