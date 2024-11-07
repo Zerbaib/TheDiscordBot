@@ -4,6 +4,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
+
 class Baltop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -17,23 +18,20 @@ class Baltop(commands.Cog):
     async def baltop(self, ctx):
             try:
                 guildID = ctx.guild.id
-                # Requête pour obtenir le top 10 des utilisateurs avec les balances les plus élevées dans la guilde
-                top_users = Saver.fetch(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")
+                topUsers = Saver.fetch(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")
 
-                # Préparation du message d'affichage
-                message = "\n".join([f"**#{i+1}** <@{user[0]}> - **{user[1]}** coins" for i, user in enumerate(top_users)])
+                message = "\n".join([f"**#{i+1}** <@{user[0]}> - **{user[1]}** coins" for i, user in enumerate(topUsers)])
+
                 embed = disnake.Embed(
                     title="🏆 Top 10 Balances 🏆",
                     description=message if message else "No users found.",
                     color=disnake.Color.gold()
                 )
                 await ctx.send(embed=embed)
-
             except Exception as e:
-                embed = error(e)
                 Log.error("Failed to execute /baltop")
                 Log.error(e)
-                await ctx.send(embed=embed)
+                return await ctx.send(embed=error(e))
 
 def setup(bot):
     bot.add_cog(Baltop(bot))

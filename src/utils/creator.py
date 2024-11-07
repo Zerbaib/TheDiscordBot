@@ -3,13 +3,13 @@ import os
 
 from src.data.var import *
 from src.utils.logger import *
-from src.utils.saver import Saver
 
 
 class Creator:
     def __init__(self):
         self.log_file()
         self.config_file()
+        from src.utils.saver import Saver
         Saver()
 
     def config_folder(self):
@@ -34,7 +34,12 @@ class Creator:
                 self.config_folder()
                 data = {
                     "token": "your_token",
-                    "prefix": "your_prefix"
+                    "prefix": "your_prefix",
+                    "dbUser": "your_db_user",
+                    "dbPass": "your_db_pass",
+                    "dbHost": "your_db_host",
+                    "dbPort": "your_db_port",
+                    "dbName": "your_db_name"
                 }
                 with open(configFile, 'w') as f:
                     json.dump(data, f, indent=4)

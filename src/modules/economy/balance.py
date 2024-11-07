@@ -18,29 +18,24 @@ class Balance(commands.Cog):
     async def balance(self, ctx):
         try:
             user = ctx.author
-            userID = user.id
             guild = ctx.guild
-            guildID = guild.id
 
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({userID}, {guildID}, 0, 0)")
+            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}"):
+                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({user.id}, {guild.id}, 0, 0)")
                 pass
 
-            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
 
-            message = f"Your balance is `{userBal}` coins"
             embed = disnake.Embed(
                 title="💰 Balance 💰",
-                description=message,
+                description=f"Your balance is `{userBal}` coins",
                 color=disnake.Color.blurple()
                 )
             await ctx.send(embed=embed)
         except Exception as e:
-            embed = error(e)
             Log.error("Failed to execute /balance")
             Log.error(e)
-            await ctx.send(embed=embed)
-            return
+            return await ctx.send(embed=error(e))
 
 def setup(bot):
     bot.add_cog(Balance(bot))
