@@ -60,7 +60,8 @@ class Set(commands.Cog):
             guild = inter.guild
             config = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}")[0]
             categoryName = guild.get_channel(config[keys_values["ticket_category"]]).name if config[keys_values["ticket_category"]] else 'None'
-            supportRoleName = guild.get_role(keys_values["support_role"]).mention if config[keys_values["support_role"]] else '``None``'
+            supportRole = guild.get_role(config[keys_values["support_role"]])
+            supportRoleName = supportRole.mention if supportRole else '``None``'
             welcomeChannelName = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] else '``None``'
             leaveChannelName = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] else '``None``'
             embed.add_field(name='Configuration', value=f"Ticket Category: {categoryName}\nSupport Role: {supportRoleName}\nWelcome Channel: {welcomeChannelName}\nLeave Channel: {leaveChannelName}")
