@@ -37,6 +37,8 @@ class sysRank(commands.Cog):
 
                 print("test")
 
+                userData = Saver.fetch(f"SELECT * FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
+                print(userData)
                 oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
                 print("test")
                 oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
