@@ -20,23 +20,28 @@ class Earn(commands.Cog):
     async def earn(self, ctx):
         try:
             user = ctx.author
-            userID = user.id
+            userID = int(user.id)
+            result = None
+            userLastEarn = None
             try:
-                result = Saver.fetch(f"SELECT cooldown FROM economy WHERE userID = {userID} AND guildID = {ctx.guild.id}")
-                userLastEarn = result[0][0] if result else 0
+                query = f"SELECT cooldown FROM economy WHERE userID = {userID} AND guildID = {ctx.guild.id};"
+                result = Saver.fetch(query)
+                if result is None:
+                    userLastEarn = 0
+                    query = f"INSERT INTO economy (guildID, userID, coins, cooldown) VALUES ({guildID}, {userID}, 0, {userLastEarn});"
+                else:
+                    userLastEarn = result[0][0]
             except Exception as e:
                 if "list index out of range" in str(e):
                     userLastEarn = 0
             guild = ctx.guild
-            guildID = guild.id
+            guildID = int(guild.id)
             timeNow = int(datetime.datetime.now().timestamp())
             cooldown_period = 2 * 60 * 60
 
-            if not result:
-                print("is None")
-                Saver.save(f"INSERT INTO economy (guildID, userID, coins, cooldown) VALUES ({guildID}, {userID}, 0, {timeNow})")
-                print("inserted")
-                userLastEarn = 0
+            if userLastEarn == 0:
+                query = f"INSERT INTO economy (guildID, userID, cooldown) VALUES ({guildID}, {userID}, {timeNow});"
+                Saver.save(query)
 
             if timeNow - userLastEarn < cooldown_period:
                 remaining_time = cooldown_period - (timeNow - userLastEarn)
@@ -51,16 +56,16 @@ class Earn(commands.Cog):
                 return
 
             coinEarn = 100
-            Saver.save(f"UPDATE economy SET cooldown = {timeNow} WHERE userID = {userID} AND guildID = {guildID}")
-
-            userData = Saver.fetch(f"SELECT * FROM economy WHERE userID = {userID} AND guildID = {guildID}")
-            print(userData)
-            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}")[0][0]
-
+            query = f"SELECT * FROM economy WHERE userID = {userID} AND guildID = {guildID};"
+            userData = Saver.fetch(query)[0]
+            userBal = userData[3]
+            if userBal is None:
+                userBal = 0
             userBal += coinEarn
 
             try:
-                Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {userID} AND guildID = {guildID}")
+                query = f"UPDATE economy SET coins = {userBal}, cooldown = {timeNow} WHERE userID = {userID} AND guildID = {guildID};"
+                Saver.save(query)
                 embed = disnake.Embed(
                     title="💸 Earn Coins 💸",
                     description=f"You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
@@ -73,9 +78,7 @@ class Earn(commands.Cog):
                 embed = error(e)
                 await ctx.send(embed=embed)
                 return
-
             Log.log(f"COINS on {guildID} user {userID} [+] {coinEarn} -> {userBal}")
-
         except Exception as e:
             Log.error("An error occurred while executing /earn command")
             Log.error(e)

@@ -17,10 +17,8 @@ class Baltop(commands.Cog):
     async def baltop(self, ctx):
             try:
                 guildID = ctx.guild.id
-                # Requête pour obtenir le top 10 des utilisateurs avec les balances les plus élevées dans la guilde
                 top_users = Saver.fetch(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")
 
-                # Préparation du message d'affichage
                 message = "\n".join([f"**#{i+1}** <@{user[0]}> - **{user[1]}** coins" for i, user in enumerate(top_users)])
                 embed = disnake.Embed(
                     title="🏆 Top 10 Balances 🏆",

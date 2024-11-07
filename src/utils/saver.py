@@ -77,6 +77,7 @@ class Saver():
                 columns = [column[0] for column in cur.fetchall()]
                 table_data.append({"table": table, "columns": columns})
 
+            conn.commit()
             cur.close()
             conn.close()
             Log.info("Database initialized")
@@ -104,6 +105,7 @@ class Saver():
         try:
             cur, conn = connectDB()
             cur.execute(query)
+            conn.commit()
             cur.close()
             conn.close()
         except Exception as e:

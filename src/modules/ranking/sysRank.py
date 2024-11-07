@@ -30,17 +30,11 @@ class sysRank(commands.Cog):
                 guildID = guild.id
 
                 if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {userID} AND guildID = {guildID}"):
-                    print("test0")
                     Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({userID}, {guildID}, 0, 0)")
-                    print("test")
                     pass
 
-                print("test")
-
                 oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
-                print("test")
                 oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
-                print("test")
                 xpWin = random.randint(1, 5)
                 newXP = oldXP + xpWin
 

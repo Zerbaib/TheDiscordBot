@@ -1,22 +1,31 @@
 CREATE TABLE IF NOT EXISTS ranking (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    guildID INT,
-    userID INT,
+    guildID INT(30),
+    userID INT(30),
     level INT,
     xp INT
 );
+ALTER TABLE ranking MODIFY COLUMN guildID BIGINT UNSIGNED;
+ALTER TABLE ranking MODIFY COLUMN userID BIGINT UNSIGNED;
 CREATE TABLE IF NOT EXISTS economy (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    guildID INT,
-    userID INT,
+    guildID INT(30),
+    userID INT(30),
     coins INT,
-    cooldown INT
+    cooldown INT(40)
 );
+ALTER TABLE economy MODIFY COLUMN guildID BIGINT UNSIGNED;
+ALTER TABLE economy MODIFY COLUMN userID BIGINT UNSIGNED;
 CREATE TABLE IF NOT EXISTS guilds (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    guild_id INT,
-    ticket_category INT,
-    support_role INT,
-    welcome_channel INT,
-    leave_channel INT
+    guild_id INT(30),
+    ticket_category INT(30),
+    support_role INT(30),
+    welcome_channel INT(30),
+    leave_channel INT(30)
 );
+ALTER TABLE guilds MODIFY COLUMN guild_id BIGINT UNSIGNED;
+ALTER TABLE guilds MODIFY COLUMN ticket_category BIGINT UNSIGNED;
+ALTER TABLE guilds MODIFY COLUMN support_role BIGINT UNSIGNED;
+ALTER TABLE guilds MODIFY COLUMN welcome_channel BIGINT UNSIGNED;
+ALTER TABLE guilds MODIFY COLUMN leave_channel BIGINT UNSIGNED;
