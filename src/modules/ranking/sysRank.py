@@ -39,9 +39,9 @@ class sysRank(commands.Cog):
 
                 userData = Saver.fetch(f"SELECT * FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
                 print(userData)
-                oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+                oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
                 print("test")
-                oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+                oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")
                 print("test")
                 xpWin = random.randint(1, 5)
                 newXP = oldXP + xpWin
