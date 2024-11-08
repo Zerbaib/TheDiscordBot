@@ -17,13 +17,13 @@ class Stats(commands.Cog):
     @commands.is_owner()
     async def stats(self, ctx, request: str):
         try:
-            numberOfGuilds = len(self.bot.guilds)
-            numberOfUsers = len(self.bot.users)
-            numberOfCommands = len(self.bot.commands)
+            numberOfGuilds = f"``{len(self.bot.guilds)}``"
+            numberOfUsers = f"``{len(self.bot.users)}``"
+            numberOfCommands = f"``{len(self.bot.commands_slash)}``"
             
-            numberofUserInRankingDB = Saver.fetch("SELECT COUNT(*) FROM ranking")
-            numberOfUsersInEconomyDB = Saver.fetch("SELECT COUNT(*) FROM economy")
-            numberOfGuildInSettingsDB = Saver.fetch("SELECT COUNT(*) FROM guilds")
+            numberofUserInRankingDB = f'``{Saver.fetch("SELECT COUNT(*) FROM ranking")[0][0]}``'
+            numberOfUsersInEconomyDB = f'``{Saver.fetch("SELECT COUNT(*) FROM economy")[0][0]}``'
+            numberOfGuildInSettingsDB = f'``{Saver.fetch("SELECT COUNT(*) FROM guilds")[0][0]}``'
             
             msg = f"**Guilds:** {numberOfGuilds}\n**Users:** {numberOfUsers}\n**Commands:** {numberOfCommands}\n**Users in Ranking DB:** {numberofUserInRankingDB}\n**Users in Economy DB:** {numberOfUsersInEconomyDB}\n**Guilds in Settings DB:** {numberOfGuildInSettingsDB}"
             
