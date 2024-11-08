@@ -16,6 +16,8 @@ class Stats(commands.Cog):
     @commands.slash_command(name="stats", description="Stats of the bot")
     async def stats(self, ctx):
         try:
+            print(ctx.author)
+            print(self.bot.owner)
             if ctx.author is not self.bot.owner:
                 embed = disnake.Embed(
                     title="❌ Permission Denied",
