@@ -15,11 +15,11 @@ class Stats(commands.Cog):
 
     @commands.slash_command(name="stats", description="Stats of the bot")
     @commands.is_owner()
-    async def stats(self, ctx, request: str):
+    async def stats(self, ctx):
         try:
             numberOfGuilds = f"``{len(self.bot.guilds)}``"
             numberOfUsers = f"``{len(self.bot.users)}``"
-            numberOfCommands = f"``{len(self.bot.commands_slash)}``"
+            numberOfCommands = f"``{len(self.bot.application_commands)}``"
             
             numberofUserInRankingDB = f'``{Saver.fetch("SELECT COUNT(*) FROM ranking")[0][0]}``'
             numberOfUsersInEconomyDB = f'``{Saver.fetch("SELECT COUNT(*) FROM economy")[0][0]}``'
