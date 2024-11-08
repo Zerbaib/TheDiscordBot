@@ -32,7 +32,7 @@ class Stats(commands.Cog):
                 description=msg,
                 color=disnake.Color.green()
             )
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, ephemeral=True)
         except Exception as e:
             Log.error("Failed to execute /query")
             Log.error(e)
