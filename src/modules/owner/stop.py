@@ -27,3 +27,6 @@ class Stop(commands.Cog):
             Log.error("Failed to execute /stop")
             Log.error(e)
             return await ctx.send(embed=error(e))
+
+def setup(bot):
+    bot.add_cog(Stop(bot))
