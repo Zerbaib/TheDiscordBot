@@ -14,16 +14,9 @@ class Query(commands.Cog):
         pass
 
     @commands.slash_command(name="query", description="Query the database")
+    @commands.is_owner()
     async def query(self, ctx, request: str):
         try:
-            if ctx.author.id is not self.bot.owner_id:
-                embed = disnake.Embed(
-                    title="❌ Permission Denied",
-                    description="You do not have permission to execute this command.",
-                    color=disnake.Color.red()
-                )
-                return await ctx.send(embed=embed, ephemeral=True)
-
             query = request
             result = Saver.fetch(query)
             embed = disnake.Embed(

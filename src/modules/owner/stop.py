@@ -13,15 +13,9 @@ class Stop(commands.Cog):
         pass
     
     @commands.slash_command(name="stop", description="Stop the bot")
+    @commands.is_owner()
     async def stop(self, ctx):
         try:
-            if ctx.author.id is not self.bot.owner_id:
-                embed = disnake.Embed(
-                    title="❌ Permission Denied",
-                    description="You do not have permission to execute this command.",
-                    color=disnake.Color.red()
-                )
-                return await ctx.send(embed=embed, ephemeral=True)
             embed = disnake.Embed(
                 title="🛑 Stopping",
                 description="Stopping the bot...",
