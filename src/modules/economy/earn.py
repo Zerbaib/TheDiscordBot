@@ -6,6 +6,8 @@ from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.modules.managements.userinfo import Userinfo
+from main import bot
 
 
 class Earn(commands.Cog):
@@ -20,52 +22,44 @@ class Earn(commands.Cog):
     async def earn(self, ctx):
         try:
             user = ctx.author
-            userID = int(user.id)
-            result = None
-            userLastEarn = None
-            try:
-                query = f"SELECT cooldown FROM economy WHERE userID = {userID} AND guildID = {ctx.guild.id};"
-                result = Saver.fetch(query)
-                if result is None:
-                    userLastEarn = 0
-                    query = f"INSERT INTO economy (guildID, userID, coins, cooldown) VALUES ({guildID}, {userID}, 0, {userLastEarn});"
-                else:
-                    userLastEarn = result[0][0]
-            except Exception as e:
-                if "list index out of range" in str(e):
-                    userLastEarn = 0
             guild = ctx.guild
-            guildID = int(guild.id)
+
+            coinEarn = 100
+
+            try:
+                data = Saver.fetch(f"SELECT * FROM economy WHERE userID = {user.id} AND guildID = {guild.id};")
+                if not data:
+                    Saver.save(f"INSERT INTO economy (guildID, userID, coins, cooldown) VALUES ({guild.id}, {user.id}, 0, 0);")
+                    pass
+            except Exception as e:
+                Log.warn("Failed to insert user into economy table")
+                Log.warn(e)
+                return await ctx.send(embed=error(e))
+
+            userData = Saver.fetch(f"SELECT * FROM economy WHERE userID = {user.id} AND guildID = {guild.id};")[0]
+            userBal = userData[3]
+            userLastEarn = userData[4]
             timeNow = int(datetime.datetime.now().timestamp())
-            cooldown_period = 2 * 60 * 60
+            cooldownPeriod = 2 * 60 * 60
 
-            if userLastEarn == 0:
-                query = f"INSERT INTO economy (guildID, userID, cooldown) VALUES ({guildID}, {userID}, {timeNow});"
-                Saver.save(query)
-
-            if timeNow - userLastEarn < cooldown_period:
-                remaining_time = cooldown_period - (timeNow - userLastEarn)
-                hours, remainder = divmod(remaining_time, 3600)
+            if timeNow - userLastEarn < cooldownPeriod:
+                remainingTime = cooldownPeriod - (timeNow - userLastEarn)
+                hours, remainder = divmod(remainingTime, 3600)
                 minutes, seconds = divmod(remainder, 60)
                 embed = disnake.Embed(
                     title="⏳ Cooldown",
                     description=f"You need to wait `{int(hours)}h {int(minutes)}m {int(seconds)}s` before earning again.",
                     color=disnake.Color.red()
                 )
-                await ctx.send(embed=embed)
-                return
+                return await ctx.send(embed=embed)
 
-            coinEarn = 100
-            query = f"SELECT * FROM economy WHERE userID = {userID} AND guildID = {guildID};"
-            userData = Saver.fetch(query)[0]
-            userBal = userData[3]
             if userBal is None:
                 userBal = 0
+
             userBal += coinEarn
 
             try:
-                query = f"UPDATE economy SET coins = {userBal}, cooldown = {timeNow} WHERE userID = {userID} AND guildID = {guildID};"
-                Saver.save(query)
+                Saver.save(f"UPDATE economy SET coins = {userBal}, cooldown = {timeNow} WHERE userID = {user.id} AND guildID = {guild.id};")
                 embed = disnake.Embed(
                     title="💸 Earn Coins 💸",
                     description=f"You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
@@ -75,10 +69,8 @@ class Earn(commands.Cog):
             except Exception as e:
                 Log.warn("Failed to update user coins")
                 Log.warn(e)
-                embed = error(e)
-                await ctx.send(embed=embed)
-                return
-            Log.log(f"COINS on {guildID} user {userID} [+] {coinEarn} -> {userBal}")
+                return await ctx.send(embed=error(e))
+            Log.log(f"COINS on {guild.id} user {user.id} [+] {coinEarn} -> {userBal}")
         except Exception as e:
             Log.error("An error occurred while executing /earn command")
             Log.error(e)
