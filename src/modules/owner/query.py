@@ -24,7 +24,7 @@ class Query(commands.Cog):
                 description=f"```{result}```" if result else "No results found.",
                 color=disnake.Color.green()
             )
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, ephemeral=True)
         except Exception as e:
             Log.error("Failed to execute /query")
             Log.error(e)
