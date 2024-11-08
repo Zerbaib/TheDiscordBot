@@ -25,11 +25,20 @@ def load_config():
             data = json.load(f)
             token = data['token']
             prefix = data['prefix']
-            ownerID = data['ownerId']
-            return token, prefix, ownerID
+            return token, prefix
     except Exception as e:
         print(e)
         return None, None
+def load_ownerID():
+    try:
+        with open(configFile, 'r') as f:
+            import json
+            data = json.load(f)
+            ownerID = data['ownerId']
+            return ownerID
+    except Exception as e:
+        print(e)
+        return None
 
 class Git():
     from subprocess import check_output
