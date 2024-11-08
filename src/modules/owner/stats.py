@@ -14,9 +14,15 @@ class Stats(commands.Cog):
         pass
 
     @commands.slash_command(name="stats", description="Stats of the bot")
-    @commands.is_owner()
     async def stats(self, ctx):
         try:
+            if ctx.author is not self.bot.owner:
+                embed = disnake.Embed(
+                    title="❌ Permission Denied",
+                    description="You do not have permission to execute this command.",
+                    color=disnake.Color.red()
+                )
+                return await ctx.send(embed=embed, ephemeral=True)
             numberOfGuilds = f"``{len(self.bot.guilds)}``"
             numberOfUsers = f"``{len(self.bot.users)}``"
             numberOfCommands = f"``{len(self.bot.application_commands)}``"

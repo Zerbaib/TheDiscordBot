@@ -15,9 +15,15 @@ class Restart(commands.Cog):
         pass
     
     @commands.slash_command(name="restart", description="Restart the bot")
-    @commands.is_owner()
     async def restart(self, ctx):
         try:
+            if ctx.author is not self.bot.owner:
+                embed = disnake.Embed(
+                    title="❌ Permission Denied",
+                    description="You do not have permission to execute this command.",
+                    color=disnake.Color.red()
+                )
+                return await ctx.send(embed=embed, ephemeral=True)
             embed = disnake.Embed(  
                 title="🔄 Restarting",
                 description="Restarting the bot...",
