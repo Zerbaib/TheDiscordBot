@@ -25,7 +25,8 @@ def load_config():
             data = json.load(f)
             token = data['token']
             prefix = data['prefix']
-            return token, prefix
+            ownerID = data['ownerId']
+            return token, prefix, ownerID
     except Exception as e:
         print(e)
         return None, None

@@ -6,12 +6,13 @@ from disnake.ext import commands
 from src.data.var import load_config
 from src.utils.logger import Log
 
-t, prefix = load_config()
+t, prefix, ownerID = load_config()
 
 bot = commands.Bot(
     command_prefix=prefix,
     intents=disnake.Intents.all(),
-    case_insensitive=True
+    case_insensitive=True,
+    owner_id=ownerID
 )
 
 class main():
