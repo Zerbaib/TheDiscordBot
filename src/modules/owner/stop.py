@@ -2,13 +2,10 @@ import disnake
 from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
-import aiohttp
-import asyncio
 
 class Stop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession()
     
     @commands.Cog.listener()
     async def on_ready(self):
@@ -25,9 +22,7 @@ class Stop(commands.Cog):
                 color=disnake.Color.red()
             )
             await ctx.send(embed=embed, ephemeral=True)
-            await self.session.close()
-            loop = asyncio.get_running_loop()
-            loop.create_task(self.bot.close())
+            self.bot.close()
         except Exception as e:
             Log.error("Failed to execute /stop")
             Log.error(e)
