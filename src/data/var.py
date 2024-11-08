@@ -34,7 +34,7 @@ def load_ownerID():
         with open(configFile, 'r') as f:
             import json
             data = json.load(f)
-            ownerID = data['ownerId']
+            ownerID = int(data['ownerId'])
             return ownerID
     except Exception as e:
         print(e)
