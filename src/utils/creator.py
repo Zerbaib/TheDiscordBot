@@ -35,6 +35,7 @@ class Creator:
                 data = {
                     "token": "your_token",
                     "prefix": "your_prefix",
+                    "ownerId": "your_owner_id",
                     "dbUser": "your_db_user",
                     "dbPass": "your_db_pass",
                     "dbHost": "your_db_host",
