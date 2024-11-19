@@ -82,3 +82,13 @@ keys_values = {
     'welcome_channel': 4,
     'leave_channel': 5
 }
+data = {
+    "token": "your_token",
+    "prefix": "your_prefix",
+    "ownerId": "your_owner_id",
+    "dbUser": "your_db_user",
+    "dbPass": "your_db_pass",
+    "dbHost": "your_db_host",
+    "dbPort": "your_db_port",
+    "dbName": "your_db_name"
+}
