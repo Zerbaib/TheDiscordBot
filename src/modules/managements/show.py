@@ -34,11 +34,11 @@ class Show(commands.Cog):
             config = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}")[0]
 
             server_name = guild.name
-            ticket_category = guild.get_channel(config[keys_values["ticket_category"]]).name if config[keys_values["ticket_category"]] else 'None'
+            ticket_category = guild.get_channel(config[keys_values["ticket_category"]]).name if config[keys_values["ticket_category"]] and guild.get_channel(config[keys_values["ticket_category"]]) else 'None'
             supportRole = guild.get_role(config[keys_values["support_role"]])
             support_role = supportRole.mention if supportRole else '``None``'
-            welcome_channel = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] else '``None``'
-            leave_channel = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] else '``None``'
+            welcome_channel = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] and guild.get_channel(config[keys_values["welcome_channel"]]) else '``None``'
+            leave_channel = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] and guild.get_channel(config[keys_values["leave_channel"]]) else '``None``'
 
             message = f"**Server Name:** ``{server_name}``\n**Ticket Category:** ``#{ticket_category}``\n**Support Role:** {support_role}\n**Welcome Channel:** {welcome_channel}\n**Leave Channel:** {leave_channel}"
 
