@@ -48,7 +48,7 @@ def connectDB():
 def createDB():
     try:
         cur, conn = connectDB()
-        cur.execute(dbInstructions)
+        cur.execute(dbInstructions, multi=True)
         return cur, conn
     except Exception as e:
         Log.error("Failed to create database")
