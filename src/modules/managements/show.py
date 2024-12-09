@@ -39,8 +39,8 @@ class Show(commands.Cog):
             support_role = supportRole.mention if supportRole else '``None``'
             welcome_channel = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] and guild.get_channel(config[keys_values["welcome_channel"]]) else '``None``'
             leave_channel = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] and guild.get_channel(config[keys_values["leave_channel"]]) else '``None``'
-
-            message = f"**Server Name:** ``{server_name}``\n**Ticket Category:** ``#{ticket_category}``\n**Support Role:** {support_role}\n**Welcome Channel:** {welcome_channel}\n**Leave Channel:** {leave_channel}"
+            voice_table_channel = guild.get_channel(config[keys_values["voice_table_channel"]]).mention if config[keys_values["voice_table_channel"]] and guild.get_channel(config[keys_values["voice_table_channel"]]) else '``None``'
+            message = f"**Server Name:** ``{server_name}``\n**Ticket Category:** ``#{ticket_category}``\n**Support Role:** {support_role}\n**Welcome Channel:** {welcome_channel}\n**Leave Channel:** {leave_channel}\n**Voice Table Channel:** {voice_table_channel}"
 
             embed = disnake.Embed(
                     title="🔧 Configuration",

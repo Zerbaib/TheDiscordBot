@@ -74,13 +74,15 @@ keys = {
     'ticket_category': 'Ticket Category',
     'support_role': 'Support Role',
     'welcome_channel': 'Welcome Channel',
-    'leave_channel': 'Leave Channel'
+    'leave_channel': 'Leave Channel',
+    'voice_table_channel': 'Voice Table Channel',
 }
 keys_values = {
     'ticket_category': 2,
     'support_role': 3,
     'welcome_channel': 4,
-    'leave_channel': 5
+    'leave_channel': 5,
+    'voice_table_channel': 6,
 }
 data = {
     "token": "your_token",
