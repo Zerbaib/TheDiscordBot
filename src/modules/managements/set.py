@@ -50,7 +50,7 @@ class Set(commands.Cog):
             if not Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {inter.guild.id}"):
                 Saver.save(f"INSERT INTO guilds (guild_id, ticket_category, support_role, welcome_channel, leave_channel) VALUES ({inter.guild.id}, 0, 0, 0, 0)")
             
-            Saver.save(f"UPDATE guilds SET {key} = '{value}'")
+            Saver.save(f"UPDATE guilds SET {key} = {value} WHERE guild_id = {inter.guild.id}")
             embed = disnake.Embed(
                 title='Success',
                 description=f'{keys[key]} has been set to ``{value}``.',
