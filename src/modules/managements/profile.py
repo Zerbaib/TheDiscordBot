@@ -3,7 +3,6 @@ from disnake.ext import commands
 from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
-from src.utils.saver import Saver
 import requests
 
 
@@ -37,8 +36,6 @@ class ProfileCommand(commands.Cog):
                 )
                 await ctx.send(embed=embed)
                 return
-            if not Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}"):
-                Saver.save(f"INSERT INTO guilds (guild_id, avatarURL, nickname) VALUES ({guild.id}, '', '')")
                 
             if setting == "avatarURL":
                 if not value.startswith("http") or not value.endswith((".png", ".jpg", ".jpeg")):
@@ -50,7 +47,6 @@ class ProfileCommand(commands.Cog):
                     await ctx.send(embed=embed)
                     return
                 await self.bot.user.edit(avatar=requests.get(value).content)
-                Saver.save(f"UPDATE guilds SET {setting} = '{value}' WHERE guildID = {guild.id}")
                 embed = disnake.Embed(
                     title='Success',
                     description=f'Avatar has been updated.',
@@ -59,7 +55,6 @@ class ProfileCommand(commands.Cog):
                 await ctx.send(embed=embed)
             elif setting == "nickname":
                 await ctx.guild.me.edit(nick=value)
-                Saver.save(f"UPDATE guilds SET {setting} = '{value}' WHERE guildID = {guild.id}")
                 embed = disnake.Embed(
                     title='Success',
                     description=f'Nickname has been updated.',
