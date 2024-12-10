@@ -52,6 +52,7 @@ class ProfileCommand(commands.Cog):
                     description=f'Avatar has been updated.',
                     color=disnake.Color.green()
                 )
+                Log.info(f'PROFILE BOT avatar has been updated by {user.name} in {guild.name}')
                 await ctx.send(embed=embed)
             elif setting == "nickname":
                 await ctx.guild.me.edit(nick=value)
@@ -60,6 +61,7 @@ class ProfileCommand(commands.Cog):
                     description=f'Nickname has been updated.',
                     color=disnake.Color.green()
                 )
+                Log.info(f'PROFILE BOT nickname has been updated by {user.name} in {guild.name}')
                 await ctx.send(embed=embed)
             else:
                 embed = disnake.Embed(
