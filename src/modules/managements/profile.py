@@ -19,7 +19,7 @@ class ProfileCommand(commands.Cog):
     async def profile(self, ctx, setting: str = None, value: str = None):
         user = ctx.author
         guild = ctx.guild
-        if user != guild.owner:
+        if not user.guild_permissions.administrator:
             embed = disnake.Embed(
                 title='Error',
                 description='You must be the owner of the server to use this command.',
