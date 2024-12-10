@@ -50,7 +50,7 @@ class Set(commands.Cog):
             if not Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {inter.guild.id}"):
                 Saver.save(f"INSERT INTO guilds (guild_id, ticket_category, support_role, welcome_channel, leave_channel) VALUES ({inter.guild.id}, 0, 0, 0, 0)")
             
-            Saver.save(f"UPDATE guilds SET {key} = '{value}'")
+            Saver.save(f"UPDATE guilds SET {key} = {value} WHERE guild_id = {inter.guild.id}")
             embed = disnake.Embed(
                 title='Success',
                 description=f'{keys[key]} has been set to ``{value}``.',
@@ -64,7 +64,8 @@ class Set(commands.Cog):
             supportRoleName = supportRole.mention if supportRole else '``None``'
             welcomeChannelName = guild.get_channel(config[keys_values["welcome_channel"]]).mention if config[keys_values["welcome_channel"]] else '``None``'
             leaveChannelName = guild.get_channel(config[keys_values["leave_channel"]]).mention if config[keys_values["leave_channel"]] else '``None``'
-            embed.add_field(name='Configuration', value=f"Ticket Category: {categoryName}\nSupport Role: {supportRoleName}\nWelcome Channel: {welcomeChannelName}\nLeave Channel: {leaveChannelName}")
+            voiceTableChannelName = guild.get_channel(config[keys_values["voice_table_channel"]]).mention if config[keys_values["voice_table_channel"]] else '``None``'
+            embed.add_field(name='Configuration', value=f"Ticket Category: {categoryName}\nSupport Role: {supportRoleName}\nWelcome Channel: {welcomeChannelName}\nLeave Channel: {leaveChannelName}\nVoice Table Channel: {voiceTableChannelName}")
             await inter.response.send_message(embed=embed, ephemeral=True)
             Log.log(f'SETTING on {inter.guild.id} [+] {keys[key]} has been set to {value}.')
         except Exception as e:

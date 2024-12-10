@@ -29,6 +29,16 @@ def load_config():
     except Exception as e:
         print(e)
         return None, None
+def load_ownerID():
+    try:
+        with open(configFile, 'r') as f:
+            import json
+            data = json.load(f)
+            ownerID = int(data['ownerId'])
+            return ownerID
+    except Exception as e:
+        print(e)
+        return None
 
 class Git():
     from subprocess import check_output
@@ -64,11 +74,23 @@ keys = {
     'ticket_category': 'Ticket Category',
     'support_role': 'Support Role',
     'welcome_channel': 'Welcome Channel',
-    'leave_channel': 'Leave Channel'
+    'leave_channel': 'Leave Channel',
+    'voice_table_channel': 'Voice Table Channel',
 }
 keys_values = {
     'ticket_category': 2,
     'support_role': 3,
     'welcome_channel': 4,
-    'leave_channel': 5
+    'leave_channel': 5,
+    'voice_table_channel': 6,
+}
+data = {
+    "token": "your_token",
+    "prefix": "your_prefix",
+    "ownerId": "your_owner_id",
+    "dbUser": "your_db_user",
+    "dbPass": "your_db_pass",
+    "dbHost": "your_db_host",
+    "dbPort": "your_db_port",
+    "dbName": "your_db_name"
 }
