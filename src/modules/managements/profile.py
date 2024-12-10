@@ -4,6 +4,7 @@ from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 import requests
+from main import bot
 
 
 class ProfileCommand(commands.Cog):
@@ -36,7 +37,6 @@ class ProfileCommand(commands.Cog):
                 )
                 await ctx.send(embed=embed)
                 return
-                
             if setting == "avatarURL":
                 if not value.startswith("http") or not value.endswith((".png", ".jpg", ".jpeg")):
                     embed = disnake.Embed(
@@ -46,7 +46,8 @@ class ProfileCommand(commands.Cog):
                     )
                     await ctx.send(embed=embed)
                     return
-                await self.bot.user.edit(avatar=requests.get(value).content)
+                #await bot.user.edit(avatar=requests.get(value).content)
+                #await ctx.guild.me.edit(avatar=requests.get(value).content)
                 embed = disnake.Embed(
                     title='Success',
                     description=f'Avatar has been updated.',
