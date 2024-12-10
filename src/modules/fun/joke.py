@@ -1,4 +1,5 @@
 import random
+import disnake
 from disnake.ext import commands
 from src.utils.logger import Log
 
@@ -24,10 +25,15 @@ class Joke(commands.Cog):
         Log.info('🔩 /joke has been loaded')
         pass
 
-    @commands.slash_command(name="joke", description="Get a random joke in English!")
+    @commands.slash_command(name="joke", description="Get a random joke !")
     async def joke(self, ctx):
         random_joke = random.choice(self.jokes)
-        await ctx.send(random_joke)
+        embed = disnake.Embed(
+            title="🃏 Joke",
+            description=random_joke,
+            color=disnake.Color.green()
+        )
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Joke(bot))
