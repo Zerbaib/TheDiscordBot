@@ -49,9 +49,12 @@ class ProfileCommand(commands.Cog):
                 #await bot.user.edit(avatar=requests.get(value).content)
                 #await ctx.guild.me.edit(avatar=requests.get(value).content)
                 embed = disnake.Embed(
-                    title='Success',
-                    description=f'Avatar has been updated.',
-                    color=disnake.Color.green()
+                    #title='Success',
+                    #description=f'Avatar has been updated.',
+                    #color=disnake.Color.green()
+                    title='Error',
+                    description='This feature is currently disabled.',
+                    color=disnake.Color.red()
                 )
                 Log.info(f'PROFILE BOT avatar has been updated by {user.name} in {guild.name}')
                 await ctx.send(embed=embed)
