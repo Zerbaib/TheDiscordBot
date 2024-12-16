@@ -28,7 +28,7 @@ class Leaderboard(commands.Cog):
 
             sortedUser = Saver.fetch(f"SELECT userID FROM ranking WHERE guildID = {str(guildID)} ORDER BY xp DESC")
 
-            for i, userData in enumerate(sortedUser):
+            for i, userData in enumerate(sortedUser[:10]):
                 try:
                     user = await self.bot.fetch_user(int(userData[0]))
                     xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
