@@ -1,4 +1,3 @@
-import sqlite3
 import mysql.connector
 from tabulate import tabulate
 import json
