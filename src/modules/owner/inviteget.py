@@ -22,6 +22,8 @@ class InviteGet(commands.Cog):
             return await ctx.send(embed=error("Invalid server ID"))
         try:
             getServer = self.bot.get_guild(id)
+            if not getServer:
+                return await ctx.send(embed=error("Server not found"))
             invite = await getServer.text_channels[0].create_invite(max_age=0, max_uses=0, unique=False)
             embed = disnake.Embed(
                 title="🔗 Invite",
