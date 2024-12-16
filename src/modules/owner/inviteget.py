@@ -28,6 +28,7 @@ class InviteGet(commands.Cog):
                 description=f"Here is the invite link of the server: {invite}",
                 color=disnake.Color.green()
             )
+            await ctx.send(embed=embed)
         except Exception as e:
             Log.error("Failed to execute /inviteget")
             Log.error(e)
