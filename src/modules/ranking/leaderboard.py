@@ -15,9 +15,10 @@ class Leaderboard(commands.Cog):
         pass
     
     @commands.slash_command(name="leaderboard", description="Check the leaderboard")
-    async def leaderboard(self, ctx):
+    async def leaderboard(self, inter):
         try:
-            guild = ctx.guild
+            inter.response.defer()
+            guild = inter.guild
             guildID = guild.id
 
             embed = disnake.Embed(
@@ -37,12 +38,12 @@ class Leaderboard(commands.Cog):
                     Log.warn("Failed to fetch user")
                     Log.warn(e)
                     continue
-            await ctx.send(embed=embed)
+            await inter.send(embed=embed)
         except Exception as e:
             embed = error(e)
             Log.error("Failed to execute /leaderboard")
             Log.error(e)
-            await ctx.send(embed=embed)
+            await inter.send(embed=embed)
             return
 
 def setup(bot):
