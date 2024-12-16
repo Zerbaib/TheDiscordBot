@@ -13,22 +13,29 @@ class Set(commands.Cog):
     async def on_ready(self):
         Log.info('🔩 /set has been loaded')
         pass
-    
+
     @commands.slash_command(name="set", description="Configure the bot")
-    async def set(self, inter: disnake.ApplicationCommandInteraction, key: str, value):
+    async def set(self, inter: disnake.ApplicationCommandInteraction, key=None, value=None):
         try:
-            try:
-                value = int(value)
-            except:
-                embed = disnake.Embed(
-                    title='Error',
-                    description='Value must be an integer.',
-                    color=disnake.Color.red()
-                )
-                await inter.response.send_message(embed=embed)
-                return
+            value = int(value)
+        except:
+            embed = disnake.Embed(
+                title='Error',
+                description='Value must be an integer.',
+                color=disnake.Color.red()
+            )
+            await inter.response.send_message(embed=embed)
+            return
+        if key is not str or value is not int:
+            embed = disnake.Embed(
+                title='Error',
+                description=f'Invalid key. Available keys: {", ".join(keys.keys())}\nExample: `/set ticket_category 123456789012345678`',
+                color=disnake.Color.red()
+            )
+            await inter.response.send_message(embed=embed, ephemeral=True)
+            return
+        try:
             user = inter.author
-            
             if not user.guild_permissions.administrator:
                 embed = disnake.Embed(
                     title='Error',
@@ -37,7 +44,6 @@ class Set(commands.Cog):
                 )
                 await inter.response.send_message(embed=embed, ephemeral=True)
                 return
-            
             if key not in keys:
                 embed = disnake.Embed(
                     title='Error',
@@ -48,7 +54,7 @@ class Set(commands.Cog):
                 return
             
             if not Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {inter.guild.id}"):
-                Saver.save(f"INSERT INTO guilds (guild_id, ticket_category, support_role, welcome_channel, leave_channel) VALUES ({inter.guild.id}, 0, 0, 0, 0)")
+                Saver.save(f"INSERT INTO guilds (guild_id, ticket_category, support_role, welcome_channel, leave_channel, voice_table_channel) VALUES ({inter.guild.id}, 0, 0, 0, 0, 0)")
             
             Saver.save(f"UPDATE guilds SET {key} = {value} WHERE guild_id = {inter.guild.id}")
             embed = disnake.Embed(

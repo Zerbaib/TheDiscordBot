@@ -84,6 +84,14 @@ keys_values = {
     'leave_channel': 5,
     'voice_table_channel': 6,
 }
+key_profile = {
+    'avatarURL': 'Avatar URL',
+    'nickname': 'Nickname'
+}
+key_profile_values = {
+    'avatarURL': 2,
+    'nickname': 3
+}
 data = {
     "token": "your_token",
     "prefix": "your_prefix",

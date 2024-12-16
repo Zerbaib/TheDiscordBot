@@ -38,8 +38,16 @@ class TicketSystem(commands.Cog):
                 return
 
             config = get_guild_config(guild.id)
-            support_role = guild.get_role(config[1])  # Assuming 'support_role' is the second element
-            category = guild.get_channel(config[2])  # Assuming 'ticket_category' is the third element
+            try:
+                support_role = guild.get_role(config[1])
+                category = guild.get_channel(config[2])
+            except Exception as e:
+                embed = disnake.Embed(
+                    title='Error',
+                    description='The bot has not been configured yet. Use `/set` to configure it.',
+                    color=disnake.Color.red()
+                )
+                return await ctx.send(embed=embed)
 
             for channel in category.channels:
                 if channel.name == f"ticket-{user.name}":
