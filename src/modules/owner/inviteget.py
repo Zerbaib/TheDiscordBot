@@ -15,7 +15,11 @@ class InviteGet(commands.Cog):
 
     @commands.slash_command(name="inviteget", description="Get an invite link of a server where the bot is in")
     @commands.is_owner()
-    async def inviteget(self, ctx, id: int):
+    async def inviteget(self, ctx, id):
+        try:
+            id = int(id)
+        except:
+            return await ctx.send(embed=error("Invalid server ID"))
         try:
             getServer = self.bot.get_guild(id)
             invite = await getServer.text_channels[0].create_invite(max_age=0, max_uses=0, unique=False)
