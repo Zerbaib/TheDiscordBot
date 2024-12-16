@@ -27,7 +27,7 @@ class ServerList(commands.Cog):
                     description="There are too many servers to display. Please check the console for the list.",
                     color=disnake.Color.green()
                 )
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed, ephemeral=True)
                 Log.info("Server List:")
                 for server in serverList:
                     Log.info(server)
@@ -37,7 +37,7 @@ class ServerList(commands.Cog):
                     description="\n".join(serverList),
                     color=disnake.Color.green()
                 )
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed, ephemeral=True)
         except Exception as e:
             Log.error("Failed to execute /serverlist")
             Log.error(e)
