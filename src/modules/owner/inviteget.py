@@ -4,7 +4,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
-class Query(commands.Cog):
+class InviteGet(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -30,4 +30,4 @@ class Query(commands.Cog):
             return await ctx.send(embed=error(e))
 
 def setup(bot):
-    bot.add_cog(Query(bot))
+    bot.add_cog(InviteGet(bot))
