@@ -17,7 +17,7 @@ class Leaderboard(commands.Cog):
     @commands.slash_command(name="leaderboard", description="Check the leaderboard")
     async def leaderboard(self, inter):
         try:
-            inter.response.defer()
+            await inter.response.defer()
             guild = inter.guild
             guildID = guild.id
 
@@ -38,7 +38,7 @@ class Leaderboard(commands.Cog):
                     Log.warn("Failed to fetch user")
                     Log.warn(e)
                     continue
-            await inter.send(embed=embed)
+            await inter.edit_original_response(embed=embed)
         except Exception as e:
             embed = error(e)
             Log.error("Failed to execute /leaderboard")
