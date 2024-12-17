@@ -78,27 +78,14 @@ class sysRank(commands.Cog):
                     oldGrade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
                     if oldGrade != highest_grade:
                         Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
-                        
+
                         liaison_name = tableLiaison.get(highest_grade)
                         if liaison_name:
                             emoji_id = rankGradeEmoji.get(liaison_name)
-                            if emoji_id:
-                                emoji = self.bot.get_emoji(emoji_id)
-                                if emoji:
-                                    pass
-                                else:
-                                    Log.warn(f"Failed to get emoji {liaison_name}")
-                            else:
-                                Log.warn(f"Failed to get emoji id {liaison_name}")
                         else:
-                            Log.warn(f"Failed to get liaison name {highest_grade}")
-                        
-                        mess = f"Congratulations {user.mention}, you have been promoted to grade\n``{highest_grade}``!"
-                        embed = disnake.Embed(
-                            title=f"You are <:{liaison_name}:{emoji_id}>",
-                            description=mess,
-                            color=disnake.Color.green()
-                        )
+                            Log.warn(f"Failed to get emoji id {highest_grade}")
+
+                        mess = f"Congratulations {user.mention} <:fire:>, you have been promoted to grade **{highest_grade}** <{liaison_name}:{emoji_id}> !"
                         await message.channel.send(embed=embed, delete_after=10)
                         Log.log(f"GRADE on {guild.id} user {user.id} [+] {oldGrade} -> {highest_grade}")
 
