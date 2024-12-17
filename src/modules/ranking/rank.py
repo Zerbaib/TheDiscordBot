@@ -4,6 +4,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 from src.data.var import *
+from json import load
 
 
 class Rank(commands.Cog):
@@ -25,6 +26,9 @@ class Rank(commands.Cog):
             xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
             level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
             grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+
+            with open(emojiFile, 'r') as f:
+                rankGradeEmoji = load(f)
 
             liaison_name = tableLiaison.get(grade)
             if liaison_name:

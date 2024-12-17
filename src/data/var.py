@@ -7,6 +7,7 @@ dbInstructionsFile = f"{dataFolder}structure.sql"
 
 dbFile = f"{dataFolder}bdd.db"
 configFile = f"{configFolder}config.json"
+emojiFile = f"{configFolder}emojis.json"
 logFile = f"{logFolder}.log"
 
 coinEarn = 100
@@ -114,7 +115,7 @@ tableLiaison = {
     "Champion III": "champion3",
     "Grand Champion": "grandchampion"
 }
-rankGradeEmoji = {
+emojisID = {
     "bronze1": 1318555597993410600,
     "bronze2": 1318555647863816254,
     "bronze3": 1318555696282730536,

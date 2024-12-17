@@ -1,6 +1,6 @@
 import datetime
 import random
-
+from json import load
 import disnake
 from disnake.ext import commands
 from src.data.var import *
@@ -78,6 +78,9 @@ class sysRank(commands.Cog):
                     oldGrade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
                     if oldGrade != highest_grade:
                         Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
+
+                        with open(emojiFile, 'r') as f:
+                            rankGradeEmoji = load(f)
 
                         liaison_name = tableLiaison.get(highest_grade)
                         if liaison_name:
