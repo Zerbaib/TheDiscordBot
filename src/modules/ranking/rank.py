@@ -36,7 +36,7 @@ class Rank(commands.Cog):
             mess = f"Your grade is **{grade}** \n\nwith ``{xp}`` XP and ``{level}`` level\nNext level at ```{xp}/{nextLevelXP} XP```"
 
             embed = disnake.Embed(
-                title="📊 Rank",
+                title="📊 Rank Information 📊",
                 description=mess,
                 color=disnake.Color.blurple()
             )
