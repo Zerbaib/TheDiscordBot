@@ -36,8 +36,8 @@ class sysRank(commands.Cog):
                 oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
                 if oldRate == None:
                     oldRate = rateLimitXpDaily
-                rate = oldRate + 1
-                if rate >= rateLimitXpDaily:
+                rate = oldRate - 1
+                if rate >= 0:
                     Log.log(f"RATE LIMIT on {guild.id} user {user.id} [+] {oldRate} -> {rate}")
                     return
                 Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {user.id} AND guildID = {guild.id}")
