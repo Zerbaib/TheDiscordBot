@@ -23,10 +23,13 @@ class sysRank(commands.Cog):
 
     @commands.Cog.listener()
     async def checkGrade(self):
+        print("coucou")
         try:
             await self.bot.wait_until_ready()
             for guild in self.bot.guilds:
+                print(guild)
                 for user in guild.members:
+                    print(user)
                     if user.bot:
                         continue
                     if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}"):
@@ -48,7 +51,7 @@ class sysRank(commands.Cog):
             Log.warn("Failed to check user grade")
             Log.warn(e)
             return
-            
+
 
     @commands.Cog.listener()
     async def resetRateDaly(self):
