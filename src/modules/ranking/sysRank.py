@@ -26,7 +26,7 @@ class sysRank(commands.Cog):
             while not self.bot.is_closed():
                 current_time = datetime.datetime.now().time()
                 print(current_time)
-                if current_time.hour == 13 and current_time.minute == 0:
+                if current_time.hour == 00 and current_time.minute == 00 and current_time.second == 00:
                     Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
                     Log.log(f"RATE LIMIT RESET")
         except Exception as e:
