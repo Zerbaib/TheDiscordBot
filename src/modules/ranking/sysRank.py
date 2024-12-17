@@ -17,8 +17,38 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         Log.info("🧰 Ranking system has been loaded")
+        self.bot.loop.create_task(self.checkGrade())
         self.bot.loop.create_task(self.resetRateDaly())
         pass
+
+    @commands.Cog.listener()
+    async def checkGrade(self):
+        try:
+            await self.bot.wait_until_ready()
+            for guild in self.bot.guilds:
+                for user in guild.members:
+                    if user.bot:
+                        continue
+                    if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}"):
+                        Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level, rate) VALUES ({user.id}, {guild.id}, 0, 0, {rateLimitXpDaily})")
+                        pass
+                    xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                    grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                    if grade != None:
+                        highest_grade = None
+                        for grade, value in rankGrade.items():
+                            if xp >= value:
+                                highest_grade = grade
+                        if highest_grade:
+                            oldGrade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                            if oldGrade != highest_grade:
+                                Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
+                                Log.log(f"GRADE on {guild.id} user {user.id} [+] {oldGrade} -> {highest_grade}")
+        except Exception as e:
+            Log.warn("Failed to check user grade")
+            Log.warn(e)
+            return
+            
 
     @commands.Cog.listener()
     async def resetRateDaly(self):
