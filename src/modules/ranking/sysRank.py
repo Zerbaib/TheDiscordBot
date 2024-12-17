@@ -37,13 +37,13 @@ class sysRank(commands.Cog):
                 if oldRate == None:
                     Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily} WHERE userID = {user.id} AND guildID = {guild.id}")
                     oldRate = rateLimitXpDaily
-                rate = oldRate - 1
+                xpWin = random.randint(1, 5)
+                rate = oldRate - xpWin
                 Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {user.id} AND guildID = {guild.id}")
                 if rate <= 0:
                     Log.log(f"RATE LIMIT on {guild.id} user {user.id} [+] {oldRate} -> {rate}")
                     return
 
-                xpWin = random.randint(1, 5)
                 newXP = oldXP + xpWin
 
                 nextLevelXP = 5 * (oldLevel ** 2) + 10 * oldLevel + 10
