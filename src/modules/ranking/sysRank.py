@@ -28,11 +28,18 @@ class sysRank(commands.Cog):
                 guild = message.guild
 
                 if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}"):
-                    Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({user.id}, {guild.id}, 0, 0)")
+                    Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level, rate) VALUES ({user.id}, {guild.id}, 0, 0, {rateLimitXpDaily})")
                     pass
 
                 oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
                 oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                rate = oldRate + 1
+                if rate >= rateLimitXpDaily:
+                    Log.log(f"RATE LIMIT on {guild.id} user {user.id} [+] {oldRate} -> {rate}")
+                    return
+                Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {user.id} AND guildID = {guild.id}")
+
                 xpWin = random.randint(1, 5)
                 newXP = oldXP + xpWin
 

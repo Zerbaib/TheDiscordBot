@@ -70,26 +70,28 @@ class Version():
             Log.warn(e)
             return
 
+rateLimitXpDaily = 400
+
 rankGrade = {
-    "Bronze I": 50,
-    "Bronze II": 75,
-    "Bronze III": 100,
-    "Silver I": 150,
-    "Silver II": 200,
-    "Silver III": 250,
-    "Gold I": 300,
-    "Gold II": 375,
-    "Gold III": 450,
-    "Platinum I": 500,
-    "Platinum II": 600,
-    "Platinum III": 700,
-    "Diamond I": 800,
-    "Diamond II": 900,
-    "Diamond III": 1000,
-    "Champion I": 1250,
-    "Champion II": 1500,
-    "Champion III": 2000,
-    "Grand Champion": 3000
+    "Bronze I": 100,
+    "Bronze II": 150,
+    "Bronze III": 200,
+    "Silver I": 275,
+    "Silver II": 350,
+    "Silver III": 450,
+    "Gold I": 600,
+    "Gold II": 675,
+    "Gold III": 750,
+    "Platinum I": 900,
+    "Platinum II": 1000,
+    "Platinum III": 1100,
+    "Diamond I": 1300,
+    "Diamond II": 1500,
+    "Diamond III": 1750,
+    "Champion I": 2000,
+    "Champion II": 2500,
+    "Champion III": 3000,
+    "Grand Champion": 4000
 }
 
 keys = {
