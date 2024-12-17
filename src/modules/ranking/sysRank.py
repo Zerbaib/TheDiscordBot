@@ -38,9 +38,13 @@ class sysRank(commands.Cog):
 
                 nextLevelXP = 5 * (oldLevel ** 2) + 10 * oldLevel + 10
 
+                highest_grade = None
                 for grade, value in rankGrade.items():
                     if newXP >= value:
-                        print(grade)
+                        highest_grade = grade
+                if highest_grade:
+                    print(highest_grade)
+                    Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
 
                 if newXP > nextLevelXP:
                     newLevel = oldLevel + 1
