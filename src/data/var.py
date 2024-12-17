@@ -70,6 +70,28 @@ class Version():
             Log.warn(e)
             return
 
+rankGrade = {
+    "Bronze I": 50,
+    "Bronze II": 75,
+    "Bronze III": 100,
+    "Silver I": 150,
+    "Silver II": 200,
+    "Silver III": 250,
+    "Gold I": 300,
+    "Gold II": 375,
+    "Gold III": 450,
+    "Platinum I": 500,
+    "Platinum II": 600,
+    "Platinum III": 700,
+    "Diamond I": 800,
+    "Diamond II": 900,
+    "Diamond III": 1000,
+    "Champion I": 1250,
+    "Champion II": 1500,
+    "Champion III": 2000,
+    "Grand Champion": 3000
+}
+
 keys = {
     'ticket_category': 'Ticket Category',
     'support_role': 'Support Role',
