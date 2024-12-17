@@ -15,9 +15,10 @@ class Leaderboard(commands.Cog):
         pass
     
     @commands.slash_command(name="leaderboard", description="Check the leaderboard")
-    async def leaderboard(self, ctx):
+    async def leaderboard(self, inter):
         try:
-            guild = ctx.guild
+            await inter.response.defer()
+            guild = inter.guild
             guildID = guild.id
 
             embed = disnake.Embed(
@@ -27,7 +28,7 @@ class Leaderboard(commands.Cog):
 
             sortedUser = Saver.fetch(f"SELECT userID FROM ranking WHERE guildID = {str(guildID)} ORDER BY xp DESC")
 
-            for i, userData in enumerate(sortedUser):
+            for i, userData in enumerate(sortedUser[:10]):
                 try:
                     user = await self.bot.fetch_user(int(userData[0]))
                     xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
@@ -37,12 +38,12 @@ class Leaderboard(commands.Cog):
                     Log.warn("Failed to fetch user")
                     Log.warn(e)
                     continue
-            await ctx.send(embed=embed)
+            await inter.edit_original_response(embed=embed)
         except Exception as e:
             embed = error(e)
             Log.error("Failed to execute /leaderboard")
             Log.error(e)
-            await ctx.send(embed=embed)
+            await inter.send(embed=embed)
             return
 
 def setup(bot):
