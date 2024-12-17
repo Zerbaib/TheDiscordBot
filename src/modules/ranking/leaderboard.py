@@ -3,6 +3,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.data.var import *
 
 
 class Leaderboard(commands.Cog):
@@ -33,7 +34,15 @@ class Leaderboard(commands.Cog):
                     user = await self.bot.fetch_user(int(userData[0]))
                     xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
                     level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
-                    embed.add_field(name=f"{i+1}. {user.display_name}", value=f"Level `{level}` with `{xp}` XP", inline=False)
+                    grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
+
+                    liaison_name = tableLiaison.get(grade)
+                    if liaison_name:
+                        emoji_id = rankGradeEmoji.get(liaison_name)
+                    else:
+                        Log.warn(f"Failed to get emoji id {grade}")
+
+                    embed.add_field(name=f"{i+1}. <:{liaison_name}:{emoji_id}> {user.display_name}", value=f"Level `{level}` with `{xp}` XP", inline=False)
                 except Exception as e:
                     Log.warn("Failed to fetch user")
                     Log.warn(e)
