@@ -75,7 +75,17 @@ class sysRank(commands.Cog):
                     if newXP >= value:
                         highest_grade = grade
                 if highest_grade:
-                    Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
+                    oldGrade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                    if oldGrade != highest_grade:
+                        Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
+                        mess = f"Congratulations {user.mention}, you have been promoted to grade `{highest_grade}`!"
+                        embed = disnake.Embed(
+                            title="🎉 Grade Promotion",
+                            description=mess,
+                            color=disnake.Color.green()
+                        )
+                        await message.channel.send(embed=embed, delete_after=10)
+                        Log.log(f"GRADE on {guild.id} user {user.id} [+] {oldGrade} -> {highest_grade}")
 
                 if newXP > nextLevelXP:
                     newLevel = oldLevel + 1
