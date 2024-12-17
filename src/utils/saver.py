@@ -1,10 +1,9 @@
-import sqlite3
-import mysql.connector
-from tabulate import tabulate
 import json
 
+import mysql.connector
 from src.data.var import *
 from src.utils.logger import Log
+from tabulate import tabulate
 
 with open(dbInstructionsFile, 'r') as f:
     dbInstructions = f.read()

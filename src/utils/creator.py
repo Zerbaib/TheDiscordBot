@@ -4,6 +4,7 @@ import os
 from src.data.var import *
 from src.utils.logger import *
 
+
 class Creator:
     def __init__(self):
         self.log_file()

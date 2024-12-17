@@ -1,8 +1,10 @@
+from datetime import datetime
+
 import disnake
 from disnake.ext import commands
-from datetime import datetime
-from src.utils.logger import Log
 from src.utils.error import error_embed as error
+from src.utils.logger import Log
+
 
 class ServerInfo(commands.Cog):
     def __init__(self, bot):

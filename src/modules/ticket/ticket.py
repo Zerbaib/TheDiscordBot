@@ -4,6 +4,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
+
 def get_guild_config(guild_id):
     try:
         data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild_id}")

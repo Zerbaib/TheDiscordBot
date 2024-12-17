@@ -58,8 +58,8 @@ class Version():
         return localVer
 
     def getOnline():
-        from src.utils.logger import Log
         import requests
+        from src.utils.logger import Log
         try:
             response = requests.get(Version.onlineVersionFile)
             response.raise_for_status()
