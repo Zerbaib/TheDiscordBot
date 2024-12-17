@@ -7,6 +7,7 @@ from src.data.var import *
 from src.utils.logger import Log
 from src.utils.saver import Saver
 import datetime
+import asyncio
 
 
 class sysRank(commands.Cog):
@@ -25,10 +26,11 @@ class sysRank(commands.Cog):
             await self.bot.wait_until_ready()
             while not self.bot.is_closed():
                 current_time = datetime.datetime.now().time()
-                print(current_time)
-                if current_time.hour == 00 and current_time.minute == 00 and current_time.second == 00:
+                if current_time.hour == 00 and current_time.minute == 00:
                     Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
                     Log.log(f"RATE LIMIT RESET")
+                    pass
+                await asyncio.sleep(10)
         except Exception as e:
             Log.warn("Failed to reset rate limit")
             Log.warn(e)
