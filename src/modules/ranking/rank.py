@@ -40,8 +40,8 @@ class Rank(commands.Cog):
                 description=mess,
                 color=disnake.Color.blurple()
             )
-            imageFileLink = f"./img/{liaison_name}.png"
-            embed.set_thumbnail(url=imageFileLink)
+            imageFileLink = disnake.File(f"./img/{liaison_name}.png")
+            embed.set_thumbnail(file=imageFileLink)
             await ctx.send(embed=embed)
         except Exception as e:
             embed = error(e)
