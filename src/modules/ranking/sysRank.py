@@ -35,6 +35,7 @@ class sysRank(commands.Cog):
                 oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
                 oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
                 if oldRate == None:
+                    Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily} WHERE userID = {user.id} AND guildID = {guild.id}")
                     oldRate = rateLimitXpDaily
                 rate = oldRate - 1
                 if rate >= 0:
