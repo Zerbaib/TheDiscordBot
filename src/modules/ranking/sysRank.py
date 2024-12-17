@@ -91,19 +91,9 @@ class sysRank(commands.Cog):
 
                 if newXP > nextLevelXP:
                     newLevel = oldLevel + 1
-                    nextLevelXP = 5 * (newLevel ** 2) + 10 * newLevel + 10
-                    mess = f"Congratulations {user.mention}, you have leveled up to level `{newLevel}`!\nneed `{newXP}/{nextLevelXP}` XP to level up again."
-                    embed = disnake.Embed(
-                        title="🎉 Level Up",
-                        description=mess,
-                        color=disnake.Color.blurple()
-                        )
-                    await message.channel.send(embed=embed, delete_after=10)
-
                     Saver.save(f"UPDATE ranking SET level = {newLevel} WHERE userID = {user.id} AND guildID = {guild.id}")
                     Log.log(f"LEVEL on {guild.id} user {user.id} [+] {oldLevel} -> {newLevel}")
                     pass
-
                 Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {user.id} AND guildID = {guild.id}")
                 Log.log(f"XP on {guild.id} user {user.id} [+] {xpWin} -> {newXP}")
             except Exception as e:
