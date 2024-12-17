@@ -22,6 +22,7 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def resetRateDaly(self):
         try:
+            await self.bot.wait_until_ready()
             while not self.bot.is_closed():
                 current_time = datetime.datetime.now().time()
                 if current_time.hour == 13 and current_time.minute == 0:
