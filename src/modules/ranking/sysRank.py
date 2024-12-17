@@ -53,7 +53,6 @@ class sysRank(commands.Cog):
                     if newXP >= value:
                         highest_grade = grade
                 if highest_grade:
-                    print(highest_grade)
                     Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
 
                 if newXP > nextLevelXP:
