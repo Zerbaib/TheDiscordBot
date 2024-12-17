@@ -23,30 +23,22 @@ class sysRank(commands.Cog):
 
     @commands.Cog.listener()
     async def checkGrade(self):
-        print("coucou")
         try:
             await self.bot.wait_until_ready()
-            for guild in self.bot.guilds:
-                print(guild)
-                for user in guild.members:
-                    print(user)
-                    if user.bot:
-                        continue
-                    if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}"):
-                        Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level, rate) VALUES ({user.id}, {guild.id}, 0, 0, {rateLimitXpDaily})")
-                        pass
-                    xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-                    grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-                    if grade != None:
-                        highest_grade = None
-                        for grade, value in rankGrade.items():
-                            if xp >= value:
-                                highest_grade = grade
-                        if highest_grade:
-                            oldGrade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-                            if oldGrade != highest_grade:
-                                Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
-                                Log.log(f"GRADE on {guild.id} user {user.id} [+] {oldGrade} -> {highest_grade}")
+            users_in_db = Saver.fetch("SELECT userID FROM ranking")
+            users_in_db = [user[0] for user in users_in_db]
+            for user_id in users_in_db:
+                user_data = Saver.fetch(f"SELECT xp, grade, guildID FROM ranking WHERE userID = {user_id}")
+                if not user_data:
+                    continue
+                xp, old_grade, guild_id = user_data[0]
+                highest_grade = None
+                for grade, value in rankGrade.items():
+                    if xp >= value:
+                        highest_grade = grade
+                if highest_grade and old_grade != highest_grade:
+                    Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user_id} AND guildID = {guild_id}")
+                    Log.log(f"GRADE on {guild_id} user {user_id} [+] {old_grade} -> {highest_grade}")
         except Exception as e:
             Log.warn("Failed to check user grade")
             Log.warn(e)
