@@ -16,7 +16,7 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         Log.info("🧰 Ranking system has been loaded")
-        self.bot.loop.create_task(self.delete_temporary_channels())
+        self.bot.loop.create_task(self.resetRateDaly())
         pass
 
     @commands.Cog.listener()
