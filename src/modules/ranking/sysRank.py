@@ -17,34 +17,8 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         Log.info("🧰 Ranking system has been loaded")
-        self.bot.loop.create_task(self.checkGrade())
         self.bot.loop.create_task(self.resetRateDaly())
         pass
-
-    @commands.Cog.listener()
-    async def checkGrade(self):
-        try:
-            await self.bot.wait_until_ready()
-            users_in_db = Saver.fetch("SELECT userID FROM ranking")
-            users_in_db = [user[0] for user in users_in_db]
-            for user_id in users_in_db:
-                user_data = Saver.fetch(f"SELECT xp, grade, guildID FROM ranking WHERE userID = {user_id}")
-                if not user_data:
-                    continue
-                xp, old_grade, guild_id = user_data[0]
-                highest_grade = None
-                for grade, value in rankGrade.items():
-                    if xp >= value:
-                        highest_grade = grade
-                if highest_grade and old_grade != highest_grade:
-                    Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user_id} AND guildID = {guild_id}")
-                    Log.log(f"GRADE on {guild_id} user {user_id} [+] {old_grade} -> {highest_grade}")
-            Log.log("Checked user grade")
-        except Exception as e:
-            Log.warn("Failed to check user grade")
-            Log.warn(e)
-            return
-
 
     @commands.Cog.listener()
     async def resetRateDaly(self):
