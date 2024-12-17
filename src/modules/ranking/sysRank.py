@@ -22,8 +22,10 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def resetRateDaly(self):
         try:
-            Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
-            Log.log(f"RATE LIMIT RESET")
+            current_time = datetime.datetime.now().time()
+            if current_time.hour == 0 and current_time.minute == 0:
+                Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
+                Log.log(f"RATE LIMIT RESET")
         except Exception as e:
             Log.warn("Failed to reset rate limit")
             Log.warn(e)
