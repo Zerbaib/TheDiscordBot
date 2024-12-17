@@ -3,6 +3,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.data.var import *
 
 
 class Rank(commands.Cog):
@@ -23,15 +24,23 @@ class Rank(commands.Cog):
 
             xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
             level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+            grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+
+            liaison_name = tableLiaison.get(grade)
+            if liaison_name:
+                emoji_id = rankGradeEmoji.get(liaison_name)
+            else:
+                Log.warn(f"Failed to get emoji id {grade}")
 
             nextLevelXP = 5 * (level ** 2) + 10 * level + 10
-            message = f"Your rank is level `{level}` with `{xp}` XP ```{xp}/{nextLevelXP} XP```"
+            mess = f"Your grade is **{grade}** \nwith `{xp}` XP and `{level}` level\nNext level at {xp}/{nextLevelXP} XP"
 
             embed = disnake.Embed(
                 title="📊 Rank",
-                description=message,
+                description=mess,
                 color=disnake.Color.blurple()
-                )
+            )
+            embed.set_thumbnail(url=disnake.file.File(f"./img/{liaison_name}.png"))
             await ctx.send(embed=embed)
         except Exception as e:
             embed = error(e)
