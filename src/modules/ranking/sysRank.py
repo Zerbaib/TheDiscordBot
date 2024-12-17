@@ -85,7 +85,7 @@ class sysRank(commands.Cog):
                         else:
                             Log.warn(f"Failed to get emoji id {highest_grade}")
 
-                        mess = f"Congratulations {user.mention} :fire:, you have been promoted to grade **{highest_grade}** <:{liaison_name}:{emoji_id}> !"
+                        mess = f"Congratulations {user.mention} :fire:, you have been promoted to grade **{highest_grade}** <:{liaison_name}:{emoji_id}:> !"
                         await message.channel.send(mess, delete_after=10)
                         Log.log(f"GRADE on {guild.id} user {user.id} [+] {oldGrade} -> {highest_grade}")
 
