@@ -39,6 +39,7 @@ class sysRank(commands.Cog):
                 if highest_grade and old_grade != highest_grade:
                     Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user_id} AND guildID = {guild_id}")
                     Log.log(f"GRADE on {guild_id} user {user_id} [+] {old_grade} -> {highest_grade}")
+            Log.log("Checked user grade")
         except Exception as e:
             Log.warn("Failed to check user grade")
             Log.warn(e)
