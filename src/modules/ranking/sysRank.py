@@ -23,7 +23,7 @@ class sysRank(commands.Cog):
     async def resetRateDaly(self):
         try:
             current_time = datetime.datetime.now().time()
-            if current_time.hour == 0 and current_time.minute == 0:
+            if current_time.hour == 12 and current_time.minute == 30:
                 Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
                 Log.log(f"RATE LIMIT RESET")
         except Exception as e:
