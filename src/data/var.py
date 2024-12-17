@@ -73,7 +73,7 @@ class Version():
 rateLimitXpDaily = 300
 
 rankGrade = {
-    "Bronze I": 100,
+    "Bronze I": 10,
     "Bronze II": 150,
     "Bronze III": 200,
     "Silver I": 275,
