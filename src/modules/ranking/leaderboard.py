@@ -42,7 +42,7 @@ class Leaderboard(commands.Cog):
                     else:
                         Log.warn(f"Failed to get emoji id {grade}")
 
-                    embed.add_field(name=f"{i+1}. <:{liaison_name}:{emoji_id}:> {user.display_name}", value=f"Level `{level}` with `{xp}` XP", inline=False)
+                    embed.add_field(name=f"{i+1}. <:{liaison_name}:{emoji_id}> {user.display_name}", value=f"Level `{level}` with `{xp}` XP", inline=False)
                 except Exception as e:
                     Log.warn("Failed to fetch user")
                     Log.warn(e)
