@@ -1,3 +1,4 @@
+import datetime
 import random
 
 import disnake
@@ -5,6 +6,7 @@ from disnake.ext import commands
 from src.data.var import *
 from src.utils.logger import Log
 from src.utils.saver import Saver
+import datetime
 
 
 class sysRank(commands.Cog):
@@ -14,6 +16,18 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         Log.info("🧰 Ranking system has been loaded")
+        self.bot.loop.create_task(self.delete_temporary_channels())
+        pass
+
+    @commands.Cog.listener()
+    async def resetRateDaly(self):
+        try:
+            Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
+            Log.log(f"RATE LIMIT RESET")
+        except Exception as e:
+            Log.warn("Failed to reset rate limit")
+            Log.warn(e)
+            return
 
     @commands.Cog.listener()
     async def on_message(self, message):

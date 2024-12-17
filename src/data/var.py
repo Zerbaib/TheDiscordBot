@@ -70,7 +70,7 @@ class Version():
             Log.warn(e)
             return
 
-rateLimitXpDaily = 400
+rateLimitXpDaily = 300
 
 rankGrade = {
     "Bronze I": 100,
