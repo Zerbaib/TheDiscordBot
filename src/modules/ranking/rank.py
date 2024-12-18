@@ -37,11 +37,21 @@ class Rank(commands.Cog):
             else:
                 Log.warn(f"Failed to get emoji id {grade}")
 
+            progress_bar = ""
+            
+            actualGrade = grade
+            nextGrade = list(rankGrade.keys())[list(rankGrade.keys()).index(grade) + 1] if grade in rankGrade else None
+            actualGradeXp = rankGrade[actualGrade]
+            nextGradeXp = rankGrade[nextGrade] if nextGrade else None
+            if nextGradeXp:
+                progress = (xp - actualGradeXp) / (nextGradeXp - actualGradeXp)
+                progress_bar = "█" * int(progress * 20) + "░" * (20 - int(progress * 20))
+            else:
+                progress_bar = "█" * 20
+
             nextLevelXP = 5 * (level ** 2) + 10 * level + 10
-            mess = f"Your grade is **{grade}**\n"
-            progress = int((xp / nextLevelXP) * 20)
-            progress_bar = '█' * progress + '░' * (20 - progress)
-            mess += f"Progress to next grade:\n[{progress_bar}] {progress * 5}%\n\n"
+            mess = f"Your grade is **{grade}**"
+            mess += f"\n\n[{progress_bar}] {round(progress*100)}%\n\n"
             mess += f"with ``{xp}`` XP and ``{level}`` level\nNext level at ```{xp}/{nextLevelXP} XP```"
 
             embed = disnake.Embed(
