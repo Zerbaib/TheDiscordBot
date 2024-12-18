@@ -16,6 +16,7 @@ rankWallpaperFinishedFile = f"{imgFolder}wallpaper_finished.png"
 logFile = f"{logFolder}.log"
 
 coinEarn = 100
+rateLimitXpDaily = 300
 
 class Color():
     reset = "\033[0m"
@@ -23,7 +24,6 @@ class Color():
     orange = "\033[33m"
     green = "\033[32m"
     blue = "\033[34m"
-
 def load_config():
     try:
         with open(configFile, 'r') as f:
@@ -45,14 +45,12 @@ def load_ownerID():
     except Exception as e:
         print(e)
         return None
-
 class Git():
     from subprocess import check_output
     link = "https://github.com"
     rawLink = "https://raw.githubusercontent.com"
     branch = f"/{check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode().strip()}"
     repos = "/Zerbaib/TheDiscordBot"
-
 class Version():
     fileName = "version"
     localVersionFile = f"./{fileName}"
@@ -75,8 +73,6 @@ class Version():
             Log.warn("Can't open online version")
             Log.warn(e)
             return
-
-rateLimitXpDaily = 300
 
 rankGrade = {
     "Bronze I": 10,
