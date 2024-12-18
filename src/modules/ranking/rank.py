@@ -53,7 +53,7 @@ class Rank(commands.Cog):
             nextLevelXP = 5 * (level ** 2) + 10 * level + 10
             mess = f"Your grade is **{grade}**"
             mess += f"\n\n[{progress_bar}] {round(progress*100)}%\n\n"
-            mess += f"with ``{xp}`` XP and ``{level}`` level\nNext level at ```{xp}/{nextLevelXP} XP```"
+            mess += f"with ``{xp}`` XP and ``{level}`` level"
 
             embed = disnake.Embed(
                 title="📊 Rank Information 📊",
