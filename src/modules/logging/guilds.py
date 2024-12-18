@@ -3,6 +3,7 @@ from disnake.ext import commands
 from src.data.var import *
 from src.utils.logger import Log
 
+
 class Server(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
