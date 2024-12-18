@@ -86,7 +86,6 @@ class sysRank(commands.Cog):
                     Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
                     Log.log(f"RATE LIMIT RESET")
                     pass
-                await asyncio.sleep(10)
         except Exception as e:
             Log.warn("Failed to reset rate limit")
             Log.warn(e)
