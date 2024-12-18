@@ -119,8 +119,10 @@ class sysRank(commands.Cog):
                 Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {user.id} AND guildID = {guild.id}")
                 if rate <= 0:
                     rate = 0
+                    Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {user.id} AND guildID = {guild.id}")
                     Log.log(f"RATE LIMIT on {guild.id} user {user.id} [+] {oldRate} -> {rate}")
                     return
+
 
                 newXP = oldXP + xpWin
 
