@@ -38,10 +38,10 @@ class Rank(commands.Cog):
                 Log.warn(f"Failed to get emoji id {grade}")
 
             nextLevelXP = 5 * (level ** 2) + 10 * level + 10
-            mess = f"Your grade is **{grade}**\n\n"
+            mess = f"Your grade is **{grade}**\n"
             progress = int((xp / nextLevelXP) * 20)
             progress_bar = '█' * progress + '░' * (20 - progress)
-            mess += f"Progress to next grade: [{progress_bar}] {progress * 5}%\n"
+            mess += f"Progress to next grade:\n[{progress_bar}] {progress * 5}%\n\n"
             mess += f"with ``{xp}`` XP and ``{level}`` level\nNext level at ```{xp}/{nextLevelXP} XP```"
 
             embed = disnake.Embed(
