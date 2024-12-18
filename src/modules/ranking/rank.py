@@ -17,16 +17,17 @@ class Rank(commands.Cog):
         Log.info('🔩 /rank has been loaded')
 
     @commands.slash_command(name="rank", description="Check your rank")
-    async def rank(self, ctx):
+    async def rank(self, ctx, member: disnake.Member = None):
         try:
-            user = ctx.author
-            userID = user.id
+            if member:
+                user = member
+            else:
+                user = ctx.author
             guild = ctx.guild
-            guildID = guild.id
 
-            xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
-            level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
-            grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+            xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+            level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+            grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
 
             with open(emojiFile, 'r') as f:
                 rankGradeEmoji = load(f)
@@ -38,7 +39,7 @@ class Rank(commands.Cog):
                 Log.warn(f"Failed to get emoji id {grade}")
 
             progress_bar = ""
-            
+
             actualGrade = grade
             nextGrade = list(rankGrade.keys())[list(rankGrade.keys()).index(grade) + 1] if grade in rankGrade else None
             actualGradeXp = rankGrade[actualGrade]
