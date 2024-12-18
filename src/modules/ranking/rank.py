@@ -6,7 +6,6 @@ from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
-import json
 import os
 from io import BytesIO
 from PIL import Image, ImageChops, ImageDraw, ImageFont
@@ -111,7 +110,7 @@ class Rank(commands.Cog):
             background.save(rankWallpaperFinishedFile)
 
             await ctx.send(file=disnake.File(rankWallpaperFinishedFile))
-            
+
             try:
                 os.remove(rankWallpaperFinishedFile)
             except Exception as e:
