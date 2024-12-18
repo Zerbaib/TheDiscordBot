@@ -2,12 +2,15 @@ configFolder = "./config/"
 cogsFolder = "./src/modules/"
 logFolder = "./logs/"
 dataFolder = "./src/data/"
+imgFolder = "./img/"
 
 dbInstructionsFile = f"{dataFolder}structure.sql"
 
 dbFile = f"{dataFolder}bdd.db"
 configFile = f"{configFolder}config.json"
 emojiFile = f"{configFolder}emojis.json"
+rankWallpaperFile = f"{imgFolder}wallpaper.png"
+rankWallpaperFinishedFile = f"{imgFolder}wallpaper_finished.png"
 logFile = f"{logFolder}.log"
 
 coinEarn = 100

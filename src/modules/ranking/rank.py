@@ -6,11 +6,26 @@ from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+import json
+import os
+from io import BytesIO
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 
 class Rank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    def circle(self, pfp, size=(125, 125)):
+        pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
+        bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
+        mask = Image.new('L', bigsize, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.ellipse((0, 0) + bigsize, fill=255)
+        mask = mask.resize(pfp.size, Image.LANCZOS)
+        mask = ImageChops.darker(mask, pfp.split()[-1])
+        pfp.putalpha(mask)
+        return pfp
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -24,45 +39,84 @@ class Rank(commands.Cog):
             else:
                 user = ctx.author
             guild = ctx.guild
-
-            xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-            level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-            grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-
-            with open(emojiFile, 'r') as f:
-                rankGradeEmoji = load(f)
-
+            name = user.display_name
+            progress=0
+            progress_bar = ""
+            try:
+                xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+            except IndexError:
+                embed = disnake.Embed(
+                    title="📊 Rank Information 📊",
+                    description=f"User {user.mention} is not ranked yet",
+                    color=disnake.Color.blurple()
+                )
+                Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({user.id}, {guild.id}, 0, 0)")
+                await ctx.send(embed=embed)
+                return
             liaison_name = tableLiaison.get(grade)
-            if liaison_name:
-                emoji_id = rankGradeEmoji.get(liaison_name)
-            else:
+            if not liaison_name:
                 Log.warn(f"Failed to get emoji id {grade}")
 
-            progress_bar = ""
-
             actualGrade = grade
+            if actualGrade is None:
+                actualGrade = list(rankGrade.keys())[0]
             nextGrade = list(rankGrade.keys())[list(rankGrade.keys()).index(grade) + 1] if grade in rankGrade else None
             actualGradeXp = rankGrade[actualGrade]
             nextGradeXp = rankGrade[nextGrade] if nextGrade else None
             if nextGradeXp:
                 progress = (xp - actualGradeXp) / (nextGradeXp - actualGradeXp)
+                if not progress:
+                    progress = 0
                 progress_bar = "█" * int(progress * 20) + "░" * (20 - int(progress * 20))
             else:
                 progress_bar = "█" * 20
 
-            nextLevelXP = 5 * (level ** 2) + 10 * level + 10
-            mess = f"Your grade is **{grade}**"
-            mess += f"\n\n[{progress_bar}] {round(progress*100)}%\n\n"
-            mess += f"with ``{xp}`` XP and ``{level}`` level"
+            background = Image.open(rankWallpaperFile)
+            asset = user.display_avatar.with_size(1024)
+            data = BytesIO(await asset.read())
+            pfp = Image.open(data).convert("RGBA")
+            pfp = self.circle(pfp)
 
-            embed = disnake.Embed(
-                title="📊 Rank Information 📊",
-                description=mess,
-                color=disnake.Color.blurple()
-            )
-            imageFileLink = disnake.File(f"./img/{liaison_name}.png")
-            embed.set_thumbnail(file=imageFileLink)
-            await ctx.send(embed=embed)
+            if liaison_name is not None:
+                imageFilePath = f"{imgFolder}icon/{liaison_name}.png"
+                icon = Image.open(imageFilePath)
+                icon = icon.resize((250, 250)).convert("RGBA")
+                background.paste(icon, (300, 90), icon)
+
+                draw = ImageDraw.Draw(background)
+                font = ImageFont.truetype("arialbd.ttf", 24)
+                text = grade
+                draw.text((370, 380), text, font=font, fill="#3d403e")
+
+            text_overlay = Image.new('RGBA', background.size, (255, 255, 255, 0))
+            overlay_draw = ImageDraw.Draw(text_overlay)
+            textLvl = f"Level {level}"
+            textXp = f"XP {xp}"
+            font = ImageFont.truetype("arialbd.ttf", 28)
+            overlay_draw.text((25, 25), name, font=font, fill=(87, 86, 84, 128))
+            font = ImageFont.truetype("arialbd.ttf", 24)
+            overlay_draw.text((30, 50), textLvl, font=font, fill=(87, 86, 84, 128))
+            overlay_draw.text((30, 75), textXp, font=font, fill=(87, 86, 84, 128))
+
+            background = Image.alpha_composite(background.convert('RGBA'), text_overlay)
+
+            font = ImageFont.truetype("arialbd.ttf", 20)
+            draw = ImageDraw.Draw(background)
+            text = f"[{progress_bar}] {round(progress*100)}%"
+            draw.text((266, 340), text, font=font, fill="#3d403e")
+
+            background.paste(pfp, (700, 30), pfp)
+            background.save(rankWallpaperFinishedFile)
+
+            await ctx.send(file=disnake.File(rankWallpaperFinishedFile))
+            
+            try:
+                os.remove(rankWallpaperFinishedFile)
+            except Exception as e:
+                Log.error("Failed to remove rankWallpaperFinishedFile")
+                Log.error(e)
         except Exception as e:
             embed = error(e)
             Log.error("Failed to execute /rank")
