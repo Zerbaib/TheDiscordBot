@@ -1,14 +1,13 @@
-from json import load
+import os
+from io import BytesIO
 
 import disnake
 from disnake.ext import commands
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
-import os
-from io import BytesIO
-from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 
 class Rank(commands.Cog):
