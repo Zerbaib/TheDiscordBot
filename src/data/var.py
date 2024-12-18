@@ -75,7 +75,7 @@ class Version():
             return
 
 rankGrade = {
-    "Bronze I": 10,
+    "Bronze I": 0,
     "Bronze II": 150,
     "Bronze III": 300,
     "Silver I": 375,
