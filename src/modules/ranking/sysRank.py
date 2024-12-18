@@ -34,8 +34,9 @@ class sysRank(commands.Cog):
                 Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily} WHERE userID = {member.id} AND guildID = {guild.id}")
                 oldRate = rateLimitXpDaily
             while True:
-                rate = oldRate - 5
+                oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]
                 xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]
+                rate = oldRate - 5
                 newXP = xp + 5
                 Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {member.id} AND guildID = {guild.id}")
                 Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {member.id} AND guildID = {guild.id}")
