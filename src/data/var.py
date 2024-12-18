@@ -2,10 +2,12 @@ configFolder = "./config/"
 cogsFolder = "./src/modules/"
 logFolder = "./logs/"
 dataFolder = "./src/data/"
-imgFolder = "./img/"
+assetsFolder = "./assets/"
+imgFolder = f"{assetsFolder}img/"
 
 dbInstructionsFile = f"{dataFolder}structure.sql"
 
+policeFile = f"{assetsFolder}arialbd.ttf"
 dbFile = f"{dataFolder}bdd.db"
 configFile = f"{configFolder}config.json"
 emojiFile = f"{configFolder}emojis.json"

@@ -84,7 +84,7 @@ class Rank(commands.Cog):
                 background.paste(icon, (300, 90), icon)
 
                 draw = ImageDraw.Draw(background)
-                font = ImageFont.truetype("arialbd.ttf", 24)
+                font = ImageFont.truetype(policeFile, 24)
                 text = grade
                 draw.text((370, 380), text, font=font, fill="#3d403e")
 
@@ -92,15 +92,15 @@ class Rank(commands.Cog):
             overlay_draw = ImageDraw.Draw(text_overlay)
             textLvl = f"Level {level}"
             textXp = f"XP {xp}"
-            font = ImageFont.truetype("arialbd.ttf", 28)
+            font = ImageFont.truetype(policeFile, 28)
             overlay_draw.text((25, 25), name, font=font, fill=(87, 86, 84, 128))
-            font = ImageFont.truetype("arialbd.ttf", 24)
+            font = ImageFont.truetype(policeFile, 24)
             overlay_draw.text((30, 50), textLvl, font=font, fill=(87, 86, 84, 128))
             overlay_draw.text((30, 75), textXp, font=font, fill=(87, 86, 84, 128))
 
             background = Image.alpha_composite(background.convert('RGBA'), text_overlay)
 
-            font = ImageFont.truetype("arialbd.ttf", 20)
+            font = ImageFont.truetype(policeFile, 20)
             draw = ImageDraw.Draw(background)
             text = f"[{progress_bar}] {round(progress*100)}%"
             draw.text((266, 340), text, font=font, fill="#3d403e")
