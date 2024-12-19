@@ -84,7 +84,8 @@ class sysRank(commands.Cog):
                 await asyncio.sleep(50)
                 current_time = datetime.datetime.now().time()
                 print(current_time)
-                if current_time.hour == 23 and current_time.minute == 10:
+                print(current_time.hour, current_time.minute) 
+                if current_time.hour == 23 and current_time.minute == 13:
                     Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
                     Log.log(f"RATE LIMIT RESET")
                     pass
