@@ -38,8 +38,14 @@ class sysRank(commands.Cog):
                 xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]
                 rate = oldRate - 5
                 newXP = xp + 5
-                Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {member.id} AND guildID = {guild.id}")
                 Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {member.id} AND guildID = {guild.id}")
+
+                if rate <= 0:
+                    rate = 0
+                    Log.log(f"RATE LIMIT on {guild.id} user {member.id} [+] {oldRate} -> {rate}")
+                    break
+
+                Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {member.id} AND guildID = {guild.id}")
 
                 highest_grade = None
                 for grade, value in rankGrade.items():
@@ -62,11 +68,6 @@ class sysRank(commands.Cog):
                         mess = f"Congratulations {member.mention} :fire:, you have been promoted to grade **{highest_grade}** <:{liaison_name}:{emoji_id}> ! in {guild.name}."
                         await member.send(mess)
                         Log.log(f"GRADE on {guild.id} user {member.id} [+] {oldGrade} -> {highest_grade}")
-
-                if rate <= 0:
-                    rate = 0
-                    Log.log(f"RATE LIMIT on {guild.id} user {member.id} [+] {oldRate} -> {rate}")
-                    break
                 Log.log(f"XP on {guild.id} user {member.id} [+] 5 -> {newXP}")
                 await asyncio.sleep(60)
                 if member.voice is None:
