@@ -85,7 +85,7 @@ class sysRank(commands.Cog):
                 current_time = datetime.datetime.now().time()
                 print(current_time)
                 print(current_time.hour, current_time.minute) 
-                if current_time.hour == 23 and current_time.minute == 13:
+                if current_time.hour == 00 and current_time.minute == 13:
                     Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
                     Log.log(f"RATE LIMIT RESET")
                     pass
