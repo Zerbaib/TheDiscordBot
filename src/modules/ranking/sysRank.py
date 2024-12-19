@@ -82,12 +82,12 @@ class sysRank(commands.Cog):
         try:
             await self.bot.wait_until_ready()
             while not self.bot.is_closed():
+                await asyncio.sleep(50)
                 current_time = datetime.datetime.now().time()
-                if current_time.hour == 00 and current_time.minute == 00:
+                if current_time.hour == 23 and current_time.minute == 00:
                     Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
                     Log.log(f"RATE LIMIT RESET")
                     pass
-                await asyncio.sleep(10)
         except Exception as e:
             Log.warn("Failed to reset rate limit")
             Log.warn(e)
