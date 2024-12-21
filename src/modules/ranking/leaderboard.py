@@ -36,9 +36,10 @@ class Leaderboard(commands.Cog):
                     user = await self.bot.fetch_user(int(userData[0]))
                     presision = [f"userID = {userData[0]}", f"guildID = {guild.id}"]
 
-                    xp = Saver.fetch(self.dataTable, presision, "xp")[0][0]
-                    level = Saver.fetch(self.dataTable, presision, "level")[0][0]
-                    grade = Saver.fetch(self.dataTable, presision, "grade")[0][0]
+                    usrData = Saver.fetch(self.dataTable, presision, ["xp", "level", "grade"])[0]
+                    xp = usrData[0]
+                    level = usrData[1]
+                    grade = usrData[2]
 
                     with open(emojiFile, 'r') as f:
                         rankGradeEmoji = load(f)

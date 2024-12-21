@@ -87,6 +87,8 @@ class Saver():
             exit()
     def fetch(dataTable, presision, dataFetch = "*"):
         try:
+            if type(dataFetch) == list:
+                dataFetch = ", ".join(dataFetch)
             query = f"SELECT {dataFetch} FROM {dataTable}"
             if presision:
                 query += f" WHERE"
