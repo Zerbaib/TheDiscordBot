@@ -29,10 +29,18 @@ class Show(commands.Cog):
                 )
                 return await ctx.send(embed=embed, ephemeral=True)
 
-            if not Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}"):
-                Saver.save(f"INSERT INTO guilds (guild_id, ticket_category, support_role, welcome_channel, leave_channel) VALUES ({guild.id}, 0, 0, 0, 0)")
+            if not Saver.fetch("guilds", [f"guild_id = {guild.id}"]):
+                data = {
+                    "guild_id": guild.id,
+                    "ticket_category": 0,
+                    "support_role": 0,
+                    "welcome_channel": 0,
+                    "leave_channel": 0,
+                    "voice_table_channel": 0
+                }
+                Saver.save("guilds", data)
 
-            config = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild.id}")[0]
+            config = Saver.fetch("guilds", [f"guild_id = {guild.id}"])[0]
 
             server_name = guild.name
             ticket_category = guild.get_channel(config[keys_values["ticket_category"]]).name if config[keys_values["ticket_category"]] and guild.get_channel(config[keys_values["ticket_category"]]) else 'None'

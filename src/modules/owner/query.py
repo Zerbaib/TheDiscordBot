@@ -19,7 +19,7 @@ class Query(commands.Cog):
     async def query(self, ctx, request: str):
         try:
             query = request
-            result = Saver.fetch(query)
+            result = Saver.query(query)
             embed = disnake.Embed(
                 title="🔍 Query",
                 description=f"```{result}```" if result else "No results found.",
