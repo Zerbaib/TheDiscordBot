@@ -43,6 +43,8 @@ class Rank(commands.Cog):
             progress_bar = ""
             presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
             try:
+                usrData = Saver.fetch(self.dataTable, presision, ["xp", "level", "grade"])[0]
+                print(usrData)
                 xp = Saver.fetch(self.dataTable, presision, "xp")[0][0]
                 level = Saver.fetch(self.dataTable, presision, "level")[0][0]
                 grade = Saver.fetch(self.dataTable, presision, "grade")[0][0]
