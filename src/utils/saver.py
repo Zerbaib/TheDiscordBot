@@ -131,6 +131,31 @@ class Saver():
             Log.error("Failed to save data")
             Log.error(e)
             return
+    
+    def update(dataTable, presision, data):
+        try:
+            query = f"UPDATE {dataTable} SET"
+            for item in data:
+                if data[item] == str(data[item]):
+                    query += f" {item} = '{data[item]}',"
+                else:
+                    query += f" {item} = {data[item]},"
+            query = query[:-1]
+            query += " WHERE"
+            for item in presision:
+                query += f" {item} AND"
+            query = query[:-4]
+            Log.sql(query)
+
+            cur, conn = connectDB()
+            cur.execute(query)
+            conn.commit()
+            cur.close()
+            conn.close()
+        except Exception as e:
+            Log.error("Failed to update data")
+            Log.error(e)
+            return
 
     def close(self):
         self.conn.close()

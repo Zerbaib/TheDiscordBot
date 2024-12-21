@@ -25,8 +25,9 @@ class sysRank(commands.Cog):
     async def on_voice_state_update(self, member, before, after):
         try:
             guild = member.guild
+            presision = [f"guildID = {guild.id}", f"userID = {member.id}"]
 
-            if not Saver.fetch(self.dataTables, [f"guildID = {guild.id}", f"userID = {member.id}"]):
+            if not Saver.fetch(self.dataTables, presision):
                 data = {
                     "guildID": guild.id,
                     "userID": member.id,
@@ -37,32 +38,35 @@ class sysRank(commands.Cog):
                 Saver.save(self.dataTables, data)
                 pass
 
-            oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]
+            oldRate = Saver.fetch(self.dataTables, presision, "rate")[0][0]
             if oldRate == None:
-                Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily} WHERE userID = {member.id} AND guildID = {guild.id}")
+                Saver.update(self.dataTables, presision, {"rate": rateLimitXpDaily})
                 oldRate = rateLimitXpDaily
             while True:
-                oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]
-                xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]
+                oldRate = Saver.fetch(self.dataTables, presision, "rate")[0][0]
+                xp = Saver.fetch(self.dataTables, presision, "xp")[0][0]
                 rate = oldRate - 5
                 newXP = xp + 5
-                Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {member.id} AND guildID = {guild.id}")
+                Saver.update(self.dataTables, presision, {"rate": rate})
 
                 if rate <= 0:
                     rate = 0
+                    Saver.update(self.dataTables, presision, {"rate": rate})
                     Log.log(f"RATE LIMIT on {guild.id} user {member.id} [+] {oldRate} -> {rate}")
                     break
-
-                Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {member.id} AND guildID = {guild.id}")
+                else:
+                    Saver.update(self.dataTables, presision, {"xp": newXP})
+                    Log.log(f"XP on {guild.id} user {member.id} [+] 5 -> {newXP}")
+                    pass
 
                 highest_grade = None
                 for grade, value in rankGrade.items():
                     if newXP >= value:
                         highest_grade = grade
                 if highest_grade:
-                    oldGrade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]
+                    oldGrade = Saver.fetch(self.dataTables, presision, "grade")[0][0]
                     if oldGrade != highest_grade:
-                        Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {member.id} AND guildID = {guild.id}")
+                        Saver.update(self.dataTables, presision, {"grade": highest_grade})
 
                         with open(emojiFile, 'r') as f:
                             rankGradeEmoji = load(f)
@@ -76,7 +80,6 @@ class sysRank(commands.Cog):
                         mess = f"Congratulations {member.mention} :fire:, you have been promoted to grade **{highest_grade}** <:{liaison_name}:{emoji_id}> ! in {guild.name}."
                         await member.send(mess)
                         Log.log(f"GRADE on {guild.id} user {member.id} [+] {oldGrade} -> {highest_grade}")
-                Log.log(f"XP on {guild.id} user {member.id} [+] 5 -> {newXP}")
                 await asyncio.sleep(60)
                 if member.voice is None:
                     break

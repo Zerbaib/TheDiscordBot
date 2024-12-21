@@ -19,7 +19,7 @@ class CustomVoiceCog(commands.Cog):
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         try:
-            target_channel = Saver.fetch(f"SELECT voice_table_channel FROM guilds WHERE guild_id = {member.guild.id}")[0][0]
+            target_channel = Saver.fetch("guilds", [f"guild_id = {member.guild.id}"], "voice_table_channel")[0][0]
         except IndexError:
             return
         channel = self.bot.get_channel(int(target_channel))
