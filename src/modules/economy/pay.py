@@ -1,7 +1,6 @@
 import disnake
 from disnake.ext import commands
 from src.data.var import *
-from src.modules.economy.earn import Earn
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -10,6 +9,7 @@ from src.utils.saver import Saver
 class Pay(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "economy"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -19,9 +19,8 @@ class Pay(commands.Cog):
     async def pay(self, ctx, user: disnake.User, amount: int):
         try:
             userS = ctx.author
-            userSID = userS.id
             guild = ctx.guild
-            guildID = guild.id
+            presision = [f"userID = {userS.id}", f"guildID = {guild.id}"]
 
             if userS == user:
                 embed = disnake.Embed(
@@ -39,20 +38,26 @@ class Pay(commands.Cog):
                 )
                 return
 
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userSID} AND guildID = {guildID}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({userSID}, {guildID}, 0, 0)")
+            if not Saver.fetch(self.dataTable, presision, "coins"):
+                data = {
+                    "userID": userS.id,
+                    "guildID": guild.id,
+                    "coins": 0,
+                    "cooldown": 0
+                }
+                Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
                     title="❌ Error",
                     description="You don't have enough coins.",
                     color=disnake.Color.red()
                 )
                 pass
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guildID}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({user.id}, {guildID}, 0, 0)")
+            if not Saver.fetch(self.dataTable, [f"userID = {user.id}", f"guildID = {guild.id}"], "coins"):
+                Saver.save(self.dataTable, {"userID": user.id, "guildID": guild.id, "coins": 0, "cooldown": 0})
                 pass
 
-            userSBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userSID} AND guildID = {guildID}")[0][0]
-            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guildID}")[0][0]
+            userSBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
+            userBal = Saver.fetch(self.dataTable, [f"userID = {user.id}", f"guildID = {guild.id}"], "coins")[0][0]
 
             if userSBal < amount:
                 embed = disnake.Embed(
@@ -64,8 +69,8 @@ class Pay(commands.Cog):
             try:
                 userSBal -= amount
                 userBal += amount
-                Saver.save(f"UPDATE economy SET coins = {userSBal} WHERE userID = {userSID} AND guildID = {guildID}")
-                Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {user.id} AND guildID = {guildID}")
+                Saver.update(self.dataTable, presision, {"coins": userSBal})
+                Saver.update(self.dataTable, [f"userID = {user.id}", f"guildID = {guild.id}"], {"coins": userBal})
 
                 embed = disnake.Embed(
                     title="💸 Paid",
@@ -78,7 +83,7 @@ class Pay(commands.Cog):
                 embed = error(e)
                 return
             await ctx.send(embed=embed)
-            Log.log(f"COINS on {guildID} user {userSID} [{userSBal} - {amount}] to {user.id} -> {userBal}")
+            Log.log(f"COINS on {guild.id} user {userS.id} [{userSBal} - {amount}] to {user.id} -> {userBal}")
         except Exception as e:
             Log.error(e)
             await ctx.send(embed=error("An error occurred."))
