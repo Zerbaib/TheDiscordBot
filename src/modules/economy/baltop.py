@@ -18,7 +18,7 @@ class Baltop(commands.Cog):
     async def baltop(self, ctx):
             try:
                 guildID = ctx.guild.id
-                topUsers = Saver.fetch(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")
+                topUsers = Saver.query(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")
 
                 message = "\n".join([f"**#{i+1}** <@{user[0]}> - **{user[1]}** coins" for i, user in enumerate(topUsers)])
 
