@@ -96,7 +96,7 @@ class sysRank(commands.Cog):
                 await asyncio.sleep(50)
                 current_time = datetime.datetime.now().time()
                 if current_time.hour == 23 and current_time.minute == 00:
-                    Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily}")
+                    Saver.update(f"ranking", None, {"rate": rateLimitXpDaily})
                     Log.log(f"RATE LIMIT RESET")
                     pass
         except Exception as e:
@@ -115,23 +115,31 @@ class sysRank(commands.Cog):
             try:
                 user = message.author
                 guild = message.guild
+                presision = [f"guildID = {guild.id}", f"userID = {user.id}"]
 
-                if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}"):
-                    Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level, rate) VALUES ({user.id}, {guild.id}, 0, 0, {rateLimitXpDaily})")
+                if not Saver.fetch(self.dataTables, presision):
+                    data = {
+                        "guildID": guild.id,
+                        "userID": user.id,
+                        "xp": 0,
+                        "level": 0,
+                        "rate": rateLimitXpDaily
+                    }
+                    Saver.save(self.dataTables, data)
                     pass
 
-                oldXP = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-                oldLevel = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-                oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                oldXP = Saver.fetch(self.dataTables, presision, "xp")[0][0]
+                oldLevel = Saver.fetch(self.dataTables, presision, "level")[0][0]
+                oldRate = Saver.fetch(self.dataTables, presision, "rate")[0][0]
                 if oldRate == None:
-                    Saver.save(f"UPDATE ranking SET rate = {rateLimitXpDaily} WHERE userID = {user.id} AND guildID = {guild.id}")
+                    Saver.update(self.dataTables, presision, {"rate": rateLimitXpDaily})
                     oldRate = rateLimitXpDaily
                 xpWin = random.randint(1, 5)
                 rate = oldRate - xpWin
-                Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {user.id} AND guildID = {guild.id}")
+                Saver.update(self.dataTables, presision, {"rate": rate})
                 if rate <= 0:
                     rate = 0
-                    Saver.save(f"UPDATE ranking SET rate = {rate} WHERE userID = {user.id} AND guildID = {guild.id}")
+                    Saver.update(self.dataTables, presision, {"rate": rate})
                     Log.log(f"RATE LIMIT on {guild.id} user {user.id} [+] {oldRate} -> {rate}")
                     return
 
@@ -145,9 +153,9 @@ class sysRank(commands.Cog):
                     if newXP >= value:
                         highest_grade = grade
                 if highest_grade:
-                    oldGrade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                    oldGrade = Saver.fetch(self.dataTables, presision, "grade")[0][0]
                     if oldGrade != highest_grade:
-                        Saver.save(f"UPDATE ranking SET grade = '{highest_grade}' WHERE userID = {user.id} AND guildID = {guild.id}")
+                        Saver.update(self.dataTables, presision, {"grade": highest_grade})
 
                         with open(emojiFile, 'r') as f:
                             rankGradeEmoji = load(f)
@@ -164,10 +172,10 @@ class sysRank(commands.Cog):
 
                 if newXP > nextLevelXP:
                     newLevel = oldLevel + 1
-                    Saver.save(f"UPDATE ranking SET level = {newLevel} WHERE userID = {user.id} AND guildID = {guild.id}")
+                    Saver.update(self.dataTables, presision, {"level": newLevel})
                     Log.log(f"LEVEL on {guild.id} user {user.id} [+] {oldLevel} -> {newLevel}")
                     pass
-                Saver.save(f"UPDATE ranking SET xp = {newXP} WHERE userID = {user.id} AND guildID = {guild.id}")
+                Saver.update(self.dataTables, presision, {"xp": newXP})
                 Log.log(f"XP on {guild.id} user {user.id} [+] {xpWin} -> {newXP}")
             except Exception as e:
                 Log.warn("Failed to update user xp")

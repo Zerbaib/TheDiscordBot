@@ -85,7 +85,6 @@ class Saver():
             Log.error("Failed to initialize the database")
             Log.error(e)
             exit()
-
     def fetch(dataTable, presision, dataFetch = "*"):
         try:
             query = f"SELECT {dataFetch} FROM {dataTable}"
@@ -107,7 +106,6 @@ class Saver():
             Log.error("Failed to fetch data")
             Log.error(e)
             return
-
     def save(dataTable, data):
         try:
             query = f"INSERT INGORE INTO {dataTable}"
@@ -131,7 +129,6 @@ class Saver():
             Log.error("Failed to save data")
             Log.error(e)
             return
-    
     def update(dataTable, presision, data):
         try:
             query = f"UPDATE {dataTable} SET"
@@ -141,9 +138,10 @@ class Saver():
                 else:
                     query += f" {item} = {data[item]},"
             query = query[:-1]
-            query += " WHERE"
-            for item in presision:
-                query += f" {item} AND"
+            if presision:
+                query += " WHERE"
+                for item in presision:
+                    query += f" {item} AND"
             query = query[:-4]
             Log.sql(query)
 
