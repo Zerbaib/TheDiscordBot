@@ -12,6 +12,7 @@ from src.utils.saver import Saver
 class Dice(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "economy"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -23,6 +24,7 @@ class Dice(commands.Cog):
         try:
             user = ctx.author
             guild = ctx.guild
+            presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
 
             if bet < 1:
                 embed = disnake.Embed(
@@ -32,8 +34,13 @@ class Dice(commands.Cog):
                 )
                 return await ctx.send(embed=embed)
 
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({user.id}, {guild.id}, 0, 0)")
+            if not Saver.fetch(self.dataTable, presision):
+                data = {
+                    "guildID": guild.id,
+                    "userID": user.id,
+                    "coins": 0
+                }
+                Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
                     title="🔩 Economy Account Created",
                     description="You have been registered to the economy system.",
@@ -42,7 +49,7 @@ class Dice(commands.Cog):
                 await ctx.send(embed=embed)
                 return
 
-            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+            userBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
 
             if userBal < bet:
                 embed = disnake.Embed(
@@ -82,7 +89,7 @@ class Dice(commands.Cog):
                 embed.set_image(url="https://media1.tenor.com/m/F1srlDHEYlEAAAAd/luigi-casino.gif")
                 userBal -= bet
 
-            Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {user.id} AND guildID = {guild.id}")
+            Saver.update(self.dataTable, presision, {"coins": userBal})
             time.sleep(2)
 
             embed.set_footer(text=f"User: {user.display_name} | Balance: {userBal} coins")

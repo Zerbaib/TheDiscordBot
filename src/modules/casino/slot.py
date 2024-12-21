@@ -12,6 +12,7 @@ from src.utils.saver import Saver
 class Slot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "economy"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -24,6 +25,7 @@ class Slot(commands.Cog):
             user = ctx.author
             guild = ctx.guild
             slotEmojis = ["🍒", "7️⃣", "💰", "💎", "💵", "💳","💿", "📀", "🎉"]
+            presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
             
             if bet < 1:
                 embed = disnake.Embed(
@@ -32,9 +34,14 @@ class Slot(commands.Cog):
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
-            
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({user.id}, {guild.id}, 0, 0)")
+
+            if not Saver.fetch(self.dataTable, presision):
+                data = {
+                    "guildID": guild.id,
+                    "userID": user.id,
+                    "coins": 0
+                }
+                Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
                     title="🔩 Economy Account Created",
                     description="You have been registered to the economy system.",
@@ -42,9 +49,9 @@ class Slot(commands.Cog):
                 )
                 await ctx.send(embed=embed)
                 return
-            
-            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-            
+
+            userBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
+
             if userBal < bet:
                 embed = disnake.Embed(
                     title="🚫 Insufficient Balance",
@@ -52,13 +59,13 @@ class Slot(commands.Cog):
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
-            
+
             userBal -= bet
-            
+
             slot1 = random.choice(slotEmojis)
             slot2 = random.choice(slotEmojis)
             slot3 = random.choice(slotEmojis)
-            
+
             embed = disnake.Embed(
                 title="🎰 Slot Machine",
                 description=f"It's spinning...",
@@ -66,7 +73,7 @@ class Slot(commands.Cog):
             )
             embed.set_image(url="https://media.tenor.com/exsQ1OPTGKUAAAAi/maquina-traga-monedas.gif")
             await ctx.send(embed=embed, delete_after=2)
-            
+
             if slot1 == slot2 == slot3:
                 multiplier = 10
                 message = f"🎉 You won {bet * multiplier} coins!"
@@ -78,7 +85,7 @@ class Slot(commands.Cog):
             else:
                 message = "🎰 You lost"
             
-            Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {user.id} AND guildID = {guild.id}")
+            Saver.update(self.dataTable, presision, {"coins": userBal})
             
             time.sleep(2)
             
