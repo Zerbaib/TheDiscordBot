@@ -154,6 +154,19 @@ class Saver():
             Log.error("Failed to update data")
             Log.error(e)
             return
+    def query(query):
+        try:
+            Log.sql(query)
+
+            cur, conn = connectDB()
+            cur.execute(query)
+            data = cur.fetchall()
+            conn.close()
+            return data
+        except Exception as e:
+            Log.error("Failed to execute query")
+            Log.error(e)
+            return
 
     def close(self):
         self.conn.close()

@@ -11,6 +11,7 @@ from src.utils.saver import Saver
 class Leaderboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "ranking"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -22,21 +23,22 @@ class Leaderboard(commands.Cog):
         try:
             await inter.response.defer()
             guild = inter.guild
-            guildID = guild.id
 
             embed = disnake.Embed(
                 title=f"📊 Leaderboard",
                 color=disnake.Color.blurple()
                 )
 
-            sortedUser = Saver.fetch(f"SELECT userID FROM ranking WHERE guildID = {str(guildID)} ORDER BY xp DESC")
+            sortedUser = Saver.query(f"SELECT userID FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC")
 
             for i, userData in enumerate(sortedUser[:10]):
                 try:
                     user = await self.bot.fetch_user(int(userData[0]))
-                    xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
-                    level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
-                    grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {userData[0]} AND guildID = {guildID}")[0][0]
+                    presision = [f"userID = {userData[0]}", f"guildID = {guild.id}"]
+
+                    xp = Saver.fetch(self.dataTable, presision, "xp")[0][0]
+                    level = Saver.fetch(self.dataTable, presision, "level")[0][0]
+                    grade = Saver.fetch(self.dataTable, presision, "grade")[0][0]
 
                     with open(emojiFile, 'r') as f:
                         rankGradeEmoji = load(f)
