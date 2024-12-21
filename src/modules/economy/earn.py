@@ -11,6 +11,7 @@ from src.utils.saver import Saver
 class Earn(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "economy"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -21,20 +22,27 @@ class Earn(commands.Cog):
         try:
             user = ctx.author
             guild = ctx.guild
+            presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
 
             coinEarn = 100
 
             try:
-                data = Saver.fetch(f"SELECT * FROM economy WHERE userID = {user.id} AND guildID = {guild.id};")
+                data = Saver.fetch(self.dataTable, presision)
                 if not data:
-                    Saver.save(f"INSERT INTO economy (guildID, userID, coins, cooldown) VALUES ({guild.id}, {user.id}, 0, 0);")
+                    data = {
+                        "userID": user.id,
+                        "guildID": guild.id,
+                        "coins": 0,
+                        "cooldown": 0
+                    }
+                    Saver.save(self.dataTable, data)
                     pass
             except Exception as e:
                 Log.warn("Failed to insert user into economy table")
                 Log.warn(e)
                 return await ctx.send(embed=error(e))
 
-            userData = Saver.fetch(f"SELECT * FROM economy WHERE userID = {user.id} AND guildID = {guild.id};")[0]
+            userData = Saver.fetch(self.dataTable, presision)[0]
             userBal = userData[3]
             userLastEarn = userData[4]
             timeNow = int(datetime.datetime.now().timestamp())
@@ -57,7 +65,7 @@ class Earn(commands.Cog):
             userBal += coinEarn
 
             try:
-                Saver.save(f"UPDATE economy SET coins = {userBal}, cooldown = {timeNow} WHERE userID = {user.id} AND guildID = {guild.id};")
+                Saver.update(self.dataTable, presision, {"coins": userBal, "cooldown": timeNow})
                 embed = disnake.Embed(
                     title="💸 Earn Coins 💸",
                     description=f"You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
