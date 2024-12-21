@@ -86,8 +86,16 @@ class Saver():
             Log.error(e)
             exit()
 
-    def fetch(query):
+    def fetch(dataTable, presision, dataFetch = "*"):
         try:
+            query = f"SELECT {dataFetch} FROM {dataTable}"
+            if presision:
+                query += f" WHERE"
+                for item in presision:
+                    query += f" {item} AND"
+                query = query[:-4]
+            Log.sql(query)
+
             cur, conn = connectDB()
             cur.execute(query)
             data = cur.fetchall()
@@ -100,8 +108,20 @@ class Saver():
             Log.error(e)
             return
 
-    def save(query):
+    def save(dataTable, data):
         try:
+            query = f"INSERT INGORE INTO {dataTable}"
+            query += " ("
+            for item in data:
+                query += f"{item}, "
+            query = query[:-2]
+            query += ") VALUES ("
+            for item in data:
+                query += f"{data[item]}, "
+            query = query[:-2]
+            query += ")"
+            Log.sql(query)
+
             cur, conn = connectDB()
             cur.execute(query)
             conn.commit()

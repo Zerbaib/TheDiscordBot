@@ -13,6 +13,7 @@ from src.utils.saver import Saver
 class sysRank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTables = "ranking"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -25,8 +26,15 @@ class sysRank(commands.Cog):
         try:
             guild = member.guild
 
-            if not Saver.fetch(f"SELECT * FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}"):
-                Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level, rate) VALUES ({member.id}, {guild.id}, 0, 0, {rateLimitXpDaily})")
+            if not Saver.fetch(self.dataTables, [f"guildID = {guild.id}", f"userID = {member.id}"]):
+                data = {
+                    "guildID": guild.id,
+                    "userID": member.id,
+                    "xp": 0,
+                    "level": 0,
+                    "rate": rateLimitXpDaily
+                }
+                Saver.save(self.dataTables, data)
                 pass
 
             oldRate = Saver.fetch(f"SELECT rate FROM ranking WHERE userID = {member.id} AND guildID = {guild.id}")[0][0]

@@ -31,3 +31,8 @@ class Log():
         cat = "[LOG]"
         print(f"{Color.reset}{cat}{Color.reset} {message}")
         write(cat, message)
+
+    def sql(message):
+        cat = "[SQL]"
+        print(f"{Color.blue}{cat}{Color.reset} {message}")
+        write(cat, message)
