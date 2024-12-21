@@ -13,6 +13,7 @@ from src.utils.saver import Saver
 class Rank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "ranking"
 
     def circle(self, pfp, size=(125, 125)):
         pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
@@ -40,17 +41,17 @@ class Rank(commands.Cog):
             name = user.display_name
             progress=0
             progress_bar = ""
+            presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
             try:
-                xp = Saver.fetch(f"SELECT xp FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-                level = Saver.fetch(f"SELECT level FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
-                grade = Saver.fetch(f"SELECT grade FROM ranking WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+                xp = Saver.fetch(self.dataTable, presision, "xp")[0][0]
+                level = Saver.fetch(self.dataTable, presision, "level")[0][0]
+                grade = Saver.fetch(self.dataTable, presision, "grade")[0][0]
             except IndexError:
                 embed = disnake.Embed(
                     title="📊 Rank Information 📊",
                     description=f"User {user.mention} is not ranked yet",
                     color=disnake.Color.blurple()
                 )
-                Saver.save(f"INSERT IGNORE INTO ranking (userID, guildID, xp, level) VALUES ({user.id}, {guild.id}, 0, 0)")
                 await ctx.send(embed=embed)
                 return
             liaison_name = tableLiaison.get(grade)
