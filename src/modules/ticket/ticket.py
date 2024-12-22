@@ -22,7 +22,6 @@ class TicketSystem(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         Log.info('🔩 /ticket has been loaded')
-        continue
 
     @commands.slash_command(name="ticket", description="Open a support ticket")
     async def ticket(self, ctx):
