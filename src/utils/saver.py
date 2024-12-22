@@ -57,9 +57,8 @@ def createDB():
 class Saver():
     def __init__(self):
         self.cursor, self.conn = createDB()
-        table_data = self.initDB()
-        if table_data:
-            display_table(table_data)
+        if self.initDB():
+            display_table(self.initDB())
         else:
             print("| Aucune donnée trouvée |")
 
@@ -107,12 +106,7 @@ class Saver():
                     query += f" {item} AND"
                 query = query[:-4]
             Log.sql(query)
-
-            cur, conn = connectDB()
-            cur.execute(query)
-            data = cur.fetchall()
-            conn.close()
-            return data
+            sql_cur_fetchall(query)
         except Exception as e:
             if "list index out of range" in str(e):
                 Log.warn(e)
@@ -191,21 +185,16 @@ class Saver():
     def query(query):
         """
         Execute a query
-        
+
         Parameters:
             query (str): The query to execute
-            
+
         Returns:
             data (list): The fetched data
         """
         try:
             Log.sql(query)
-
-            cur, conn = connectDB()
-            cur.execute(query)
-            data = cur.fetchall()
-            conn.close()
-            return data
+            sql_cur_fetchall(query)
         except Exception as e:
             Log.error("Failed to execute query")
             Log.error(e)
@@ -213,3 +202,10 @@ class Saver():
 
     def close(self):
         self.conn.close()
+
+def sql_cur_fetchall(query):
+    cur, conn = connectDB()
+    cur.execute(query)
+    data = cur.fetchall()
+    conn.close()
+    return data
