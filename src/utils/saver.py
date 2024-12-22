@@ -86,6 +86,17 @@ class Saver():
             Log.error(e)
             exit()
     def fetch(dataTable, presision, dataFetch = "*"):
+        """
+        Fetch data from the database
+
+        Parameters:
+            dataTable (str): The table to fetch data from
+            presision (dict): The conditions to fetch data
+            dataFetch (list): The data to fetch
+
+        Returns:
+            data (list): The fetched data
+        """
         try:
             if type(dataFetch) == list:
                 dataFetch = ", ".join(dataFetch)
@@ -109,6 +120,16 @@ class Saver():
             Log.error(e)
             return
     def save(dataTable, data):
+        """
+        Save data to the database
+
+        Parameters:
+            dataTable (str): The table to save data to
+            data (dict): The data to save
+
+        Returns:
+            None
+        """
         try:
             query = f"INSERT INTO {dataTable}"
             query += " ("
@@ -132,6 +153,17 @@ class Saver():
             Log.error(e)
             return
     def update(dataTable, presision, data):
+        """
+        Update data in the database
+        
+        Parameters:
+            dataTable (str): The table to update data in
+            presision (dict): The conditions to update data
+            data (dict): The data to update
+        
+        Returns:
+            None
+        """
         try:
             query = f"UPDATE {dataTable} SET"
             for item in data:
@@ -157,6 +189,15 @@ class Saver():
             Log.error(e)
             return
     def query(query):
+        """
+        Execute a query
+        
+        Parameters:
+            query (str): The query to execute
+            
+        Returns:
+            data (list): The fetched data
+        """
         try:
             Log.sql(query)
 
