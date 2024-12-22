@@ -110,7 +110,7 @@ class Saver():
             return
     def save(dataTable, data):
         try:
-            query = f"INSERT INGORE INTO {dataTable}"
+            query = f"INSERT INTO {dataTable}"
             query += " ("
             for item in data:
                 query += f"{item}, "

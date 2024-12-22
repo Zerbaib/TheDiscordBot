@@ -116,8 +116,9 @@ class sysRank(commands.Cog):
                 user = message.author
                 guild = message.guild
                 presision = [f"guildID = {guild.id}", f"userID = {user.id}"]
+                usrData = Saver.fetch(self.dataTables, presision, ["xp", "level", "rate"])
 
-                if not Saver.fetch(self.dataTables, presision):
+                if not usrData:
                     data = {
                         "guildID": guild.id,
                         "userID": user.id,
@@ -126,25 +127,28 @@ class sysRank(commands.Cog):
                         "rate": rateLimitXpDaily
                     }
                     Saver.save(self.dataTables, data)
+                    oldRate = rateLimitXpDaily
+                    oldXP = 0
+                    oldLevel = 0
                     pass
+                else:
+                    oldXP = usrData[0][0]
+                    oldLevel = usrData[0][1]
+                    oldRate = usrData[0][2]
 
-                oldXP = Saver.fetch(self.dataTables, presision, "xp")[0][0]
-                oldLevel = Saver.fetch(self.dataTables, presision, "level")[0][0]
-                oldRate = Saver.fetch(self.dataTables, presision, "rate")[0][0]
                 if oldRate == None:
                     Saver.update(self.dataTables, presision, {"rate": rateLimitXpDaily})
                     oldRate = rateLimitXpDaily
                 xpWin = random.randint(1, 5)
+                newXP = oldXP + xpWin
                 rate = oldRate - xpWin
-                Saver.update(self.dataTables, presision, {"rate": rate})
+                Saver.update(self.dataTables, presision, {"rate": rate, "xp": newXP})
                 if rate <= 0:
                     rate = 0
                     Saver.update(self.dataTables, presision, {"rate": rate})
                     Log.log(f"RATE LIMIT on {guild.id} user {user.id} [+] {oldRate} -> {rate}")
                     return
 
-
-                newXP = oldXP + xpWin
 
                 nextLevelXP = 5 * (oldLevel ** 2) + 10 * oldLevel + 10
 
@@ -175,7 +179,6 @@ class sysRank(commands.Cog):
                     Saver.update(self.dataTables, presision, {"level": newLevel})
                     Log.log(f"LEVEL on {guild.id} user {user.id} [+] {oldLevel} -> {newLevel}")
                     pass
-                Saver.update(self.dataTables, presision, {"xp": newXP})
                 Log.log(f"XP on {guild.id} user {user.id} [+] {xpWin} -> {newXP}")
             except Exception as e:
                 Log.warn("Failed to update user xp")
