@@ -1,13 +1,42 @@
-import sqlite3
-from data.var import *
-from src.utils.logger import Log
+import json
 
-with open(dbInstuctionsFile, 'r') as f:
+import mysql.connector
+from src.data.var import *
+from src.utils.logger import Log
+from tabulate import tabulate
+
+with open(dbInstructionsFile, 'r') as f:
     dbInstructions = f.read()
+with open(configFile, 'r') as f:
+    config = json.load(f)
+    dbUser = config["dbUser"]
+    dbPass = config["dbPass"]
+    dbHost = config["dbHost"]
+    dbPort = int(config["dbPort"])
+    dbName = config["dbName"]
+def display_table(tables):
+    table_data = []
+    for table in tables:
+        table_data.append([table["table"]] + table["columns"])
+
+    # Transpose the table data
+    transposed_data = list(zip(*table_data))
+
+    # Adjust headers to match the transposed data
+    headers = [f"Table {i+1}" for i in range(len(transposed_data[0]))] + ["Table"]
+
+    print(tabulate(transposed_data, headers=headers, tablefmt="grid"))
+
 
 def connectDB():
     try:
-        conn = sqlite3.connect(dbFile)
+        conn = mysql.connector.connect(
+            user=dbUser,
+            password=dbPass,
+            host=dbHost,
+            port=dbPort,
+            database=dbName
+        )
         cur = conn.cursor()
         return cur, conn
     except Exception as e:
@@ -17,66 +46,127 @@ def connectDB():
 
 def createDB():
     try:
-        conn = sqlite3.connect(dbFile)
-        cur = conn.cursor()
-        cur.execute(dbInstructions)
-        conn.commit()
-        conn.close()
+        cur, conn = connectDB()
+        cur.execute(dbInstructions, multi=True)
         return cur, conn
     except Exception as e:
-        Log.error("Failed to initialize database")
+        Log.error("Failed to create database")
         Log.error(e)
         exit()
 
 class Saver():
     def __init__(self):
         self.cursor, self.conn = createDB()
-        self.initDB()
+        table_data = self.initDB()
+        if table_data:
+            display_table(table_data)
+        else:
+            print("| Aucune donnée trouvée |")
 
     def initDB(self):
         try:
             cur, conn = connectDB()
-            cur.execute(dbInstructions)
+
+            cur.execute("SHOW TABLES")
+            tables = [table[0] for table in cur.fetchall()]
+
+            table_data = []
+            for table in tables:
+                cur.execute(f"DESCRIBE {table}")
+                columns = [column[0] for column in cur.fetchall()]
+                table_data.append({"table": table, "columns": columns})
+
             conn.commit()
+            cur.close()
             conn.close()
             Log.info("Database initialized")
+            return table_data
         except Exception as e:
-            Log.error("Failed to initialize database")
+            Log.error("Failed to initialize the database")
             Log.error(e)
             exit()
-
-    def lookup(self, query):
+    def fetch(dataTable, presision, dataFetch = "*"):
         try:
-            cur, conn = connectDB()
-            cur.execute(query)
-            data = cur.fetchone()
-            conn.close()
-            return data
-        except Exception as e:
-            Log.error("Failed to lookup data")
-            Log.error(e)
-            return
+            if type(dataFetch) == list:
+                dataFetch = ", ".join(dataFetch)
+            query = f"SELECT {dataFetch} FROM {dataTable}"
+            if presision:
+                query += f" WHERE"
+                for item in presision:
+                    query += f" {item} AND"
+                query = query[:-4]
+            Log.sql(query)
 
-    def fetch(self, query):
-        try:
             cur, conn = connectDB()
             cur.execute(query)
             data = cur.fetchall()
             conn.close()
             return data
         except Exception as e:
+            if "list index out of range" in str(e):
+                Log.warn(e)
             Log.error("Failed to fetch data")
             Log.error(e)
             return
-
-    def save(self, query):
+    def save(dataTable, data):
         try:
+            query = f"INSERT INTO {dataTable}"
+            query += " ("
+            for item in data:
+                query += f"{item}, "
+            query = query[:-2]
+            query += ") VALUES ("
+            for item in data:
+                query += f"{data[item]}, "
+            query = query[:-2]
+            query += ")"
+            Log.sql(query)
+
             cur, conn = connectDB()
             cur.execute(query)
             conn.commit()
+            cur.close()
             conn.close()
         except Exception as e:
             Log.error("Failed to save data")
+            Log.error(e)
+            return
+    def update(dataTable, presision, data):
+        try:
+            query = f"UPDATE {dataTable} SET"
+            for item in data:
+                if data[item] == str(data[item]):
+                    query += f" {item} = '{data[item]}',"
+                else:
+                    query += f" {item} = {data[item]},"
+            query = query[:-1]
+            if presision:
+                query += " WHERE"
+                for item in presision:
+                    query += f" {item} AND"
+            query = query[:-4]
+            Log.sql(query)
+
+            cur, conn = connectDB()
+            cur.execute(query)
+            conn.commit()
+            cur.close()
+            conn.close()
+        except Exception as e:
+            Log.error("Failed to update data")
+            Log.error(e)
+            return
+    def query(query):
+        try:
+            Log.sql(query)
+
+            cur, conn = connectDB()
+            cur.execute(query)
+            data = cur.fetchall()
+            conn.close()
+            return data
+        except Exception as e:
+            Log.error("Failed to execute query")
             Log.error(e)
             return
 

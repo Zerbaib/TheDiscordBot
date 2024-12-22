@@ -1,5 +1,12 @@
-from data.var import *
 from datetime import datetime
+
+from src.data.var import *
+
+
+def write(cat, message):
+    with open(logFile, 'a', encoding="utf-8") as f:
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        f.write(f"{timestamp} - {cat} - {message}\n")
 
 class Log():
     def __init__(self):
@@ -8,27 +15,24 @@ class Log():
     def error(message):
         cat = "[ERROR]"
         print(f"{Color.red}{cat}{Color.reset} {message}")
-        with open(logFile, 'a') as f:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            f.write(f"{timestamp} - {cat} - {message}\n")
+        write(cat, message)
 
     def warn(message):
-        cat = "[WARN]"
+        cat = "[WARN] "
         print(f"{Color.orange}{cat}{Color.reset} {message}")
-        with open(logFile, 'a') as f:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            f.write(f"{timestamp} - {cat}  - {message}\n")
+        write(cat, message)
 
     def info(message):
-        cat = "[INFO]"
+        cat = "[INFO] "
         print(f"{Color.green}{cat}{Color.reset} {message}")
-        with open(logFile, 'a') as f:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            f.write(f"{timestamp} - {cat}  - {message}\n")
+        write(cat, message)
 
     def log(message):
-        cat = "[LOG]"
+        cat = "[LOG]  "
         print(f"{Color.reset}{cat}{Color.reset} {message}")
-        with open(logFile, 'a') as f:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            f.write(f"{timestamp} - {cat}   - {message}\n")
+        write(cat, message)
+
+    def sql(message):
+        cat = "[SQL]  "
+        print(f"{Color.blue}{cat}{Color.reset} {message}")
+        write(cat, message)

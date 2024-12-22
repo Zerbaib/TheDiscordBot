@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS ranking (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    guildID INTEGER,
-    userID INTEGER,
-    level INTEGER,
-    xp INTEGER
-);

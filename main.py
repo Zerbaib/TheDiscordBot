@@ -1,16 +1,19 @@
+import disnake
 import src.utils.creator
 import src.utils.loader
-from src.utils.logger import Log
-from src.utils.starter import Launch
-import disnake
-from disnake.ext import commands
 import src.utils.starter
-import os
+from disnake.ext import commands
+from src.data.var import load_config, load_ownerID
+from src.utils.logger import Log
+
+t, prefix = load_config()
+ownerID = load_ownerID()
 
 bot = commands.Bot(
-    command_prefix="!",
+    command_prefix=prefix,
     intents=disnake.Intents.all(),
-    case_insensitive=True
+    case_insensitive=True,
+    owner_id=ownerID
 )
 
 class main():
