@@ -106,7 +106,7 @@ class Saver():
                     query += f" {item} AND"
                 query = query[:-4]
             Log.sql(query)
-            sql_cur_fetchall(query)
+            return sql_cur_fetchall(query)
         except Exception as e:
             if "list index out of range" in str(e):
                 Log.warn(e)
@@ -194,7 +194,7 @@ class Saver():
         """
         try:
             Log.sql(query)
-            sql_cur_fetchall(query)
+            return sql_cur_fetchall(query)
         except Exception as e:
             Log.error("Failed to execute query")
             Log.error(e)
