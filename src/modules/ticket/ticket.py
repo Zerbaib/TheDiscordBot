@@ -7,7 +7,7 @@ from src.utils.saver import Saver
 
 def get_guild_config(guild_id):
     try:
-        data = Saver.fetch(f"SELECT * FROM guilds WHERE guild_id = {guild_id}")
+        data = Saver.fetch("guilds", [f"guild_id = {guild_id}"])
         if data:
             return data[0]
         return False
@@ -22,7 +22,6 @@ class TicketSystem(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         Log.info('🔩 /ticket has been loaded')
-        pass
 
     @commands.slash_command(name="ticket", description="Open a support ticket")
     async def ticket(self, ctx):
