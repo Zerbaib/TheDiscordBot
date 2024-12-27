@@ -144,7 +144,7 @@ class Saver():
                 query += " WHERE"
                 for item in presision:
                     query += f" {item} AND"
-            query = query[:-4]
+                query = query[:-4]
             Log.sql(query)
 
             cur, conn = connectDB()
