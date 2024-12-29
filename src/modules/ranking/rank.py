@@ -37,7 +37,7 @@ class Rank(commands.Cog):
                 user = member
             else:
                 user = ctx.author
-            if user == user.bot:
+            if user.bot:
                 embed = disnake.Embed(
                     title="📊 Rank Information 📊",
                     description=f"User {user.mention} is a bot",
