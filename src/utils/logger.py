@@ -6,7 +6,7 @@ from src.data.var import logFile, Color
 def write(cat, message):
     """
     Write log message to log file
-    
+
     Args:
         cat (str): category of the log message
         message (str): log message
