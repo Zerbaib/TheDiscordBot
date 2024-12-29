@@ -2,7 +2,7 @@ import json
 import os
 
 from src.data.var import configFolder, configFile, logFolder, logFile
-from src.utils.logger import *
+from src.utils.logger import Log
 
 class Creator:
     def __init__(self):
