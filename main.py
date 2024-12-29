@@ -6,6 +6,7 @@ from disnake.ext import commands
 from src.data.var import load_config, load_ownerID
 from src.utils.logger import Log
 
+
 t, prefix = load_config()
 ownerID = load_ownerID()
 

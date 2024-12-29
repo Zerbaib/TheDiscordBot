@@ -1,7 +1,7 @@
 import json
 import os
 
-from src.data.var import *
+from src.data.var import configFolder, configFile, logFolder, logFile
 from src.utils.logger import *
 
 class Creator:
@@ -29,13 +29,12 @@ class Creator:
             with open(configFile, 'r') as f:
                 dataConf = json.load(f)
                 pass
-            
-            
+
             missing_or_default_keys = [key for key, default_value in data.items() if key not in dataConf or dataConf[key] == default_value]
             if missing_or_default_keys:
                 Log.warn(f"Missing or default keys in config file: {', '.join(missing_or_default_keys)}")
                 exit()
-            
+
             Log.log("Config file already exists")
             return
         else:
@@ -61,7 +60,7 @@ class Creator:
                 Log.error("Failed to create log folder")
                 Log.error(e)
                 return
-    
+
     def log_file(self):
         if os.path.exists(logFile):
             Log.log("Log file already exists")
