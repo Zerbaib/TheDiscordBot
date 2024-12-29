@@ -19,7 +19,7 @@ class Launch():
             if Version.getLocal() != Version.getOnline():
                 Log.warning("🛑 New version available")
                 Log.warning("🛑 Please update the bot")
-            Log.info('=' * 20)
+            Log.info('=' * 25)
             Log.info(f'🔱 Python Version {platform.python_version()}')
             Log.info(f'🔱 Disnake Version {disnake.__version__}')
             Log.info(f'🔱 Version local: {Version.getLocal()}')
@@ -27,7 +27,7 @@ class Launch():
             Log.info(f'🔱 On {len(self.bot.guilds)} guilds')
             Log.info(f'🔱 Logged in as {self.bot.user} (ID: {self.bot.user.id})')
             Log.info(f'🔱 Connected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}')
-            Log.info('=' * 20)
+            Log.info('=' * 25)
 
     def start(self):
         try:
