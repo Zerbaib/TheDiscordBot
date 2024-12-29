@@ -37,6 +37,13 @@ class Rank(commands.Cog):
                 user = member
             else:
                 user = ctx.author
+            if user == user.bot:
+                embed = disnake.Embed(
+                    title="📊 Rank Information 📊",
+                    description=f"User {user.mention} is a bot",
+                    color=disnake.Color.blurple()
+                )
+                return await ctx.send(embed=embed)
             guild = ctx.guild
             name = user.display_name
             progress=0
