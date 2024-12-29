@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from src.data.var import *
+from src.data.var import logFile, Color
 
 
 def write(cat, message):
@@ -33,7 +33,7 @@ class Log():
     def warn(message):
         """
         Print warning message with orange color
-        
+
         Args:
             message (str): warning message
         """
@@ -44,7 +44,7 @@ class Log():
     def info(message):
         """
         Print info message with green color
-        
+
         Args:
             message (str): info message
         """
@@ -55,7 +55,7 @@ class Log():
     def log(message):
         """
         Print log message with white color
-        
+
         Args:
             message (str): log message
         """
@@ -66,7 +66,7 @@ class Log():
     def sql(message):
         """
         Print sql message with blue color
-        
+
         Args:
             message (str): sql message
         """
