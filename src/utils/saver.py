@@ -1,7 +1,7 @@
 import json
 
 import mysql.connector
-from src.data.var import *
+from src.data.var import configFile, dbInstructionsFile
 from src.utils.logger import Log
 from tabulate import tabulate
 
