@@ -12,6 +12,7 @@ from src.utils.saver import Saver
 class Caster(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "economy"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -24,9 +25,8 @@ class Caster(commands.Cog):
             casesP = ["00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
             choices = ["even", "odd", "red", "black", "00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
             user = ctx.author
-            userID = user.id
             guild = ctx.guild
-            guildID = guild.id
+            presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
 
             if bet < 1:
                 embed = disnake.Embed(
@@ -36,8 +36,13 @@ class Caster(commands.Cog):
                 )
                 return await ctx.send(embed=embed)
 
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({userID}, {guildID}, 0, 0)")
+            if not Saver.fetch(self.dataTable, presision):
+                data = {
+                    "guildID": guild.id,
+                    "userID": user.id,
+                    "coins": 0
+                }
+                Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
                     title="🔩 Economy Account Created",
                     description="You have been registered to the economy system.",
@@ -46,7 +51,7 @@ class Caster(commands.Cog):
                 await ctx.send(embed=embed)
                 return
 
-            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {userID} AND guildID = {guildID}")[0][0]
+            userBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
 
             if userBal < bet:
                 embed = disnake.Embed(
@@ -107,12 +112,12 @@ class Caster(commands.Cog):
                     color=disnake.Color.red()
                 )
                 embed.set_image(url="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHJvejVwNjZscnpteWd2YTlpZWczOXY2MzhmeGVleW5nZ3VkMjBraCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26uflBhaGt5lQsaCA/giphy.gif")
-            Saver.save(f"UPDATE economy SET coins = {userBal} WHERE userID = {userID} AND guildID = {guildID}")
+            Saver.update(self.dataTable, presision, {"coins": userBal})
             time.sleep(4)
 
             embed.set_footer(text=f"User: {user.display_name} | Balance: {userBal} coins")
             await ctx.send(embed=embed)
-            Log.log(f"CASINO on {guildID} user {userID} [{choice}] {result} -> {userBal}")
+            Log.log(f"CASINO on {guild.id} user {user.id} [{choice}] {result} -> {userBal}")
         except Exception as e:
             await ctx.send(embed=error(e))
             Log.error(e)

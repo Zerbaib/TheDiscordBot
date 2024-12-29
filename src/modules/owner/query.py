@@ -4,6 +4,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
+
 class Query(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -18,7 +19,7 @@ class Query(commands.Cog):
     async def query(self, ctx, request: str):
         try:
             query = request
-            result = Saver.fetch(query)
+            result = Saver.query(query)
             embed = disnake.Embed(
                 title="🔍 Query",
                 description=f"```{result}```" if result else "No results found.",

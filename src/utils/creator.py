@@ -1,7 +1,7 @@
 import json
 import os
 
-from src.data.var import configFolder, configFile, logFolder, logFile
+from src.data.var import configFolder, configFile, logFolder, logFile, data, emojiFile, emojisID
 from src.utils.logger import Log
 
 class Creator:
@@ -36,7 +36,7 @@ class Creator:
                 exit()
 
             Log.log("Config file already exists")
-            return
+            pass
         else:
             try:
                 self.config_folder()
@@ -47,6 +47,14 @@ class Creator:
                 Log.error("Failed to create config file")
                 Log.error(e)
                 return
+        if not os.path.exists(emojiFile):
+            try:
+                with open(emojiFile, 'w') as f:
+                    json.dump(emojisID, f, indent=4)
+                Log.info("Emoji file created")
+            except Exception as e:
+                Log.error("Failed to create emoji file")
+                Log.error(e)
 
     def log_folder(self):
         if os.path.exists(logFolder):

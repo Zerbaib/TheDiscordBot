@@ -4,6 +4,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
+
 class Stats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,9 +22,9 @@ class Stats(commands.Cog):
             numberOfUsers = f"``{len(self.bot.users)}``"
             numberOfCommands = f"``{len(self.bot.application_commands)}``"
             
-            numberofUserInRankingDB = f'``{Saver.fetch("SELECT COUNT(*) FROM ranking")[0][0]}``'
-            numberOfUsersInEconomyDB = f'``{Saver.fetch("SELECT COUNT(*) FROM economy")[0][0]}``'
-            numberOfGuildInSettingsDB = f'``{Saver.fetch("SELECT COUNT(*) FROM guilds")[0][0]}``'
+            numberofUserInRankingDB = f'``{Saver.query("SELECT COUNT(*) FROM ranking")[0][0]}``'
+            numberOfUsersInEconomyDB = f'``{Saver.query("SELECT COUNT(*) FROM economy")[0][0]}``'
+            numberOfGuildInSettingsDB = f'``{Saver.query("SELECT COUNT(*) FROM guilds")[0][0]}``'
             
             msg = f"**Guilds:** {numberOfGuilds}\n**Users:** {numberOfUsers}\n**Commands:** {numberOfCommands}\n**Users in Ranking DB:** {numberofUserInRankingDB}\n**Users in Economy DB:** {numberOfUsersInEconomyDB}\n**Guilds in Settings DB:** {numberOfGuildInSettingsDB}"
             

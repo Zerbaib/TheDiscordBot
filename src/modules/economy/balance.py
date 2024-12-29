@@ -3,11 +3,13 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.data.var import data
 
 
 class Balance(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dataTable = "economy"
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -19,12 +21,19 @@ class Balance(commands.Cog):
         try:
             user = ctx.author
             guild = ctx.guild
+            presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
 
-            if not Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}"):
-                Saver.save(f"INSERT INTO economy (userID, guildID, coins, cooldown) VALUES ({user.id}, {guild.id}, 0, 0)")
+            if not Saver.fetch(self.dataTable, presision):
+                data = {
+                    "userID": user.id,
+                    "guildID": guild.id,
+                    "coins": 0,
+                    "cooldown": 0
+                }
+                Saver.save(self.dataTable, data)
                 pass
 
-            userBal = Saver.fetch(f"SELECT coins FROM economy WHERE userID = {user.id} AND guildID = {guild.id}")[0][0]
+            userBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
 
             embed = disnake.Embed(
                 title="💰 Balance 💰",
