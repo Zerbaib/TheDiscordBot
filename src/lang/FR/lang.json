@@ -1,10 +1,10 @@
 {
     "Ranking": {
         "rank": {
-            "title": "📊 Rank Information 📊",
+            "title": "📊 Informations sur le Rang 📊",
             "errors": {
-                "isBot": "User {mention} is a bot",
-                "notRank": "User {mention} is not ranked yet"
+                "isBot": "L'utilisateur {mention} est un bot",
+                "notRank": "L'utilisateur {mention} n'est pas encore classé"
             }
         }
     }

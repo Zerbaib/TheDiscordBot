@@ -4,7 +4,7 @@
             "title": "📊 Rank Information 📊",
             "errors": {
                 "isBot": "User {mention} is a bot",
-                "notRank": "User {mention} has no rank"
+                "notRank": "User {mention} is not ranked yet"
             }
         }
     }
