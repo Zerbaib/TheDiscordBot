@@ -11,5 +11,20 @@
             "title": "📊 Leaderboard 📊",
             "fields": "Level `{level}` with `{xp}` XP"
         }
+    },
+    "Casino": {
+        "casters": {
+            "title": "🎰 Casino 🎰",
+            "description": "You have `{coins}` coins",
+            "footer": "User: {displayName} | Balance: {userBal} coins",
+            "win": {
+                "title": "🎉 You won!",
+                "description": "The result is `{result}`.\nYou won `{win}` coins!\nGongrats {mention}!"
+            },
+            "lose": {
+                "title": "😢 You lost!",
+                "description": "The result is `{result}`.\nYou lost `{lose}` coins!\nBetter luck next time {mention}!"
+            }
+        }
     }
 }
