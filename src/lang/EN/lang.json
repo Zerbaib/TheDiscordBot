@@ -9,10 +9,7 @@
         },
         "leaderboard": {
             "title": "📊 Leaderboard 📊",
-            "fields": "Level `{level}` with `{xp}` XP",
-            "errors": {
-                "noData": "No data available"
-            }
+            "fields": "Level `{level}` with `{xp}` XP"
         }
     }
 }
