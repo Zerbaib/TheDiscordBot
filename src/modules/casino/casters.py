@@ -25,6 +25,7 @@ class Caster(commands.Cog):
     @commands.slash_command(name="caster", description="nothing goes anymore")
     async def caster(self, inter, choice, bet: int):
         try:
+            lang = get_language_file(inter.guild.preferred_locale)
             await inter.response.defer()
             user = inter.user
             guild = inter.guild
@@ -32,8 +33,8 @@ class Caster(commands.Cog):
 
             if bet < 1:
                 embed = disnake.Embed(
-                    title="🚫 Invalid Bet",
-                    description="You can't bet less than 1 coin.",
+                    title=lang["Casino"]["casters"]["errors"]["title"],
+                    description=lang["Casino"]["casters"]["errors"]["invalidAmount"],
                     color=disnake.Color.red()
                 )
                 return await inter.edit_original_message(embed=embed)
@@ -55,19 +56,19 @@ class Caster(commands.Cog):
 
             if userBal < bet:
                 embed = disnake.Embed(
-                    title="🚫 Insufficient Balance",
-                    description="You don't have enough coins to bet.",
+                    title=lang["Casino"]["casters"]["errors"]["title"],
+                    description=lang["Casino"]["casters"]["errors"]["noCoins"],
                     color=disnake.Color.red()
                 )
                 return await inter.edit_original_message(embed=embed)
 
             if not choice.lower() in self.choices:
                 embed = disnake.Embed(
-                    title="🚫 Invalid Choice",
-                    description="Please choose a valid option.",
+                    title=lang["Casino"]["casters"]["errors"]["title"],
+                    description=lang["Casino"]["casters"]["errors"]["invalidChoice"],
                     color=disnake.Color.red()
                 )
-                embed.add_field(name="Choices", value="even, odd, red, black, 00, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32")
+                embed.add_field(name="**========================================**", value="even, odd, red, black, 00, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32")
                 return await inter.edit_original_message(embed=embed)
 
             if choice.lower() not in self.casesP:

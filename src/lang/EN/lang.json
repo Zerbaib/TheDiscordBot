@@ -24,6 +24,12 @@
             "lose": {
                 "title": "😢 You lost!",
                 "description": "The result is `{result}`.\nYou lost `{lose}` coins!\nBetter luck next time {mention}!"
+            },
+            "errors": {
+                "title": "⚠️ Error ⚠️",
+                "noCoins": "You don't have enough coins to play",
+                "invalidAmount": "You can't bet less than 1 coin.",
+                "invalidChoice": "Please choose a valid option."
             }
         }
     }
