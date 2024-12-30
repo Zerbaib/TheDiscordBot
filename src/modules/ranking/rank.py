@@ -42,7 +42,7 @@ class Rank(commands.Cog):
             if user.bot:
                 embed = disnake.Embed(
                     title=lang["Ranking"]["rank"]["title"],
-                    description=lang["Ranking"]["rank"]["error"]["isBot"].format(user.mention),
+                    description=lang["Ranking"]["rank"]["errors"]["isBot"].format(mention=user.mention),
                     color=disnake.Color.blurple()
                 )
                 return await ctx.send(embed=embed)
@@ -58,8 +58,8 @@ class Rank(commands.Cog):
                 grade = usrData[2]
             except IndexError:
                 embed = disnake.Embed(
-                    title="📊 Rank Information 📊",
-                    description=f"User {user.mention} is not ranked yet",
+                    title=lang["Ranking"]["rank"]["title"],
+                    description=lang["Ranking"]["rank"]["errors"]["notRank"].format(mention=user.mention),
                     color=disnake.Color.blurple()
                 )
                 await ctx.send(embed=embed)
