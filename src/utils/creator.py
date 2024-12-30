@@ -1,7 +1,7 @@
 import json
 import os
 
-from src.data.var import configFolder, configFile, logFolder, data, emojiFile, emojisID
+from src.data.var import data, emojisID, folders, files
 import src.data.var as var
 from src.utils.logger import Log
 
@@ -13,12 +13,12 @@ class Creator:
         Saver()
 
     def config_folder(self):
-        if os.path.exists(configFolder):
+        if os.path.exists(folders['config']):
             Log.log("Config folder already exists")
             return
         else:
             try:
-                os.makedirs(configFolder)
+                os.makedirs(folders['config'])
                 Log.info("Config folder created")
             except Exception as e:
                 Log.error("Failed to create config folder")
@@ -26,8 +26,8 @@ class Creator:
                 return
 
     def config_file(self):
-        if os.path.exists(configFile):
-            with open(configFile, 'r') as f:
+        if os.path.exists(files["config"]):
+            with open(files["config"], 'r') as f:
                 dataConf = json.load(f)
                 pass
 
@@ -41,16 +41,16 @@ class Creator:
         else:
             try:
                 self.config_folder()
-                with open(configFile, 'w') as f:
+                with open(files["emojis"], 'w') as f:
                     json.dump(data, f, indent=4)
                 Log.info("Config file created")
             except Exception as e:
                 Log.error("Failed to create config file")
                 Log.error(e)
                 return
-        if not os.path.exists(emojiFile):
+        if not os.path.exists(files["emojis"]):
             try:
-                with open(emojiFile, 'w') as f:
+                with open(files["emojis"], 'w') as f:
                     json.dump(emojisID, f, indent=4)
                 Log.info("Emoji file created")
             except Exception as e:
@@ -58,12 +58,12 @@ class Creator:
                 Log.error(e)
 
     def log_folder(self):
-        if os.path.exists(logFolder):
+        if os.path.exists(folders['logs']):
             Log.log("Log folder already exists")
             return
         else:
             try:
-                os.makedirs(logFolder)
+                os.makedirs(folders['logs'])
                 Log.info("Log folder created")
             except Exception as e:
                 Log.error("Failed to create log folder")

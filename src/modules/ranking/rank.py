@@ -4,7 +4,7 @@ from io import BytesIO
 import disnake
 from disnake.ext import commands
 from PIL import Image, ImageChops, ImageDraw, ImageFont
-from src.data.var import imgFolder, policeFile, rankGrade, rankWallpaperFile, rankWallpaperFinishedFile, tableLiaison
+from src.data.var import rankGrade, tableLiaison, folders, files
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -80,20 +80,20 @@ class Rank(commands.Cog):
             else:
                 progress_bar = "█" * 20
 
-            background = Image.open(rankWallpaperFile)
+            background = Image.open(files["wallpaper"])
             asset = user.display_avatar.with_size(1024)
             data = BytesIO(await asset.read())
             pfp = Image.open(data).convert("RGBA")
             pfp = self.circle(pfp)
 
             if liaison_name is not None:
-                imageFilePath = f"{imgFolder}icon/{liaison_name}.png"
+                imageFilePath = f"{folders['img']}icon/{liaison_name}.png"
                 icon = Image.open(imageFilePath)
                 icon = icon.resize((250, 250)).convert("RGBA")
                 background.paste(icon, (300, 90), icon)
 
                 draw = ImageDraw.Draw(background)
-                font = ImageFont.truetype(policeFile, 24)
+                font = ImageFont.truetype(files["police"], 24)
                 text = grade
                 draw.text((370, 380), text, font=font, fill="#3d403e")
 
@@ -101,26 +101,26 @@ class Rank(commands.Cog):
             overlay_draw = ImageDraw.Draw(text_overlay)
             textLvl = f"Level {level}"
             textXp = f"XP {xp}"
-            font = ImageFont.truetype(policeFile, 28)
+            font = ImageFont.truetype(files["police"], 28)
             overlay_draw.text((25, 25), name, font=font, fill=(87, 86, 84, 128))
-            font = ImageFont.truetype(policeFile, 24)
+            font = ImageFont.truetype(files["police"], 24)
             overlay_draw.text((30, 50), textLvl, font=font, fill=(87, 86, 84, 128))
             overlay_draw.text((30, 75), textXp, font=font, fill=(87, 86, 84, 128))
 
             background = Image.alpha_composite(background.convert('RGBA'), text_overlay)
 
-            font = ImageFont.truetype(policeFile, 20)
+            font = ImageFont.truetype(files["police"], 20)
             draw = ImageDraw.Draw(background)
             text = f"[{progress_bar}] {round(progress*100)}%"
             draw.text((266, 340), text, font=font, fill="#3d403e")
 
             background.paste(pfp, (700, 30), pfp)
-            background.save(rankWallpaperFinishedFile)
+            background.save(files["wallpaper_finished"], "PNG")
 
-            await ctx.send(file=disnake.File(rankWallpaperFinishedFile))
+            await ctx.send(file=disnake.File(files["wallpaper_finished"]))
 
             try:
-                os.remove(rankWallpaperFinishedFile)
+                os.remove(files["wallpaper_finished"])
             except Exception as e:
                 Log.error("Failed to remove rankWallpaperFinishedFile")
                 Log.error(e)

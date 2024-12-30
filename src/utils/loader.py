@@ -1,6 +1,6 @@
 import os
 
-from src.data.var import *
+from src.data.var import folders
 from src.utils.logger import Log
 
 
@@ -10,9 +10,9 @@ class Loader():
         self.load_cogs()
 
     def load_cogs(self):
-        for element in os.listdir(cogsFolder):
+        for element in os.listdir(folders['cogs']):
             try:
-                elementDir = f"{cogsFolder}{element}"
+                elementDir = f"{folders['cogs']}{element}"
                 if os.path.isdir(elementDir):
                     for filename in os.listdir(elementDir):
                         if filename.endswith(".py"):

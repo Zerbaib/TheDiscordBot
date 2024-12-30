@@ -1,13 +1,13 @@
 import json
 
 import mysql.connector
-from src.data.var import configFile, dbInstructionsFile
+from src.data.var import files
 from src.utils.logger import Log
 from tabulate import tabulate
 
-with open(dbInstructionsFile, 'r') as f:
+with open(files["instructions"], 'r') as f:
     dbInstructions = f.read()
-with open(configFile, 'r') as f:
+with open(files["config"], 'r') as f:
     config = json.load(f)
     dbUser = config["dbUser"]
     dbPass = config["dbPass"]
@@ -193,8 +193,17 @@ class Saver():
             data (list): The fetched data
         """
         try:
+            cur, conn = connectDB()
+            cur.execute(query)
+            data = cur.fetchall()
+            conn.commit()
+            cur.close()
+            conn.close()
             Log.sql(query)
-            return sql_cur_fetchall(query)
+            
+            if not data:
+                data = f"{query}"
+            return data
         except Exception as e:
             Log.error("Failed to execute query")
             Log.error(e)

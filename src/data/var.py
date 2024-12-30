@@ -1,24 +1,25 @@
-configFolder = "./config/"
-cogsFolder = "./src/modules/"
-logFolder = "./logs/"
-dataFolder = "./src/data/"
-assetsFolder = "./assets/"
-imgFolder = f"{assetsFolder}img/"
-
-dbInstructionsFile = f"{dataFolder}structure.sql"
-
-policeFile = f"{assetsFolder}arialbd.ttf"
-dbFile = f"{dataFolder}bdd.db"
-configFile = f"{configFolder}config.json"
-emojiFile = f"{configFolder}emojis.json"
-rankWallpaperFile = f"{imgFolder}wallpaper.png"
-rankWallpaperFinishedFile = f"{imgFolder}wallpaper_finished.png"
+folders = {
+    "config": "./config/",
+    "cogs": "./src/modules/",
+    "logs": "./logs/",
+    "data": "./src/data/",
+    "assets": "./assets/",
+    "img": "./assets/img/"
+}
+files = {
+    "config": f"{folders['config']}config.json",
+    "emojis": f"{folders['config']}emojis.json",
+    "instructions": f"{folders['data']}structure.sql",
+    "police": f"{folders['assets']}arialbd.ttf",
+    "wallpaper": f"{folders['img']}wallpaper.png",
+    "wallpaper_finished": f"{folders['img']}wallpaper_finished.png"
+}
 
 def initTime(value):
     global startTimestamp
     global logFile
     startTimestamp = value
-    logFile = f"{logFolder}{startTimestamp}.log"
+    logFile = f"{folders['logs']}{startTimestamp}.log"
 
 coinEarn = 100
 rateLimitXpDaily = 300
@@ -31,7 +32,7 @@ class Color():
     blue = "\033[34m"
 def load_config():
     try:
-        with open(configFile, 'r') as f:
+        with open(files["config"], 'r') as f:
             import json
             data = json.load(f)
             token = data['token']
@@ -42,7 +43,7 @@ def load_config():
         return None, None
 def load_ownerID():
     try:
-        with open(configFile, 'r') as f:
+        with open(files["config"], 'r') as f:
             import json
             data = json.load(f)
             ownerID = int(data['ownerId'])
@@ -142,7 +143,6 @@ emojisID = {
     "champion3": 1318560853624098876,
     "grandchampion": 1318560972478349352
 }
-
 keys = {
     'ticket_category': 'Ticket Category',
     'support_role': 'Support Role',

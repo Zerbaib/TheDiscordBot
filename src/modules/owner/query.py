@@ -22,7 +22,7 @@ class Query(commands.Cog):
             result = Saver.query(query)
             embed = disnake.Embed(
                 title="🔍 Query",
-                description=f"```{result}```" if result else "No results found.",
+                description=f"```sql\n{result}```" if result else "No results found.",
                 color=disnake.Color.green()
             )
             await ctx.send(embed=embed, ephemeral=True)
