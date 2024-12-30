@@ -13,12 +13,12 @@ configFile = f"{configFolder}config.json"
 emojiFile = f"{configFolder}emojis.json"
 rankWallpaperFile = f"{imgFolder}wallpaper.png"
 rankWallpaperFinishedFile = f"{imgFolder}wallpaper_finished.png"
-logFile = f"{logFolder}.log"
 
 def initTime(value):
     global startTimestamp
+    global logFile
     startTimestamp = value
-    print(startTimestamp)
+    logFile = f"{logFolder}{startTimestamp}.log"
 
 coinEarn = 100
 rateLimitXpDaily = 300

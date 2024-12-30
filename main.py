@@ -7,7 +7,8 @@ from src.data.var import initTime, load_config, load_ownerID
 from src.utils.logger import Log
 from datetime import datetime
 
-initTime(datetime.now())
+
+initTime(datetime.now().strftime("%HH%M_%d-%m-%Y"))
 
 t, prefix = load_config()
 ownerID = load_ownerID()

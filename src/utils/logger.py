@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from src.data.var import logFile, Color
+from src.data.var import Color
+import src.data.var as var
 
 
 def write(cat, message):
@@ -11,7 +12,7 @@ def write(cat, message):
         cat (str): category of the log message
         message (str): log message
     """
-    with open(logFile, 'a', encoding="utf-8") as f:
+    with open(var.logFile, 'a', encoding="utf-8") as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         f.write(f"{timestamp} - {cat} - {message}\n")
 

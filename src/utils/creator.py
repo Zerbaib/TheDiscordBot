@@ -1,7 +1,8 @@
 import json
 import os
 
-from src.data.var import configFolder, configFile, logFolder, logFile, data, emojiFile, emojisID
+from src.data.var import configFolder, configFile, logFolder, data, emojiFile, emojisID
+import src.data.var as var
 from src.utils.logger import Log
 
 class Creator:
@@ -70,13 +71,13 @@ class Creator:
                 return
 
     def log_file(self):
-        if os.path.exists(logFile):
+        if os.path.exists(var.logFile):
             Log.log("Log file already exists")
             return
         else:
             try:
                 self.log_folder()
-                with open(logFile, 'w') as f:
+                with open(var.logFile, 'w') as f:
                     Log.info("Log file created")
             except Exception as e:
                 Log.error("Failed to create log file")
