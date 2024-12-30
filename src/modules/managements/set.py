@@ -27,13 +27,15 @@ class Set(commands.Cog):
             )
             await inter.response.send_message(embed=embed)
             return
-        if key is not str or value is not int:
+        try:
+            key = str(key)
+        except:
             embed = disnake.Embed(
                 title='Error',
-                description=f'Invalid key. Available keys: {", ".join(keys.keys())}\nExample: `/set ticket_category 123456789012345678`',
+                description='Key must be a string.',
                 color=disnake.Color.red()
             )
-            await inter.response.send_message(embed=embed, ephemeral=True)
+            await inter.response.send_message(embed=embed)
             return
         try:
             user = inter.author

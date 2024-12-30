@@ -58,7 +58,7 @@ class Show(commands.Cog):
             )
             if guild.icon:
                 embed.set_thumbnail(url=guild.icon.url)
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, ephemeral=True)
         except Exception as e:
             Log.error("Failed to execute /show")
             Log.error(e)
