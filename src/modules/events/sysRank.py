@@ -5,7 +5,7 @@ from json import load
 
 import disnake
 from disnake.ext import commands
-from src.data.var import rateLimitXpDaily, rankGrade, tableLiaison, files
+from src.data.var import files, rankGrade, rateLimitXpDaily, tableLiaison
 from src.utils.logger import Log
 from src.utils.saver import Saver
 

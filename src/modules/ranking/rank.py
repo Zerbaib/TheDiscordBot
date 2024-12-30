@@ -4,7 +4,7 @@ from io import BytesIO
 import disnake
 from disnake.ext import commands
 from PIL import Image, ImageChops, ImageDraw, ImageFont
-from src.data.var import rankGrade, tableLiaison, folders, files
+from src.data.var import files, folders, rankGrade, tableLiaison
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver

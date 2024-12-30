@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from src.data.var import Color
 import src.data.var as var
+from src.data.var import Color
 
 
 def write(cat, message):

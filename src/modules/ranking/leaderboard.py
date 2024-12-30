@@ -2,7 +2,7 @@ from json import load
 
 import disnake
 from disnake.ext import commands
-from src.data.var import tableLiaison, files
+from src.data.var import files, tableLiaison
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver

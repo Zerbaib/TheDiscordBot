@@ -1,9 +1,10 @@
 import json
 import os
 
-from src.data.var import data, emojisID, folders, files
 import src.data.var as var
+from src.data.var import data, emojisID, files, folders
 from src.utils.logger import Log
+
 
 class Creator:
     def __init__(self):

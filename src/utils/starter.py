@@ -1,9 +1,10 @@
+import platform
+from datetime import datetime
+
 import disnake
 from disnake.ext import commands
-from src.data.var import load_config, Version
+from src.data.var import Version, load_config
 from src.utils.logger import Log
-from datetime import datetime
-import platform
 
 
 class Launch():
