@@ -8,7 +8,7 @@ from src.utils.logger import Log
 from datetime import datetime
 
 
-initTime(datetime.now().strftime("%HH%M_%d-%m-%Y"))
+initTime(datetime.now().strftime("%Hh%M_%d-%m-%Y"))
 
 t, prefix = load_config()
 ownerID = load_ownerID()
