@@ -201,8 +201,6 @@ class Saver():
             conn.close()
             Log.sql(query)
             
-            if not data:
-                data = f"{query}"
             return data
         except Exception as e:
             Log.error("Failed to execute query")

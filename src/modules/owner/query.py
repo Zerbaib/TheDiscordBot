@@ -21,10 +21,19 @@ class Query(commands.Cog):
             query = request
             result = Saver.query(query)
             embed = disnake.Embed(
-                title="🔍 Query",
-                description=f"```sql\n{result}```" if result else "No results found.",
+                description=f"```{result}```" if result else f"```sql\n{query}```",
                 color=disnake.Color.green()
             )
+            
+            if not result:
+                embed.description = f"```sql\n{query}```\n*Query executed successfully*"
+                embed.color = disnake.Color.blurple()
+                embed.title = "🔍 Query (No return)"
+            else:
+                embed.description = f"```{result}```\n*Query executed successfully*"
+                embed.color = disnake.Color.blurple()
+                embed.title = "🔍 Query"
+            
             await ctx.send(embed=embed, ephemeral=True)
         except Exception as e:
             Log.error("Failed to execute /query")
