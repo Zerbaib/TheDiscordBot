@@ -2,11 +2,10 @@ from json import load
 
 import disnake
 from disnake.ext import commands
-from src.data.var import *
+from src.data.var import emojiFile, tableLiaison
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
-from main import bot
 
 
 class Leaderboard(commands.Cog):
@@ -55,7 +54,7 @@ class Leaderboard(commands.Cog):
                     title += f" {user.display_name}"
 
                     embed.add_field(name=title, value=f"Level `{level}` with `{xp}` XP", inline=False)
-                    
+
                     if user == user.bot:
                         Saver.query(f"DELETE FROM ranking WHERE userID = {userData[0]} AND guildID = {guild.id}")
                         Log.warn(f"Bot user {user.id} has been removed from leaderboard")

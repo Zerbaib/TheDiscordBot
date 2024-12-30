@@ -15,6 +15,11 @@ rankWallpaperFile = f"{imgFolder}wallpaper.png"
 rankWallpaperFinishedFile = f"{imgFolder}wallpaper_finished.png"
 logFile = f"{logFolder}.log"
 
+def initTime(value):
+    global startTimestamp
+    startTimestamp = value
+    print(startTimestamp)
+
 coinEarn = 100
 rateLimitXpDaily = 300
 

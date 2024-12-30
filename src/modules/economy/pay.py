@@ -1,6 +1,5 @@
 import disnake
 from disnake.ext import commands
-from src.data.var import *
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
