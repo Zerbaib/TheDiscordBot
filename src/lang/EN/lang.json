@@ -1,11 +1,11 @@
 {
-    "Ranking": [
-      {
-        "title": "📊 Rank Information 📊",
-        "errors": [
-          "User {mention} is a bot",
-          "User {mention} has no rank"
-        ]
-      }
-    ]
-  }
+    "Ranking": {
+        "rank": {
+            "title": "📊 Rank Information 📊",
+            "errors": {
+                "isBot": "User {mention} is a bot",
+                "notRank": "User {mention} has no rank"
+            }
+        }
+    }
+}

@@ -1,4 +1,5 @@
 from src.data.var import folders
+import json, os
 
 def get_language_file(serverLanguage):
     """
@@ -8,11 +9,17 @@ def get_language_file(serverLanguage):
         serverLanguage (str): server language
 
     Returns:
-        str: language file path
+        dict: language file content
     """
 
     if not serverLanguage:
         serverLanguage = "EN"
 
-    return f"{folders['lang']}{serverLanguage.upper()}/lang.json"
+    language_file_path = f"{folders['lang']}{str(serverLanguage).upper()}/lang.json"
+
+    if not os.path.exists(language_file_path):
+        language_file_path = f"{folders['lang']}EN/lang.json"
+
+    with open(language_file_path, 'r', encoding='utf-8') as file:
+        return json.load(file)
 
