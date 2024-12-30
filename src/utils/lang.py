@@ -10,5 +10,9 @@ def get_language_file(serverLanguage):
     Returns:
         str: language file path
     """
+
+    if not serverLanguage:
+        serverLanguage = "EN"
+
     return f"{folders['lang']}{serverLanguage.upper()}/lang.json"
 
