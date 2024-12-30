@@ -4,7 +4,8 @@ folders = {
     "logs": "./logs/",
     "data": "./src/data/",
     "assets": "./assets/",
-    "img": "./assets/img/"
+    "img": "./assets/img/",
+    "lang": "./src/lang/"
 }
 files = {
     "config": f"{folders['config']}config.json",
