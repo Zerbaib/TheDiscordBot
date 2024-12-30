@@ -21,7 +21,7 @@ rateLimitXpDaily = 300
 def initTime(value):
     global startTimestamp
     global logFile
-    startTimestamp = value
+    startTimestamp = value.strftime("%Hh%M_%d-%m-%Y")
     logFile = f"{folders['logs']}{startTimestamp}.log"
 
 class Color():
