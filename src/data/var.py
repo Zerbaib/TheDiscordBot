@@ -15,14 +15,14 @@ files = {
     "wallpaper_finished": f"{folders['img']}wallpaper_finished.png"
 }
 
+coinEarn = 100
+rateLimitXpDaily = 300
+
 def initTime(value):
     global startTimestamp
     global logFile
     startTimestamp = value
     logFile = f"{folders['logs']}{startTimestamp}.log"
-
-coinEarn = 100
-rateLimitXpDaily = 300
 
 class Color():
     reset = "\033[0m"
