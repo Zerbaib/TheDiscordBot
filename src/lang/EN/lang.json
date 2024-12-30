@@ -6,6 +6,13 @@
                 "isBot": "User {mention} is a bot",
                 "notRank": "User {mention} is not ranked yet"
             }
+        },
+        "leaderboard": {
+            "title": "📊 Leaderboard 📊",
+            "fields": "Level `{level}` with `{xp}` XP",
+            "errors": {
+                "noData": "No data available"
+            }
         }
     }
 }
