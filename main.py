@@ -5,13 +5,13 @@ import src.utils.creator
 import src.utils.loader
 import src.utils.starter
 from disnake.ext import commands
-from src.data.var import initTime, load_config, load_ownerID
+from src.data.var import initTime, load_config
 from src.utils.logger import Log
 
 initTime(datetime.now().strftime("%Hh%M_%d-%m-%Y"))
 
-t, prefix = load_config()
-ownerID = load_ownerID()
+prefix = load_config("prefix")
+ownerID = load_config("ownerId")
 
 bot = commands.Bot(
     command_prefix=prefix,

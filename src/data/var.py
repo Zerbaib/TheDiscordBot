@@ -30,24 +30,16 @@ class Color():
     orange = "\033[33m"
     green = "\033[32m"
     blue = "\033[34m"
-def load_config():
+def load_config(value):
     try:
+        if value not in ["token", "prefix", "ownerId"]:
+            raise ValueError("Invalid value. Expected 'token' or 'prefix' or 'ownerId'.")
         with open(files["config"], 'r') as f:
             import json
             data = json.load(f)
-            token = data['token']
-            prefix = data['prefix']
-            return token, prefix
-    except Exception as e:
-        print(e)
-        return None, None
-def load_ownerID():
-    try:
-        with open(files["config"], 'r') as f:
-            import json
-            data = json.load(f)
-            ownerID = int(data['ownerId'])
-            return ownerID
+            if value == "ownerId":
+                return int(data.get(value))
+            return data.get(value)
     except Exception as e:
         print(e)
         return None

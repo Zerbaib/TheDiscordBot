@@ -9,7 +9,7 @@ from src.utils.logger import Log
 
 class Launch():
     def __init__(self, bot):
-        self.token, prefix = load_config()
+        self.token = load_config("token")
         self.bot = bot
         self.setup_events()
         self.start()
