@@ -29,7 +29,10 @@ class Leaderboard(commands.Cog):
                 color=disnake.Color.blurple()
                 )
 
-            sortedUser = Saver.query(f"SELECT userID FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC LIMIT 10")
+            query = f"SELECT userID, xp, level, grade FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC LIMIT 10"
+            sortedUser = Saver.query(query)
+
+            print(sortedUser)
 
             if not sortedUser:
                 embed.add_field(name="📊 Leaderboard", value="No user found", inline=False)
