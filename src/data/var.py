@@ -114,27 +114,6 @@ tableLiaison = {
     "Champion III": "champion3",
     "Grand Champion": "grandchampion"
 }
-emojisID = {
-    "bronze1": 1318555597993410600,
-    "bronze2": 1318555647863816254,
-    "bronze3": 1318555696282730536,
-    "silver1": 1318556065092079687,
-    "silver2": 1318556134147231795,
-    "silver3": 1318556211498717286,
-    "gold1": 1318558600825929798,
-    "gold2": 1318558661504798771,
-    "gold3": 1318558775245803520,
-    "diamond1": 1318560168690061332,
-    "diamond2": 1318560260558163968,
-    "diamond3": 1318560342728773695,
-    "platinium1": 1318559481696620545,
-    "platinium2": 1318559687008063599,
-    "platinium3": 1318559810874249337,
-    "champion1": 1318560751769616407,
-    "champion2": 1318560818635472927,
-    "champion3": 1318560853624098876,
-    "grandchampion": 1318560972478349352
-}
 keys = {
     'ticket_category': 'Ticket Category',
     'support_role': 'Support Role',
