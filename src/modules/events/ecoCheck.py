@@ -33,3 +33,6 @@ class ecoCheck(commands.Cog):
             except Exception as e:
                 Log.error(f"Error checking index: {e}")
             await asyncio.sleep(3600)
+
+def setup(bot):
+    bot.add_cog(ecoCheck(bot))
