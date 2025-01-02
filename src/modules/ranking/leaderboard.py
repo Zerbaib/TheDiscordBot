@@ -36,8 +36,7 @@ class Leaderboard(commands.Cog):
                 embed.add_field(name="📊 Leaderboard", value="No user found", inline=False)
                 return await inter.edit_original_response(embed=embed)
 
-            users = await self.bot.fetch_users([int(userData[0]) for userData in sortedUser])
-            for i, (userData, user) in enumerate(zip(sortedUser, users)):
+            for i, userData in enumerate(sortedUser):
                 try:
                     user = await self.bot.fetch_user(int(userData[0]))
 
