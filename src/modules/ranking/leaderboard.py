@@ -31,9 +31,6 @@ class Leaderboard(commands.Cog):
 
             sortedUser = Saver.query(f"SELECT userID FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC LIMIT 10")
 
-            print(sortedUser)
-            print(enumerate(sortedUser))
-
             if not sortedUser:
                 embed.add_field(name="📊 Leaderboard", value="No user found", inline=False)
                 return await inter.edit_original_response(embed=embed)
