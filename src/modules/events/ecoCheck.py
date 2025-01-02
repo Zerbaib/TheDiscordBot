@@ -22,7 +22,7 @@ class ecoCheck(commands.Cog):
         while True:
             try:
                 query = f"SELECT userID, guildID, COUNT(*) FROM {self.dataTable} GROUP BY userID, guildID HAVING COUNT(*) > 1"
-                results = await Saver.query(query)
+                results = Saver.query(query)
                 if results:
                     for result in results:
                         user_id, guild_id, count = result
