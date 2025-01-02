@@ -28,7 +28,7 @@ class ecoCheck(commands.Cog):
                         user_id, guild_id, count = result
                         Log.warn(f"Duplicate entry found: userID={user_id}, guildID={guild_id}, count={count}")
                         query = f"DELETE FROM {self.dataTable} WHERE userID = {user_id} AND guildID = {guild_id} LIMIT {count - 1}"
-                        await Saver.query(query)
+                        Saver.query(query)
                         Log.warn(f"Deleted {count - 1} duplicate entries")
             except Exception as e:
                 Log.error(f"Error checking index: {e}")
