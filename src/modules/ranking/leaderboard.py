@@ -29,9 +29,13 @@ class Leaderboard(commands.Cog):
                 color=disnake.Color.blurple()
                 )
 
-            sortedUser = Saver.query(f"SELECT userID FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC")
+            sortedUser = Saver.query(f"SELECT userID FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC LIMIT 10")
 
-            for i, userData in enumerate(sortedUser[:10]):
+            if not sortedUser:
+                embed.add_field(name="📊 Leaderboard", value="No user found", inline=False)
+                return await inter.edit_original_response(embed=embed)
+
+            for i, userData in sortedUser:
                 try:
                     user = await self.bot.fetch_user(int(userData[0]))
                     presision = [f"userID = {userData[0]}", f"guildID = {guild.id}"]
