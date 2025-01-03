@@ -42,7 +42,7 @@
         },
         "pay": {
             "title": "💸 Pay 💸",
-            "description": "You paid {userR} `{amount}` coins!\nYour balance: `{userSBal}`\n{userR}'s balance: `{userBal}`",
+            "description": "You paid {userReciever} `{amount}` coins!\nYour balance: `{userSenderBal}`\n{userReciever}'s balance: `{userRecieverBal}`",
             "errors": {
                 "title": "⚠️ Error ⚠️",
                 "selfPay": "You can't pay yourself",

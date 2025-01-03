@@ -83,7 +83,11 @@ class Pay(commands.Cog):
 
                 embed = disnake.Embed(
                     title=lang["Economy"]["pay"]["title"],
-                    description=lang["Economy"]["pay"]["description"].format(userR=user.mention, amount=amount, userSBal=userSenderBal-amount, userBal=userRecieverBal+amount),
+                    description=lang["Economy"]["pay"]["description"].format(
+                        userReciever=userReciever.mention,
+                        amount=amount,
+                        userSenderBal=userSenderBal-amount,
+                        userRecieverBal=userRecieverBal+amount),
                     color=disnake.Color.blurple()
                 )
                 await ctx.send(embed=embed)
