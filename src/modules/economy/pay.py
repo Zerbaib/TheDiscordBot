@@ -17,18 +17,19 @@ class Pay(commands.Cog):
     @commands.slash_command(name="pay", description="Pay someone")
     async def pay(self, ctx, user: disnake.User, amount: int):
         try:
-            userS = ctx.author
+            userSender = ctx.author
+            userReciever = user
             guild = ctx.guild
-            presision = [f"userID = {userS.id}", f"guildID = {guild.id}"]
+            precisionSender = [f"userID = {userSender.id}", f"guildID = {guild.id}"]
+            precisionReciever = [f"userID = {userReciever.id}", f"guildID = {guild.id}"]
 
-            if userS == user:
+            if userSender == userReciever:
                 embed = disnake.Embed(
                     title="❌ Error",
                     description="You can't pay yourself.",
                     color=disnake.Color.red()
                 )
                 return
-
             if amount < 1:
                 embed = disnake.Embed(
                     title="❌ Error",
@@ -37,9 +38,12 @@ class Pay(commands.Cog):
                 )
                 return
 
-            if not Saver.fetch(self.dataTable, presision, "coins"):
+            userSenderAccount = Saver.fetch(self.dataTable, precisionSender)
+            userRecieverAccount = Saver.fetch(self.dataTable, precisionReciever)
+
+            if not Saver.fetch(self.dataTable, precisionSender, "coins"):
                 data = {
-                    "userID": userS.id,
+                    "userID": userSender.id,
                     "guildID": guild.id,
                     "coins": 0,
                     "cooldown": 0
@@ -51,14 +55,14 @@ class Pay(commands.Cog):
                     color=disnake.Color.red()
                 )
                 pass
-            if not Saver.fetch(self.dataTable, [f"userID = {user.id}", f"guildID = {guild.id}"], "coins"):
+            if not Saver.fetch(self.dataTable, precisionReciever, "coins"):
                 Saver.save(self.dataTable, {"userID": user.id, "guildID": guild.id, "coins": 0, "cooldown": 0})
                 pass
 
-            userSBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
-            userBal = Saver.fetch(self.dataTable, [f"userID = {user.id}", f"guildID = {guild.id}"], "coins")[0][0]
+            userSenderBal = Saver.fetch(self.dataTable, precisionSender, "coins")[0][0]
+            userReciverBal = Saver.fetch(self.dataTable, precisionReciever, "coins")[0][0]
 
-            if userSBal < amount:
+            if userSenderBal < amount:
                 embed = disnake.Embed(
                     title="❌ Error",
                     description="You don't have enough coins.",
@@ -68,8 +72,8 @@ class Pay(commands.Cog):
             try:
                 userSBal -= amount
                 userBal += amount
-                Saver.update(self.dataTable, presision, {"coins": userSBal})
-                Saver.update(self.dataTable, [f"userID = {user.id}", f"guildID = {guild.id}"], {"coins": userBal})
+                Saver.update(self.dataTable, precisionSender, {"coins": userSenderBal})
+                Saver.update(self.dataTable, precisionReciever, {"coins": userReciverBal})
 
                 embed = disnake.Embed(
                     title="💸 Paid",
@@ -82,7 +86,7 @@ class Pay(commands.Cog):
                 embed = error(e)
                 return
             await ctx.send(embed=embed)
-            Log.log(f"COINS on {guild.id} user {userS.id} [{userSBal} - {amount}] to {user.id} -> {userBal}")
+            Log.log(f"COINS on {guild.id} user {userSender.id} [{userSenderBal} - {amount}] to {user.id} -> {userReciverBal}")
         except Exception as e:
             Log.error(e)
             await ctx.send(embed=error("An error occurred."))

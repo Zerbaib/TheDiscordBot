@@ -42,7 +42,7 @@ class Creator:
         else:
             try:
                 self.config_folder()
-                with open(files["emojis"], 'w') as f:
+                with open(files["config"], 'w') as f:
                     json.dump(data, f, indent=4)
                 Log.info("Config file created")
             except Exception as e:
