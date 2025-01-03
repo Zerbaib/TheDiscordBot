@@ -82,7 +82,7 @@ class Pay(commands.Cog):
 
                 embed = disnake.Embed(
                     title="💸 Paid",
-                    description=f"You paid {user.mention} `{amount}` coins!\nYour balance: `{userSenderBal}`\n{user.mention}'s balance: `{userRecieverBal}`",
+                    description=f"You paid {user.mention} `{amount}` coins!\nYour balance: `{userSenderBal-amount}`\n{user.mention}'s balance: `{userRecieverBal+amount}`",
                     color=disnake.Color.blurple()
                 )
                 await ctx.send(embed=embed)
