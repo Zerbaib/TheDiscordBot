@@ -29,14 +29,14 @@ class Pay(commands.Cog):
                     description="You can't pay yourself.",
                     color=disnake.Color.red()
                 )
-                return
+                return await ctx.send(embed=embed)
             if amount < 1:
                 embed = disnake.Embed(
                     title="❌ Error",
                     description="You can't pay less than 1 coin.",
                     color=disnake.Color.red()
                 )
-                return
+                return await ctx.send(embed=embed)
 
             userSenderAccount = Saver.fetch(self.dataTable, precisionSender)
             userRecieverAccount = Saver.fetch(self.dataTable, precisionReciever)
@@ -66,33 +66,29 @@ class Pay(commands.Cog):
                 userRecieverBal = userRecieverAccount[0]
             else:
                 userRecieverBal = userRecieverAccount[0][0]
-
             userSenderBal = userSenderAccount[0][0]
-
             if userSenderBal < amount:
                 embed = disnake.Embed(
                     title="❌ Error",
                     description="You don't have enough coins.",
                     color=disnake.Color.red()
                 )
-                return
+                return await ctx.send(embed=embed)
+
             try:
-                userSBal -= amount
-                userBal += amount
-                Saver.update(self.dataTable, precisionSender, {"coins": userSenderBal})
-                Saver.update(self.dataTable, precisionReciever, {"coins": userRecieverBal})
+                Saver.query(f"UPDATE {self.dataTable} SET coins = CASE WHEN userID = {userSender.id} THEN coins - {amount} WHEN userID = {userReciever.id} THEN coins + {amount} END WHERE userID IN ({userSender.id}, {userReciever.id}) AND guildID = {guild.id}")
 
                 embed = disnake.Embed(
                     title="💸 Paid",
                     description=f"You paid {user.mention} `{amount}` coins!\nYour balance: `{userSBal}`\n{user.mention}'s balance: `{userBal}`",
                     color=disnake.Color.blurple()
                 )
+                await ctx.send(embed=embed)
             except Exception as e:
                 Log.warn("Failed to update user coins")
                 Log.warn(e)
                 embed = error(e)
-                return
-            await ctx.send(embed=embed)
+                return await ctx.send(embed=embed)
             Log.log(f"COINS on {guild.id} user {userSender.id} [{userSenderBal} - {amount}] to {user.id} -> {userRecieverBal}")
         except Exception as e:
             Log.error(e)
