@@ -31,17 +31,21 @@ class Leaderboard(commands.Cog):
                 color=disnake.Color.blurple()
                 )
 
-            sortedUser = Saver.query(f"SELECT userID FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC")
+            query = f"SELECT userID, xp, level, grade FROM ranking WHERE guildID = {str(guild.id)} ORDER BY xp DESC LIMIT 10"
+            sortedUser = Saver.query(query)
 
-            for i, userData in enumerate(sortedUser[:10]):
+            if not sortedUser:
+                embed.add_field(name="📊 Leaderboard", value="No user found", inline=False)
+                return await inter.edit_original_response(embed=embed)
+
+            for i, userData in enumerate(sortedUser):
                 try:
                     user = await self.bot.fetch_user(int(userData[0]))
-                    presision = [f"userID = {userData[0]}", f"guildID = {guild.id}"]
 
-                    usrData = Saver.fetch(self.dataTable, presision, ["xp", "level", "grade"])[0]
-                    xp = usrData[0]
-                    level = usrData[1]
-                    grade = usrData[2]
+                    usrData = sortedUser[i]
+                    xp = usrData[1]
+                    level = usrData[2]
+                    grade = usrData[3]
 
                     with open(files["emojis"], 'r') as f:
                         rankGradeEmoji = load(f)
