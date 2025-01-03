@@ -3,6 +3,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
 
 
 class Pay(commands.Cog):
@@ -17,22 +18,23 @@ class Pay(commands.Cog):
     @commands.slash_command(name="pay", description="Pay someone")
     async def pay(self, ctx, user: disnake.User, amount: int):
         try:
+            lang = get_language_file(ctx.guild.preferred_locale)
             userS = ctx.author
             guild = ctx.guild
             presision = [f"userID = {userS.id}", f"guildID = {guild.id}"]
 
             if userS == user:
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You can't pay yourself.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["selfPay"],
                     color=disnake.Color.red()
                 )
                 return
 
             if amount < 1:
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You can't pay less than 1 coin.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["invalidAmount"],
                     color=disnake.Color.red()
                 )
                 return
@@ -46,8 +48,8 @@ class Pay(commands.Cog):
                 }
                 Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You don't have enough coins.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["noCoins"],
                     color=disnake.Color.red()
                 )
                 pass
@@ -60,8 +62,8 @@ class Pay(commands.Cog):
 
             if userSBal < amount:
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You don't have enough coins.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["noCoins"],
                     color=disnake.Color.red()
                 )
                 return
@@ -72,8 +74,8 @@ class Pay(commands.Cog):
                 Saver.update(self.dataTable, [f"userID = {user.id}", f"guildID = {guild.id}"], {"coins": userBal})
 
                 embed = disnake.Embed(
-                    title="💸 Paid",
-                    description=f"You paid {user.mention} `{amount}` coins!\nYour balance: `{userSBal}`\n{user.mention}'s balance: `{userBal}`",
+                    title=lang["Economy"]["pay"]["title"],
+                    description=lang["Economy"]["pay"]["description"].format(userR=user.mention, amount=amount, userSBal=userSBal, userBal=userBal),
                     color=disnake.Color.blurple()
                 )
             except Exception as e:

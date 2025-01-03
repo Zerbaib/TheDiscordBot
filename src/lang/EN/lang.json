@@ -39,6 +39,16 @@
                 "title": "⏳ Cooldown ⏳",
                 "description": "You need to wait `{int(hours)}h {int(minutes)}m {int(seconds)}s` before earning again."
             }
+        },
+        "pay": {
+            "title": "💸 Pay 💸",
+            "description": "You paid {userR} `{amount}` coins!\nYour balance: `{userSBal}`\n{userR}'s balance: `{userBal}`",
+            "errors": {
+                "title": "⚠️ Error ⚠️",
+                "selfPay": "You can't pay yourself",
+                "invalidAmount": "You can't pay less than 1 coin",
+                "noCoins": "You don't have enough coins to pay"
+            }
         }
     },
     "Ranking": {
