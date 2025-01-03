@@ -3,6 +3,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
 
 
 class Baltop(commands.Cog):
@@ -17,14 +18,16 @@ class Baltop(commands.Cog):
     @commands.slash_command(name="baltop", description="See the top 10 users with the highest balances")
     async def baltop(self, ctx):
             try:
+                lang = get_language_file(ctx.guild.id)
+
                 guildID = ctx.guild.id
                 topUsers = Saver.query(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")
 
-                message = "\n".join([f"**#{i+1}** <@{user[0]}> - **{user[1]}** coins" for i, user in enumerate(topUsers)])
+                message = "\n".join([lang["Economy"]["baltop"]["fields"].fomat(i=i+1, userId=user[0], userBal=user[1]) for i, user in enumerate(topUsers)])
 
                 embed = disnake.Embed(
-                    title="🏆 Top 10 Balances 🏆",
-                    description=message if message else "No users found.",
+                    title=lang["Economy"]["baltop"]["title"],
+                    description=message if message else lang["Economy"]["baltop"]["errors"]["noUser"],
                     color=disnake.Color.gold()
                 )
                 await ctx.send(embed=embed)

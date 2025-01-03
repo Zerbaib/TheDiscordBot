@@ -24,6 +24,13 @@
         "balance": {
             "title": "💰 Balance 💰",
             "description": "You have `{coins}` coins"
+        },
+        "baltop": {
+            "title": "🏆 Top 10 Balances 🏆",
+            "fields": "**#{i}** <@{userId}> - **{userBal}** coins",
+            "errors": {
+                "noUser": "No users found."
+            }
         }
     },
     "Ranking": {
