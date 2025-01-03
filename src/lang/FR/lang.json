@@ -1,15 +1,67 @@
 {
+    "Casino": {
+        "casters": {
+            "title": "🎰 Casino 🎰",
+            "description": "You have `{coins}` coins",
+            "footer": "User: {displayName} | Balance: {userBal} coins",
+            "win": {
+                "title": "🎉 You won!",
+                "description": "The result is `{result}`.\nYou won `{win}` coins!\nGongrats {mention}!"
+            },
+            "lose": {
+                "title": "😢 You lost!",
+                "description": "The result is `{result}`.\nYou lost `{lose}` coins!\nBetter luck next time {mention}!"
+            },
+            "errors": {
+                "title": "⚠️ Error ⚠️",
+                "noCoins": "You don't have enough coins to play",
+                "invalidAmount": "You can't bet less than 1 coin.",
+                "invalidChoice": "Please choose a valid option."
+            }
+        }
+    },
+    "Economy": {
+        "balance": {
+            "title": "💰 Balance 💰",
+            "description": "You have `{coins}` coins"
+        },
+        "baltop": {
+            "title": "🏆 Top 10 Balances 🏆",
+            "fields": "**#{i}** <@{userId}> - **{userBal}** coins",
+            "errors": {
+                "noUser": "No users found."
+            }
+        },
+        "earn"  : {
+            "title": "💸 Earn Coins 💸",
+            "description": "You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
+            "cooldown": {
+                "title": "⏳ Cooldown ⏳",
+                "description": "You need to wait `{int(hours)}h {int(minutes)}m {int(seconds)}s` before earning again."
+            }
+        },
+        "pay": {
+            "title": "💸 Pay 💸",
+            "description": "You paid {userReciever} `{amount}` coins!\nYour balance: `{userSenderBal}`\n{userReciever}'s balance: `{userRecieverBal}`",
+            "errors": {
+                "title": "⚠️ Error ⚠️",
+                "selfPay": "You can't pay yourself",
+                "invalidAmount": "You can't pay less than 1 coin",
+                "noCoins": "You don't have enough coins to pay"
+            }
+        }
+    },
     "Ranking": {
         "rank": {
-            "title": "📊 Informations sur le Rang 📊",
+            "title": "📊 Rank Information 📊",
             "errors": {
-                "isBot": "L'utilisateur {mention} est un bot",
-                "notRank": "L'utilisateur {mention} n'est pas encore classé"
+                "isBot": "User {mention} is a bot",
+                "notRank": "User {mention} is not ranked yet"
             }
         },
         "leaderboard": {
-            "title": "📊 Classement 📊",
-            "fields": "Niveau `{level}` avec `{xp}` XP"
+            "title": "📊 Leaderboard 📊",
+            "fields": "Level `{level}` with `{xp}` XP"
         }
     }
 }
