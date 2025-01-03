@@ -1,0 +1,15 @@
+{
+    "Ranking": {
+        "rank": {
+            "title": "📊 Informations sur le Rang 📊",
+            "errors": {
+                "isBot": "L'utilisateur {mention} est un bot",
+                "notRank": "L'utilisateur {mention} n'est pas encore classé"
+            }
+        },
+        "leaderboard": {
+            "title": "📊 Classement 📊",
+            "fields": "Niveau `{level}` avec `{xp}` XP"
+        }
+    }
+}

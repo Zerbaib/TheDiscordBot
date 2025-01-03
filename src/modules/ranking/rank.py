@@ -8,6 +8,7 @@ from src.data.var import files, folders, rankGrade, tableLiaison
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
 
 
 class Rank(commands.Cog):
@@ -33,14 +34,15 @@ class Rank(commands.Cog):
     @commands.slash_command(name="rank", description="Check your rank")
     async def rank(self, ctx, member: disnake.Member = None):
         try:
+            lang = get_language_file(ctx.guild.preferred_locale)
             if member:
                 user = member
             else:
                 user = ctx.author
             if user.bot:
                 embed = disnake.Embed(
-                    title="📊 Rank Information 📊",
-                    description=f"User {user.mention} is a bot",
+                    title=lang["Ranking"]["rank"]["title"],
+                    description=lang["Ranking"]["rank"]["errors"]["isBot"].format(mention=user.mention),
                     color=disnake.Color.blurple()
                 )
                 return await ctx.send(embed=embed)
@@ -56,8 +58,8 @@ class Rank(commands.Cog):
                 grade = usrData[2]
             except IndexError:
                 embed = disnake.Embed(
-                    title="📊 Rank Information 📊",
-                    description=f"User {user.mention} is not ranked yet",
+                    title=lang["Ranking"]["rank"]["title"],
+                    description=lang["Ranking"]["rank"]["errors"]["notRank"].format(mention=user.mention),
                     color=disnake.Color.blurple()
                 )
                 await ctx.send(embed=embed)

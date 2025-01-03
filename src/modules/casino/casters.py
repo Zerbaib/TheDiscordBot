@@ -6,10 +6,14 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
 
 
 class Caster(commands.Cog):
     def __init__(self, bot):
+        self.casesP = ["00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
+        self.choices = ["even", "odd", "red", "black", "00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
+
         self.bot = bot
         self.dataTable = "economy"
 
@@ -19,22 +23,21 @@ class Caster(commands.Cog):
         pass
 
     @commands.slash_command(name="caster", description="nothing goes anymore")
-    async def caster(self, ctx, choice, bet: int):
+    async def caster(self, inter, choice, bet: int):
         try:
-            casesP = ["00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
-            choices = ["even", "odd", "red", "black", "00", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32"]
-            user = ctx.author
-            guild = ctx.guild
+            lang = get_language_file(inter.guild.preferred_locale)
+            await inter.response.defer()
+            user = inter.user
+            guild = inter.guild
             presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
 
             if bet < 1:
                 embed = disnake.Embed(
-                    title="🚫 Invalid Bet",
-                    description="You can't bet less than 1 coin.",
+                    title=lang["Casino"]["casters"]["errors"]["title"],
+                    description=lang["Casino"]["casters"]["errors"]["invalidAmount"],
                     color=disnake.Color.red()
                 )
-                return await ctx.send(embed=embed)
-
+                return await inter.edit_original_message(embed=embed)
             if not Saver.fetch(self.dataTable, presision):
                 data = {
                     "guildID": guild.id,
@@ -47,29 +50,28 @@ class Caster(commands.Cog):
                     description="You have been registered to the economy system.",
                     color=disnake.Color.green()
                 )
-                await ctx.send(embed=embed)
-                return
+                return await inter.edit_original_message(embed=embed)
 
             userBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
 
             if userBal < bet:
                 embed = disnake.Embed(
-                    title="🚫 Insufficient Balance",
-                    description="You don't have enough coins to bet.",
+                    title=lang["Casino"]["casters"]["errors"]["title"],
+                    description=lang["Casino"]["casters"]["errors"]["noCoins"],
                     color=disnake.Color.red()
                 )
-                return await ctx.send(embed=embed)
+                return await inter.edit_original_message(embed=embed)
 
-            if not choice.lower() in choices:
+            if not choice.lower() in self.choices:
                 embed = disnake.Embed(
-                    title="🚫 Invalid Choice",
-                    description="Please choose a valid option.",
+                    title=lang["Casino"]["casters"]["errors"]["title"],
+                    description=lang["Casino"]["casters"]["errors"]["invalidChoice"],
                     color=disnake.Color.red()
                 )
-                embed.add_field(name="Choices", value="even, odd, red, black, 00, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32")
-                return await ctx.send(embed=embed)
+                embed.add_field(name="**========================================**", value="even, odd, red, black, 00, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32")
+                return await inter.edit_original_message(embed=embed)
 
-            if choice.lower() not in casesP:
+            if choice.lower() not in self.casesP:
                 if choice.lower() == "odd":
                     cases = ["1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21", "23", "25", "27", "29", "31"]
                     multiplier = 2
@@ -92,10 +94,11 @@ class Caster(commands.Cog):
                 color=disnake.Color.blurple()
             )
             embed.set_image(url="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExczR2ZW1vM2lkeGZmZ2tkMDVmZDQ3azNpZ3Z0ZXpsM2w5MzNhYnNrOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26uf2YTgF5upXUTm0/giphy.gif")
-            await ctx.send(embed=embed, delete_after=4)
+            await inter.edit_original_message(embed=embed)
 
             userBal -= bet
-            result = random.choice(casesP)
+            result = random.choice(self.casesP)
+
             if result in cases:
                 userBal += bet * multiplier
                 embed = disnake.Embed(
@@ -115,12 +118,11 @@ class Caster(commands.Cog):
             time.sleep(4)
 
             embed.set_footer(text=f"User: {user.display_name} | Balance: {userBal} coins")
-            await ctx.send(embed=embed)
+            await inter.edit_original_message(embed=embed)
             Log.log(f"CASINO on {guild.id} user {user.id} [{choice}] {result} -> {userBal}")
         except Exception as e:
-            await ctx.send(embed=error(e))
             Log.error(e)
-            return
+            return await inter.edit_original_message(embed=error(e))
 
 def setup(bot):
     bot.add_cog(Caster(bot))
