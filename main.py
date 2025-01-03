@@ -1,13 +1,15 @@
+from datetime import datetime
+
 import disnake
 import src.utils.creator
 import src.utils.loader
 import src.utils.starter
 from disnake.ext import commands
-from src.data.var import load_config, load_ownerID
+from src.data.var import initTime, load_config
 from src.utils.logger import Log
 
-t, prefix = load_config()
-ownerID = load_ownerID()
+prefix = load_config("prefix")
+ownerID = load_config("ownerId")
 
 bot = commands.Bot(
     command_prefix=prefix,
@@ -18,6 +20,7 @@ bot = commands.Bot(
 
 class main():
     def __init__(self):
+        initTime(datetime.now())
         self.bot = bot
         src.utils.creator.Creator()
         src.utils.loader.Loader(self.bot)

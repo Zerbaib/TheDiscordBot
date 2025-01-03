@@ -1,6 +1,5 @@
 import disnake
 from disnake.ext import commands
-from src.data.var import *
 from src.utils.logger import Log
 from src.utils.saver import Saver
 

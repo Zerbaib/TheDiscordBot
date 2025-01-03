@@ -6,12 +6,11 @@ def error_embed(e):
     """
     Create an embed with an error message.
 
-    Parameters:
-        title (str): The title of the error embed.
-        description (str): The description of the error embed.
+    Args:
+        e (Exception): The exception
 
     Returns:
-        disnake.Embed: The error embed.
+        disnake.Embed: The embed
     """
     head = "A error as poped !"
     body = f"The exception is\n\n```{e}```"

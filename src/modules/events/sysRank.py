@@ -5,7 +5,7 @@ from json import load
 
 import disnake
 from disnake.ext import commands
-from src.data.var import *
+from src.data.var import files, rankGrade, rateLimitXpDaily, tableLiaison
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
@@ -24,8 +24,11 @@ class sysRank(commands.Cog):
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
         try:
+            if member.bot:
+                return
             guild = member.guild
             presision = [f"guildID = {guild.id}", f"userID = {member.id}"]
+            channel = after.channel
 
             if not Saver.fetch(self.dataTables, presision):
                 data = {
@@ -68,7 +71,7 @@ class sysRank(commands.Cog):
                     if oldGrade != highest_grade:
                         Saver.update(self.dataTables, presision, {"grade": highest_grade})
 
-                        with open(emojiFile, 'r') as f:
+                        with open(files["emojis"], 'r') as f:
                             rankGradeEmoji = load(f)
 
                         liaison_name = tableLiaison.get(highest_grade)
@@ -77,8 +80,8 @@ class sysRank(commands.Cog):
                         else:
                             Log.warn(f"Failed to get emoji id {highest_grade}")
 
-                        mess = f"Congratulations {member.mention} :fire:, you have been promoted to grade **{highest_grade}** <:{liaison_name}:{emoji_id}> ! in {guild.name}."
-                        await member.send(mess)
+                        mess = f"Congratulations {member.mention} :fire:, you have been promoted to grade **{highest_grade}** <:{liaison_name}:{emoji_id}> !"
+                        await channel.send(mess)
                         Log.log(f"GRADE on {guild.id} user {member.id} [+] {oldGrade} -> {highest_grade}")
                 await asyncio.sleep(60)
                 if member.voice is None:
@@ -161,7 +164,7 @@ class sysRank(commands.Cog):
                     if oldGrade != highest_grade:
                         Saver.update(self.dataTables, presision, {"grade": highest_grade})
 
-                        with open(emojiFile, 'r') as f:
+                        with open(files["emojis"], 'r') as f:
                             rankGradeEmoji = load(f)
 
                         liaison_name = tableLiaison.get(highest_grade)

@@ -1,22 +1,28 @@
-configFolder = "./config/"
-cogsFolder = "./src/modules/"
-logFolder = "./logs/"
-dataFolder = "./src/data/"
-assetsFolder = "./assets/"
-imgFolder = f"{assetsFolder}img/"
-
-dbInstructionsFile = f"{dataFolder}structure.sql"
-
-policeFile = f"{assetsFolder}arialbd.ttf"
-dbFile = f"{dataFolder}bdd.db"
-configFile = f"{configFolder}config.json"
-emojiFile = f"{configFolder}emojis.json"
-rankWallpaperFile = f"{imgFolder}wallpaper.png"
-rankWallpaperFinishedFile = f"{imgFolder}wallpaper_finished.png"
-logFile = f"{logFolder}.log"
+folders = {
+    "config": "./config/",
+    "cogs": "./src/modules/",
+    "logs": "./logs/",
+    "data": "./src/data/",
+    "assets": "./assets/",
+    "img": "./assets/img/"
+}
+files = {
+    "config": f"{folders['config']}config.json",
+    "emojis": f"{folders['config']}emojis.json",
+    "instructions": f"{folders['data']}structure.sql",
+    "police": f"{folders['assets']}arialbd.ttf",
+    "wallpaper": f"{folders['img']}wallpaper.png",
+    "wallpaper_finished": f"{folders['img']}wallpaper_finished.png"
+}
 
 coinEarn = 100
 rateLimitXpDaily = 300
+
+def initTime(value):
+    global startTimestamp
+    global logFile
+    startTimestamp = value.strftime("%Hh%M_%d-%m-%Y")
+    logFile = f"{folders['logs']}{startTimestamp}.log"
 
 class Color():
     reset = "\033[0m"
@@ -24,24 +30,16 @@ class Color():
     orange = "\033[33m"
     green = "\033[32m"
     blue = "\033[34m"
-def load_config():
+def load_config(value):
     try:
-        with open(configFile, 'r') as f:
+        if value not in ["token", "prefix", "ownerId"]:
+            raise ValueError("Invalid value. Expected 'token' or 'prefix' or 'ownerId'.")
+        with open(files["config"], 'r') as f:
             import json
             data = json.load(f)
-            token = data['token']
-            prefix = data['prefix']
-            return token, prefix
-    except Exception as e:
-        print(e)
-        return None, None
-def load_ownerID():
-    try:
-        with open(configFile, 'r') as f:
-            import json
-            data = json.load(f)
-            ownerID = int(data['ownerId'])
-            return ownerID
+            if value == "ownerId":
+                return int(data.get(value))
+            return data.get(value)
     except Exception as e:
         print(e)
         return None
@@ -137,7 +135,6 @@ emojisID = {
     "champion3": 1318560853624098876,
     "grandchampion": 1318560972478349352
 }
-
 keys = {
     'ticket_category': 'Ticket Category',
     'support_role': 'Support Role',

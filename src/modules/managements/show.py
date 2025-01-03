@@ -1,6 +1,6 @@
 import disnake
 from disnake.ext import commands
-from src.data.var import keys, keys_values
+from src.data.var import keys_values
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -58,7 +58,7 @@ class Show(commands.Cog):
             )
             if guild.icon:
                 embed.set_thumbnail(url=guild.icon.url)
-            await ctx.send(embed=embed)
+            await ctx.send(embed=embed, ephemeral=True)
         except Exception as e:
             Log.error("Failed to execute /show")
             Log.error(e)

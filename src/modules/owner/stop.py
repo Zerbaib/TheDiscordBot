@@ -23,7 +23,7 @@ class Stop(commands.Cog):
                 color=disnake.Color.red()
             )
             await ctx.send(embed=embed, ephemeral=True)
-            self.bot.close()
+            await self.bot.close()
         except Exception as e:
             Log.error("Failed to execute /stop")
             Log.error(e)

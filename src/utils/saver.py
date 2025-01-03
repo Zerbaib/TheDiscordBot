@@ -1,13 +1,13 @@
 import json
 
 import mysql.connector
-from src.data.var import *
+from src.data.var import files
 from src.utils.logger import Log
 from tabulate import tabulate
 
-with open(dbInstructionsFile, 'r') as f:
+with open(files["instructions"], 'r') as f:
     dbInstructions = f.read()
-with open(configFile, 'r') as f:
+with open(files["config"], 'r') as f:
     config = json.load(f)
     dbUser = config["dbUser"]
     dbPass = config["dbPass"]
@@ -57,9 +57,8 @@ def createDB():
 class Saver():
     def __init__(self):
         self.cursor, self.conn = createDB()
-        table_data = self.initDB()
-        if table_data:
-            display_table(table_data)
+        if self.initDB():
+            display_table(self.initDB())
         else:
             print("| Aucune donnée trouvée |")
 
@@ -86,6 +85,17 @@ class Saver():
             Log.error(e)
             exit()
     def fetch(dataTable, presision, dataFetch = "*"):
+        """
+        Fetch data from the database
+
+        Parameters:
+            dataTable (str): The table to fetch data from
+            presision (dict): The conditions to fetch data
+            dataFetch (list): The data to fetch
+
+        Returns:
+            data (list): The fetched data
+        """
         try:
             if type(dataFetch) == list:
                 dataFetch = ", ".join(dataFetch)
@@ -96,12 +106,7 @@ class Saver():
                     query += f" {item} AND"
                 query = query[:-4]
             Log.sql(query)
-
-            cur, conn = connectDB()
-            cur.execute(query)
-            data = cur.fetchall()
-            conn.close()
-            return data
+            return sql_cur_fetchall(query)
         except Exception as e:
             if "list index out of range" in str(e):
                 Log.warn(e)
@@ -109,6 +114,16 @@ class Saver():
             Log.error(e)
             return
     def save(dataTable, data):
+        """
+        Save data to the database
+
+        Parameters:
+            dataTable (str): The table to save data to
+            data (dict): The data to save
+
+        Returns:
+            None
+        """
         try:
             query = f"INSERT INTO {dataTable}"
             query += " ("
@@ -132,6 +147,17 @@ class Saver():
             Log.error(e)
             return
     def update(dataTable, presision, data):
+        """
+        Update data in the database
+        
+        Parameters:
+            dataTable (str): The table to update data in
+            presision (dict): The conditions to update data
+            data (dict): The data to update
+        
+        Returns:
+            None
+        """
         try:
             query = f"UPDATE {dataTable} SET"
             for item in data:
@@ -144,7 +170,7 @@ class Saver():
                 query += " WHERE"
                 for item in presision:
                     query += f" {item} AND"
-            query = query[:-4]
+                query = query[:-4]
             Log.sql(query)
 
             cur, conn = connectDB()
@@ -157,13 +183,24 @@ class Saver():
             Log.error(e)
             return
     def query(query):
-        try:
-            Log.sql(query)
+        """
+        Execute a query
 
+        Parameters:
+            query (str): The query to execute
+
+        Returns:
+            data (list): The fetched data
+        """
+        try:
             cur, conn = connectDB()
             cur.execute(query)
             data = cur.fetchall()
+            conn.commit()
+            cur.close()
             conn.close()
+            Log.sql(query)
+            
             return data
         except Exception as e:
             Log.error("Failed to execute query")
@@ -172,3 +209,10 @@ class Saver():
 
     def close(self):
         self.conn.close()
+
+def sql_cur_fetchall(query):
+    cur, conn = connectDB()
+    cur.execute(query)
+    data = cur.fetchall()
+    conn.close()
+    return data
