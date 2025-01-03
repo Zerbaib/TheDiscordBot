@@ -66,9 +66,9 @@ class Pay(commands.Cog):
                 Saver.save(self.dataTable, userRecieverAccount)
                 userRecieverBal = userRecieverAccount["coins"]
             else:
-                userRecieverBal = userRecieverAccount[0][0]
-            userSenderBal = userSenderAccount[0][0]
-            print(userSenderBal, userSenderAccount)
+                userRecieverBal = userRecieverAccount[0][3]
+            userSenderBal = userSenderAccount[0][3]
+
             if userSenderBal < amount:
                 embed = disnake.Embed(
                     title="❌ Error",
