@@ -66,7 +66,7 @@ class Pay(commands.Cog):
                     "cooldown": 0
                 }
                 Saver.save(self.dataTable, userRecieverAccount)
-                userRecieverBal = userRecieverAccount[0]
+                userRecieverBal = userRecieverAccount["coins"]
             else:
                 userRecieverBal = userRecieverAccount[0][0]
             userSenderBal = userSenderAccount[0][0]
@@ -83,7 +83,7 @@ class Pay(commands.Cog):
 
                 embed = disnake.Embed(
                     title="💸 Paid",
-                    description=f"You paid {user.mention} `{amount}` coins!\nYour balance: `{userSBal}`\n{user.mention}'s balance: `{userBal}`",
+                    description=f"You paid {user.mention} `{amount}` coins!\nYour balance: `{userSenderBal}`\n{user.mention}'s balance: `{userRecieverBal}`",
                     color=disnake.Color.blurple()
                 )
                 await ctx.send(embed=embed)
