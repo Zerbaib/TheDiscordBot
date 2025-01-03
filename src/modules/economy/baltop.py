@@ -18,7 +18,7 @@ class Baltop(commands.Cog):
     @commands.slash_command(name="baltop", description="See the top 10 users with the highest balances")
     async def baltop(self, ctx):
             try:
-                lang = get_language_file(ctx.guild.id)
+                lang = get_language_file(ctx.guild.preferred_locale)
 
                 guildID = ctx.guild.id
                 topUsers = Saver.query(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")

@@ -31,6 +31,14 @@
             "errors": {
                 "noUser": "No users found."
             }
+        },
+        "earn"  : {
+            "title": "💸 Earn Coins 💸",
+            "description": "You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
+            "cooldown": {
+                "title": "⏳ Cooldown ⏳",
+                "description": "You need to wait `{int(hours)}h {int(minutes)}m {int(seconds)}s` before earning again."
+            }
         }
     },
     "Ranking": {
