@@ -39,10 +39,8 @@ class Pay(commands.Cog):
                 )
                 return await ctx.send(embed=embed)
 
-            print(userSender.id, userReciever.id, guild.id)
             userSenderAccount = Saver.fetch(self.dataTable, precisionSender)
             userRecieverAccount = Saver.fetch(self.dataTable, precisionReciever)
-            print(userSenderAccount, userRecieverAccount)
 
             if not userSenderAccount:
                 userSenderAccount = {
@@ -70,6 +68,7 @@ class Pay(commands.Cog):
             else:
                 userRecieverBal = userRecieverAccount[0][0]
             userSenderBal = userSenderAccount[0][0]
+            print(userSenderBal, userSenderAccount)
             if userSenderBal < amount:
                 embed = disnake.Embed(
                     title="❌ Error",
