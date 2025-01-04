@@ -17,6 +17,8 @@ class Rank(commands.Cog):
         self.dataTable = "ranking"
         self.tableLiaison = get_rank_info_config("liaison")
         self.rankGrade = get_rank_info_config("grade")
+        print(self.rankGrade)
+        print(self.tableLiaison)
 
     def circle(self, pfp, size=(125, 125)):
         pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
