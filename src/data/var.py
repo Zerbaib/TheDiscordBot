@@ -80,7 +80,7 @@ def get_rank_info_config(index):
     from json import load
     with open(files["rank"], 'r') as f:
         dataRankFiles = load(f)
-    return dataRankFiles.get(index)
+    return dataRankFiles.get(index)[0]
 
 emojisID = {
     "bronze1": 1318555597993410600,
