@@ -36,15 +36,7 @@ class Rank(commands.Cog):
     @commands.slash_command(name="rank", description="Check your rank")
     async def rank(self, ctx, member: disnake.Member = None):
         try:
-            try:
-                lang = get_language_file(ctx.guild.preferred_locale)
-            except KeyError:
-                embed = disnake.Embed(
-                    title="Error",
-                    description="Language file is missing the 'rank' key.",
-                    color=disnake.Color.red()
-                )
-                return await ctx.send(embed=embed)
+            lang = get_language_file(ctx.guild.preferred_locale)
             if member:
                 user = member
             else:
