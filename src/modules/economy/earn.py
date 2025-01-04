@@ -5,7 +5,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
-
+from src.utils.lang import get_language_file
 
 class Earn(commands.Cog):
     def __init__(self, bot):
