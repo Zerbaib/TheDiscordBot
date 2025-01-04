@@ -67,9 +67,6 @@ class Rank(commands.Cog):
                 )
                 await ctx.send(embed=embed)
                 return
-            print(grade)
-            print(self.rankGrade)
-            print(self.tableLiaison)
             liaison_name = self.tableLiaison.get(grade)
             if not liaison_name:
                 Log.warn(f"Failed to get emoji id {grade}")
