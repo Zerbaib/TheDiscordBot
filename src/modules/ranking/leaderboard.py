@@ -2,7 +2,7 @@ from json import load
 
 import disnake
 from disnake.ext import commands
-from src.data.var import files, tableLiaison
+from src.data.var import files, get_rank_info_config
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -13,6 +13,7 @@ class Leaderboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.dataTable = "ranking"
+        self.tableLiaison = get_rank_info_config("liaison")
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -50,7 +51,7 @@ class Leaderboard(commands.Cog):
                     with open(files["emojis"], 'r') as f:
                         rankGradeEmoji = load(f)
 
-                    liaison_name = tableLiaison.get(grade)
+                    liaison_name = self.tableLiaison.get(grade)
                     if liaison_name:
                         emoji_id = rankGradeEmoji.get(liaison_name)
 

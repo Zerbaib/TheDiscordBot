@@ -4,7 +4,7 @@ from io import BytesIO
 import disnake
 from disnake.ext import commands
 from PIL import Image, ImageChops, ImageDraw, ImageFont
-from src.data.var import files, folders, rankGrade, tableLiaison
+from src.data.var import files, folders, get_rank_info_config
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
@@ -15,6 +15,8 @@ class Rank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.dataTable = "ranking"
+        self.tableLiaison = get_rank_info_config("liaison")
+        self.rankGrade = get_rank_info_config("grade")
 
     def circle(self, pfp, size=(125, 125)):
         pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
@@ -64,16 +66,16 @@ class Rank(commands.Cog):
                 )
                 await ctx.send(embed=embed)
                 return
-            liaison_name = tableLiaison.get(grade)
+            liaison_name = self.tableLiaison.get(grade)
             if not liaison_name:
                 Log.warn(f"Failed to get emoji id {grade}")
 
             actualGrade = grade
             if actualGrade is None:
-                actualGrade = list(rankGrade.keys())[0]
-            nextGrade = list(rankGrade.keys())[list(rankGrade.keys()).index(grade) + 1] if grade in rankGrade else None
-            actualGradeXp = rankGrade[actualGrade]
-            nextGradeXp = rankGrade[nextGrade] if nextGrade else None
+                actualGrade = list(self.rankGrade.keys())[0]
+            nextGrade = list(self.rankGrade.keys())[list(self.rankGrade.keys()).index(grade) + 1] if grade in self.rankGrade else None
+            actualGradeXp = self.rankGrade[actualGrade]
+            nextGradeXp = self.rankGrade[nextGrade] if nextGrade else None
             if nextGradeXp:
                 progress = (xp - actualGradeXp) / (nextGradeXp - actualGradeXp)
                 if not progress:

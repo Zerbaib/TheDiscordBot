@@ -1,5 +1,6 @@
 # Folder bot
-config/
+config.json
+emojis.json
 logs/
 
 # Data files
