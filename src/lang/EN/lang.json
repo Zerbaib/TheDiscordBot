@@ -1,5 +1,9 @@
 {
     "Casino": {
+        "created": {
+            "title": "🔩 Economy Account Created",
+            "description": "You have been registered to the economy system."
+        },
         "casters": {
             "title": "🎰 Casino 🎰",
             "description": "You have `{coins}` coins",

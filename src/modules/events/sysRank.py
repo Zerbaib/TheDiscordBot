@@ -5,7 +5,7 @@ from json import load
 
 import disnake
 from disnake.ext import commands
-from src.data.var import files, rankGrade, rateLimitXpDaily, tableLiaison
+from src.data.var import files, rateLimitXpDaily, get_rank_info_config
 from src.utils.logger import Log
 from src.utils.saver import Saver
 
@@ -14,6 +14,8 @@ class sysRank(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.dataTables = "ranking"
+        self.tableLiaison = get_rank_info_config("liaison")
+        self.rankGrade = get_rank_info_config("grade")
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -63,7 +65,7 @@ class sysRank(commands.Cog):
                     pass
 
                 highest_grade = None
-                for grade, value in rankGrade.items():
+                for grade, value in self.rankGrade.items():
                     if newXP >= value:
                         highest_grade = grade
                 if highest_grade:
@@ -74,7 +76,7 @@ class sysRank(commands.Cog):
                         with open(files["emojis"], 'r') as f:
                             rankGradeEmoji = load(f)
 
-                        liaison_name = tableLiaison.get(highest_grade)
+                        liaison_name = self.tableLiaison.get(highest_grade)
                         if liaison_name:
                             emoji_id = rankGradeEmoji.get(liaison_name)
                         else:
@@ -156,7 +158,7 @@ class sysRank(commands.Cog):
                 nextLevelXP = 5 * (oldLevel ** 2) + 10 * oldLevel + 10
 
                 highest_grade = None
-                for grade, value in rankGrade.items():
+                for grade, value in self.rankGrade.items():
                     if newXP >= value:
                         highest_grade = grade
                 if highest_grade:
@@ -167,7 +169,7 @@ class sysRank(commands.Cog):
                         with open(files["emojis"], 'r') as f:
                             rankGradeEmoji = load(f)
 
-                        liaison_name = tableLiaison.get(highest_grade)
+                        liaison_name = self.tableLiaison.get(highest_grade)
                         if liaison_name:
                             emoji_id = rankGradeEmoji.get(liaison_name)
                         else:
