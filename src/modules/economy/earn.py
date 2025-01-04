@@ -54,7 +54,7 @@ class Earn(commands.Cog):
                 minutes, seconds = divmod(remainder, 60)
                 embed = disnake.Embed(
                     title=lang["Economy"]["earn"]["cooldown"]["title"],
-                    description=lang["Economy"]["earn"]["cooldown"]["description"].format(hours=hours, minutes=minutes, seconds=seconds),
+                    description=lang["Economy"]["earn"]["cooldown"]["description"].format(hours=int(hours), minutes=int(minutes), seconds=int(seconds)),
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)

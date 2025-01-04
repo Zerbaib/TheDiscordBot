@@ -41,7 +41,7 @@
             "description": "You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
             "cooldown": {
                 "title": "⏳ Cooldown ⏳",
-                "description": "You need to wait `{int(hours)}h {int(minutes)}m {int(seconds)}s` before earning again."
+                "description": "You need to wait `{hours}h {minutes}m {seconds}s` before earning again."
             }
         },
         "pay": {

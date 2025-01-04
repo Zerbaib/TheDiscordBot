@@ -41,7 +41,7 @@
             "description": "Vous avez gagné `{coinEarn}` pièces ! 💰\nTotal des pièces : `{userBal}`",
             "cooldown": {
                 "title": "⏳ Temps de Recharge ⏳",
-                "description": "Vous devez attendre `{int(hours)}h {int(minutes)}m {int(seconds)}s` avant de gagner à nouveau."
+                "description": "Vous devez attendre `{hours}h {minutes}m {seconds}s` avant de gagner à nouveau."
             }
         },
         "pay": {
