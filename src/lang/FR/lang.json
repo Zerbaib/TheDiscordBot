@@ -4,6 +4,10 @@
             "title": "🎰 Casino 🎰",
             "description": "Vous avez `{coins}` pièces",
             "footer": "Utilisateur : {displayName} | Solde : {userBal} pièces",
+            "created": {
+                "title": "🔩 Compte Économie Créé",
+                "description": "Vous avez été enregistré dans le système économique."
+            },
             "win": {
                 "title": "🎉 Vous avez gagné !",
                 "description": "Le résultat est `{result}`.\nVous avez gagné `{win}` pièces !\nFélicitations {mention} !"
