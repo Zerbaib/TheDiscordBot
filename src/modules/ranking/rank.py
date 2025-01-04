@@ -9,6 +9,7 @@ from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
 from src.utils.lang import get_language_file
+from main import prefix
 
 
 class Rank(commands.Cog):
@@ -17,8 +18,6 @@ class Rank(commands.Cog):
         self.dataTable = "ranking"
         self.tableLiaison = get_rank_info_config("liaison")
         self.rankGrade = get_rank_info_config("grade")
-        print(self.rankGrade)
-        print(self.tableLiaison)
 
     def circle(self, pfp, size=(125, 125)):
         pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
@@ -68,6 +67,9 @@ class Rank(commands.Cog):
                 )
                 await ctx.send(embed=embed)
                 return
+            print(grade)
+            print(self.rankGrade)
+            print(self.tableLiaison)
             liaison_name = self.tableLiaison.get(grade)
             if not liaison_name:
                 Log.warn(f"Failed to get emoji id {grade}")
