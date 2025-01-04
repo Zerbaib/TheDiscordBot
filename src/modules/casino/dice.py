@@ -21,6 +21,7 @@ class Dice(commands.Cog):
     @commands.slash_command(name="dice", description="Roll a dice")
     async def dice(self, ctx, bet: int):
         try:
+            lang = get_language_file(ctx.guild.preferred_locale)
             user = ctx.author
             guild = ctx.guild
             presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
@@ -41,8 +42,8 @@ class Dice(commands.Cog):
                 }
                 Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
-                    title="🔩 Economy Account Created",
-                    description="You have been registered to the economy system.",
+                    title=lang["Casino"]["created"]["title"],
+                    description=lang["Casino"]["created"]["description"],
                     color=disnake.Color.green()
                 )
                 await ctx.send(embed=embed)

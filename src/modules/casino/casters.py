@@ -46,8 +46,8 @@ class Caster(commands.Cog):
                 }
                 Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
-                    title=lang["Casino"]["casters"]["created"]["title"],
-                    description=lang["Casino"]["casters"]["created"]["description"],
+                    title=lang["Casino"]["created"]["title"],
+                    description=lang["Casino"]["created"]["description"],
                     color=disnake.Color.green()
                 )
                 return await inter.edit_original_message(embed=embed)
