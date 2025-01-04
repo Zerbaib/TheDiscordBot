@@ -14,7 +14,7 @@ files = {
     "police": f"{folders['assets']}arialbd.ttf",
     "wallpaper": f"{folders['img']}wallpaper.png",
     "wallpaper_finished": f"{folders['img']}wallpaper_finished.png",
-    "ranks": f"{folders['config']}ranks.json",
+    "rank": f"{folders['config']}ranks.json",
 }
 
 coinEarn = 100
