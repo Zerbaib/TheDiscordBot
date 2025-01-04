@@ -1,3 +1,5 @@
+import json
+
 folders = {
     "config": "./config/",
     "cogs": "./src/modules/",
@@ -75,8 +77,9 @@ class Version():
             return
 
 def get_rank_info_config(index):
+    from json import load
     with open(files["rank"], 'r') as f:
-        dataRankFiles = json.load(f)
+        dataRankFiles = load(f)
     return dataRankFiles.get(index)
 
 emojisID = {
