@@ -46,8 +46,8 @@ class Caster(commands.Cog):
                 }
                 Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
-                    title="🔩 Economy Account Created",
-                    description="You have been registered to the economy system.",
+                    title=lang["Casino"]["casters"]["created"]["title"],
+                    description=lang["Casino"]["casters"]["created"]["description"],
                     color=disnake.Color.green()
                 )
                 return await inter.edit_original_message(embed=embed)

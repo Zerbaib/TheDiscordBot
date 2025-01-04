@@ -4,6 +4,10 @@
             "title": "🎰 Casino 🎰",
             "description": "You have `{coins}` coins",
             "footer": "User: {displayName} | Balance: {userBal} coins",
+            "created": {
+                "title": "🔩 Economy Account Created",
+                "description": "You have been registered to the economy system."
+            },
             "win": {
                 "title": "🎉 You won!",
                 "description": "The result is `{result}`.\nYou won `{win}` coins!\nGongrats {mention}!"
