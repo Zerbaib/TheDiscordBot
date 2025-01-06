@@ -79,15 +79,19 @@ class Members(commands.Cog):
             join_channel = guild.get_channel(get_guild_config(guild.id)[4])
             if join_channel:
                 if await self.gen_banner(member):
-                    await join_channel.send(file=disnake.File(files["join_banner_finished"]))
-                
-                embed = disnake.Embed(
-                    title='Member Joined',
-                    description=f'{member.mention} has joined the server!',
-                    color=disnake.Color.green()
-                )
-                embed.set_thumbnail(url=member.avatar.url)
-                await join_channel.send(embed=embed)
+                    await join_channel.send(member.mention, file=disnake.File(files["join_banner_finished"]))
+                    try:
+                        os.remove(files["join_banner_finished"])
+                    except Exception as e:
+                        Log.warn(e)
+                else:
+                    embed = disnake.Embed(
+                        title='Member Joined',
+                        description=f'{member.mention} has joined the server!',
+                        color=disnake.Color.green()
+                    )
+                    embed.set_thumbnail(url=member.avatar.url)
+                    await join_channel.send(embed=embed)
                 pass
             pass
         pass
