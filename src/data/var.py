@@ -16,6 +16,8 @@ files = {
     "police": f"{folders['assets']}arialbd.ttf",
     "wallpaper": f"{folders['img']}wallpaper.png",
     "wallpaper_finished": f"{folders['img']}wallpaper_finished.png",
+    "join_banner": f"{folders['img']}join_banner.jpg",
+    "join_banner_finished": f"{folders['img']}join_banner_finished.jpg",
     "rank": f"{folders['config']}rank.json",
 }
 
