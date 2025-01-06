@@ -60,16 +60,6 @@ class Members(commands.Cog):
         Log.info('🧰 Members log has been loaded')
         pass
 
-    @commands.command()
-    async def test(self, ctx):
-        member = ctx.author
-        if await self.gen_banner(member):
-            await ctx.send(member.mention, file=disnake.File(files["join_banner_finished"]))
-            try:
-                os.remove(files["join_banner_finished"])
-            except Exception as e:
-                Log.warn(e)
-        await ctx.send(member.mention)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
