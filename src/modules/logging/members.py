@@ -3,7 +3,9 @@ from disnake.ext import commands
 from src.utils.logger import Log
 from src.utils.saver import Saver
 from PIL import Image, ImageChops, ImageDraw, ImageFont
-from src.data.var import files, folders
+from io import BytesIO
+from src.data.var import files
+import os
 
 
 def get_guild_config(guild_id):
@@ -20,7 +22,7 @@ class Members(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def circle(self, pfp, size=(125, 125)):
+    def circle(self, pfp, size=(250, 250)):
         pfp = pfp.resize(size, Image.LANCZOS).convert("RGBA")
         bigsize = (pfp.size[0] * 3, pfp.size[1] * 3)
         mask = Image.new('L', bigsize, 0)
@@ -31,17 +33,23 @@ class Members(commands.Cog):
         pfp.putalpha(mask)
         return pfp
     
-    def gen_banner(self, member):
+    async def gen_banner(self, member):
         try:
             banner = Image.open(files["join_banner"])
-            pfp = member.avatar.with_size(125)
+            avatar_bytes = await member.avatar.read()
+            pfp = Image.open(BytesIO(avatar_bytes))
             pfp = self.circle(pfp)
-            banner.paste(pfp, (25, 25), pfp)
+            banner.paste(pfp, (175, 50), pfp)
             banner.save(files["join_banner_finished"])
             draw = ImageDraw.Draw(banner)
-            font = ImageFont.truetype(files["police"], 20)
-            draw.text((160, 60), member.display_name, font=font, fill="black")
-            draw.text((160, 90), "Welcome to the server!", font=font, fill="black")
+            font = ImageFont.truetype(files["police"], 60)
+            draw.text((475, 95), member.display_name, font=font, fill="#4f5053")
+            font = ImageFont.truetype(files["police"], 40)
+            text = f'Welcome on {member.guild.name}'
+            text2 = f'You are the {len(member.guild.members)}th member'
+            draw.text((475, 180), text, font=font, fill="#4f5053")
+            draw.text((475, 220), text2, font=font, fill="#4f5053")
+            banner.save(files["join_banner_finished"])
             return True
         except Exception as e:
             Log.error(e)
@@ -52,23 +60,16 @@ class Members(commands.Cog):
         Log.info('🧰 Members log has been loaded')
         pass
 
-    @commands.Cog.slash_command(name="members", description="Check the number of members in the server")
-    async def members(self, inter):
-        try:
-            await inter.response.defer()
-            guild = inter.guild
-            members = len(guild.members)
-            if self.gen_banner(inter.author):
-                await inter.channel.send(file=disnake.File(files["join_banner_finished"]))
-            
-            embed = disnake.Embed(
-                title="Members",
-                description=f"The server has {members} members.",
-                color=disnake.Color.blue()
-            )
-            await inter.edit_original_response(embed=embed)
-        except Exception as e:
-            Log.error(e)
+    @commands.command()
+    async def test(self, ctx):
+        member = ctx.author
+        if await self.gen_banner(member):
+            await ctx.send(member.mention, file=disnake.File(files["join_banner_finished"]))
+            try:
+                os.remove(files["join_banner_finished"])
+            except Exception as e:
+                Log.warn(e)
+        await ctx.send(member.mention)
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -77,7 +78,7 @@ class Members(commands.Cog):
         if get_guild_config(guild.id):
             join_channel = guild.get_channel(get_guild_config(guild.id)[4])
             if join_channel:
-                if self.gen_banner(member):
+                if await self.gen_banner(member):
                     await join_channel.send(file=disnake.File(files["join_banner_finished"]))
                 
                 embed = disnake.Embed(
@@ -110,3 +111,4 @@ class Members(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Members(bot))
+
