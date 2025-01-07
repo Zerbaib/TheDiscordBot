@@ -70,7 +70,7 @@ class Log():
             print(f"{Color.orange}{self.cat[1]}{Color.reset} {message}")
             write(self.cat[1], message)
 
-    def info(message):
+    def info(self, message):
         """
         Print info message with green color
 
@@ -81,7 +81,7 @@ class Log():
             print(f"{Color.green}{self.cat[2]}{Color.reset} {message}")
             write(self.cat[2], message)
 
-    def log(message):
+    def log(self, message):
         """
         Print log message with white color
 
@@ -92,7 +92,7 @@ class Log():
             print(f"{Color.reset}{self.cat[3]}{Color.reset} {message}")
             write(self.cat[3], message)
 
-    def sql(message):
+    def sql(self, message):
         """
         Print sql message with blue color
 
