@@ -2,6 +2,7 @@ from datetime import datetime
 
 from src.data.var import Color, load_config
 
+cat = ["[ERROR]", "[WARN] ", "[INFO] ", "[LOG]  ", "[SQL]  "]
 
 def write(cat, message):
     """
@@ -14,39 +15,36 @@ def write(cat, message):
     with open(var.logFile, 'a', encoding="utf-8") as f:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         f.write(f"{timestamp} - {cat} - {message}\n")
-
-
-class Log():
-    def __init__(self):
-        self.config = load_config("logLevel")
-        cat = ["[ERROR]", "[WARN] ", "[INFO] ", "[LOG]  ", "[SQL]  "]
-        pass
-
-    def check_leveling_log(self, cat):
+def check_leveling_log(cate):
         """
         Check the level of loggings (all, info, warn, error, sql, none)
 
         Returns:
             bool: True if need to log, False id not log
         """
-        if self.config == "all":
+        config = load_config("logLevel")
+        if config == "all":
             return True
-        elif self.config == "info":
-            if cat == self.cat[0] or cat == self.cat[1] or cat == self.cat[2]:
+        elif config == "info":
+            if cate == cat[0] or cate == cat[1] or cate == cat[2]:
                 return True
             else:
                 return False
-        elif self.config == "warn":
-            if cat == self.cat[0] or cat == self.cat[1]:
+        elif config == "warn":
+            if cate == cat[0] or cate == cat[1]:
                 return True
             else:
                 return False
-        elif self.config == "error" and cat == self.cat[0]:
+        elif config == "error" and cate == cat[0]:
             return True
-        elif self.config == "sql" and cat == self.cat[3] or cat == self.cat[4]:
+        elif config == "sql" and cate == cat[3] or cate == cat[4]:
             return True
         else:
             return False
+
+class Log():
+    def __init__(self):
+        pass
 
     def error(message):
         """
@@ -66,9 +64,9 @@ class Log():
         Args:
             message (str): warning message
         """
-        if self.check_leveling_log(self.cat[1]):
-            print(f"{Color.orange}{self.cat[1]}{Color.reset} {message}")
-            write(self.cat[1], message)
+        if check_leveling_log(cat[1]):
+            print(f"{Color.orange}{cat[1]}{Color.reset} {message}")
+            write(cat[1], message)
 
     def info(message):
         """
@@ -77,9 +75,9 @@ class Log():
         Args:
             message (str): info message
         """
-        if self.check_leveling_log(self.cat[2]):
-            print(f"{Color.green}{self.cat[2]}{Color.reset} {message}")
-            write(self.cat[2], message)
+        if check_leveling_log(cat[2]):
+            print(f"{Color.green}{cat[2]}{Color.reset} {message}")
+            write(cat[2], message)
 
     def log(message):
         """
@@ -88,9 +86,9 @@ class Log():
         Args:
             message (str): log message
         """
-        if self.check_leveling_log(self.cat[3]):
-            print(f"{Color.reset}{self.cat[3]}{Color.reset} {message}")
-            write(self.cat[3], message)
+        if check_leveling_log(cat[3]):
+            print(f"{Color.reset}{cat[3]}{Color.reset} {message}")
+            write(cat[3], message)
 
     def sql(message):
         """
@@ -99,6 +97,6 @@ class Log():
         Args:
             message (str): sql message
         """
-        if self.check_leveling_log(self.cat[4]):
-            print(f"{Color.blue}{self.cat[4]}{Color.reset} {message}")
-            write(self.cat[4], message)
+        if check_leveling_log(cat[4]):
+            print(f"{Color.blue}{cat[4]}{Color.reset} {message}")
+            write(cat[4], message)
