@@ -19,7 +19,7 @@ def write(cat, message):
 class Log():
     def __init__(self):
         self.config = load_config("logLevel")
-        self.cat = ["[ERROR]", "[WARN] ", "[INFO] ", "[LOG]  ", "[SQL]  "]
+        cat = ["[ERROR]", "[WARN] ", "[INFO] ", "[LOG]  ", "[SQL]  "]
         pass
 
     def check_leveling_log(self, cat):
@@ -48,18 +48,18 @@ class Log():
         else:
             return False
 
-    def error(self, message):
+    def error(message):
         """
         Print error message with red color
 
         Args:
             message (str): error message
         """
-        if self.check_leveling_log(self.cat[0]):
-            print(f"{Color.red}{self.cat[0]}{Color.reset} {message}")
-            write(self.cat[0], message)
+        if check_leveling_log(cat[0]):
+            print(f"{Color.red}{cat[0]}{Color.reset} {message}")
+            write(cat[0], message)
 
-    def warn(self, message):
+    def warn(message):
         """
         Print warning message with orange color
 
@@ -70,7 +70,7 @@ class Log():
             print(f"{Color.orange}{self.cat[1]}{Color.reset} {message}")
             write(self.cat[1], message)
 
-    def info(self, message):
+    def info(message):
         """
         Print info message with green color
 
@@ -81,7 +81,7 @@ class Log():
             print(f"{Color.green}{self.cat[2]}{Color.reset} {message}")
             write(self.cat[2], message)
 
-    def log(self, message):
+    def log(message):
         """
         Print log message with white color
 
@@ -92,7 +92,7 @@ class Log():
             print(f"{Color.reset}{self.cat[3]}{Color.reset} {message}")
             write(self.cat[3], message)
 
-    def sql(self, message):
+    def sql(message):
         """
         Print sql message with blue color
 
