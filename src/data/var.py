@@ -38,8 +38,8 @@ class Color():
     blue = "\033[34m"
 def load_config(value):
     try:
-        if value not in ["token", "prefix", "ownerId"]:
-            raise ValueError("Invalid value. Expected 'token' or 'prefix' or 'ownerId'.")
+        if value not in ["token", "prefix", "ownerId", "logLevel"]:
+            raise ValueError("Invalid value. Expected 'token' or 'prefix' or 'ownerId' or 'logLevel'.")
         with open(files["config"], 'r') as f:
             import json
             data = json.load(f)
@@ -135,5 +135,6 @@ data = {
     "dbPass": "your_db_pass",
     "dbHost": "your_db_host",
     "dbPort": "your_db_port",
-    "dbName": "your_db_name"
+    "dbName": "your_db_name",
+    "logLevel": "all",
 }
