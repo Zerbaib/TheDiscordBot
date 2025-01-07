@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import src.data.var as var
 from src.data.var import Color, load_config
 
 cat = ["[ERROR]", "[WARN] ", "[INFO] ", "[LOG]  ", "[SQL]  "]
