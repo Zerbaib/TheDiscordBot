@@ -20,6 +20,9 @@ def check_leveling_log(cate):
         """
         Check the level of loggings (all, info, warn, error, sql, none)
 
+        Args:
+            cate (str): category of the log message
+
         Returns:
             bool: True if need to log, False id not log
         """
