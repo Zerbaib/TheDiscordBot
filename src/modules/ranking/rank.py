@@ -10,6 +10,7 @@ from src.utils.logger import Log
 from src.utils.saver import Saver
 from src.utils.lang import get_language_file
 from main import prefix
+from src.modules.owner.restart import Restart
 
 
 class Rank(commands.Cog):
@@ -77,13 +78,18 @@ class Rank(commands.Cog):
             nextGrade = list(self.rankGrade.keys())[list(self.rankGrade.keys()).index(grade) + 1] if grade in self.rankGrade else None
             actualGradeXp = self.rankGrade[actualGrade]
             nextGradeXp = self.rankGrade[nextGrade] if nextGrade else None
-            if nextGradeXp:
-                progress = (xp - actualGradeXp) / (nextGradeXp - actualGradeXp)
-                if not progress:
-                    progress = 0
-                progress_bar = "█" * int(progress * 20) + "░" * (20 - int(progress * 20))
-            else:
-                progress_bar = "█" * 20
+            try:
+                if nextGradeXp:
+                    progress = (xp - actualGradeXp) / (nextGradeXp - actualGradeXp)
+                    if not progress:
+                        progress = 0
+                    progress_bar = "█" * int(progress * 20) + "░" * (20 - int(progress * 20))
+                else:
+                    progress_bar = "█" * 20
+            except Exception as e:
+                Log.error("Failed to calculate progress")
+                Log.error(e)
+                return await ctx.send(embed=error(e))
 
             background = Image.open(files["wallpaper"])
             asset = user.display_avatar.with_size(1024)
