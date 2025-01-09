@@ -73,11 +73,18 @@ class Rank(commands.Cog):
                 Log.warn(f"Failed to get emoji id {grade}")
 
             actualGrade = grade
-            if actualGrade is None:
-                actualGrade = list(self.rankGrade.keys())[0]
-            nextGrade = list(self.rankGrade.keys())[list(self.rankGrade.keys()).index(grade) + 1] if grade in self.rankGrade else None
-            actualGradeXp = self.rankGrade[actualGrade]
-            nextGradeXp = self.rankGrade[nextGrade] if nextGrade else None
+            
+            try:
+                if actualGrade is None:
+                    actualGrade = list(self.rankGrade.keys())[0]
+                nextGrade = list(self.rankGrade.keys())[list(self.rankGrade.keys()).index(grade) + 1] if grade in self.rankGrade else None
+                actualGradeXp = self.rankGrade[actualGrade]
+                nextGradeXp = self.rankGrade[nextGrade] if nextGrade else None
+            except Exception as e:
+                Log.error("Failed to get grade")
+                Log.error(e)
+                return await ctx.send(embed=error(e))
+            
             try:
                 if nextGradeXp:
                     progress = (xp - actualGradeXp) / (nextGradeXp - actualGradeXp)
