@@ -77,7 +77,10 @@ class Rank(commands.Cog):
             try:
                 if actualGrade is None:
                     actualGrade = list(self.rankGrade.keys())[0]
-                nextGrade = list(self.rankGrade.keys())[list(self.rankGrade.keys()).index(grade) + 1] if grade in self.rankGrade else None
+                try:
+                    nextGrade = list(self.rankGrade.keys())[list(self.rankGrade.keys()).index(grade) + 1] if grade in self.rankGrade else None
+                except IndexError:
+                    nextGrade = None
                 actualGradeXp = self.rankGrade[actualGrade]
                 nextGradeXp = self.rankGrade[nextGrade] if nextGrade else None
             except Exception as e:
