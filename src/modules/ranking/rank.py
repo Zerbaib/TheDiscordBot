@@ -116,7 +116,8 @@ class Rank(commands.Cog):
                 draw = ImageDraw.Draw(background)
                 font = ImageFont.truetype(files["police"], 24)
                 text = grade
-                text_width, text_height = draw.textbbox((0, 0), text, font=font)[2:]
+                text_bbox = draw.textbbox((0, 0), text, font=font)
+                text_width = text_bbox[2] - text_bbox[0]
                 position = ((background.width - text_width) // 2, 380)
                 draw.text(position, text, font=font, fill="#3d403e")
 
