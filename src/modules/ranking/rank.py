@@ -136,7 +136,11 @@ class Rank(commands.Cog):
             font = ImageFont.truetype(files["police"], 20)
             draw = ImageDraw.Draw(background)
             text = f"[{progress_bar}] {round(progress*100)}%"
-            draw.text((266, 340), text, font=font, fill="#3d403e")
+            text_bbox = draw.textbbox((0, 0), text, font=font)
+            text_width = text_bbox[2] - text_bbox[0]
+            position = ((background.width - text_width) // 2, 320)
+            draw.text(position, text, font=font, fill="#3d403e")
+            #draw.text((266, 340), text, font=font, fill="#3d403e")
 
             background.paste(pfp, (700, 30), pfp)
             background.save(files["wallpaper_finished"], "PNG")
