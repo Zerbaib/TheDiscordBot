@@ -116,7 +116,9 @@ class Rank(commands.Cog):
                 draw = ImageDraw.Draw(background)
                 font = ImageFont.truetype(files["police"], 24)
                 text = grade
-                draw.text((370, 380), text, font=font, fill="#3d403e")
+                text_width, text_height = draw.textsize(text, font=font)
+                position = ((background.width - text_width) // 2, 380)
+                draw.text(position, text, font=font, fill="#3d403e")
 
             text_overlay = Image.new('RGBA', background.size, (255, 255, 255, 0))
             overlay_draw = ImageDraw.Draw(text_overlay)
