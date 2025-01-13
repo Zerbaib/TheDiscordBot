@@ -99,9 +99,24 @@ class sysRank(commands.Cog):
             await self.bot.wait_until_ready()
             while not self.bot.is_closed():
                 await asyncio.sleep(50)
-                current_time = datetime.datetime.now().time()
-                if current_time.hour == 23 and current_time.minute == 00:
-                    Saver.update(f"ranking", None, {"rate": rateLimitXpDaily})
+                currentTime = datetime.datetime.now().time()
+                if currentTime.hour == 23 and currentTime.minute == 00:
+                    usersData = Saver.fetch_all(self.dataTables, ["userID", "xp", "rate"])
+                    for userData in usersData:
+                        userId, xp, rate = userData
+                        if xp < 100:
+                            xp = xp - 10
+                        elif xp < 500:
+                            xp = xp - 50
+                        elif xp < 1000:
+                            xp = xp - 100
+                        elif xp < 2500:
+                            xp = xp - 150
+                        else:
+                            xp = xp - 200
+                        if xp < 0:
+                            xp = 0
+                        Save.update(self.dataTables, [f"userID = {userId}"], {"xp": xp, "rate": rateLimitXpDaily})
                     Log.log(f"RATE LIMIT RESET")
                     pass
         except Exception as e:
