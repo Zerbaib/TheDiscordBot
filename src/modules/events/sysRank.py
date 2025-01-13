@@ -116,6 +116,12 @@ class sysRank(commands.Cog):
                             xp = xp - 200
                         if xp < 0:
                             xp = 0
+                        grade = None
+                        for g, value in self.rankGrade.items():
+                            if xp >= value:
+                                grade = g
+                        if grade:
+                            Saver.update(self.dataTables, [f"userID = {userId}"], {"grade": grade})
                         Save.update(self.dataTables, [f"userID = {userId}"], {"xp": xp, "rate": rateLimitXpDaily})
                     Log.log(f"RATE LIMIT RESET")
                     pass
