@@ -23,7 +23,7 @@ class Baltop(commands.Cog):
                 guildID = ctx.guild.id
                 topUsers = Saver.query(f"SELECT userID, coins FROM economy WHERE guildID = {guildID} ORDER BY coins DESC LIMIT 10")
 
-                message = "\n".join([lang["Economy"]["baltop"]["fields"].fomat(i=i+1, userId=user[0], userBal=user[1]) for i, user in enumerate(topUsers)])
+                message = "\n".join([lang["Economy"]["baltop"]["fields"].format(i=i+1, userId=user[0], userBal=user[1]) for i, user in enumerate(topUsers)])
 
                 embed = disnake.Embed(
                     title=lang["Economy"]["baltop"]["title"],
