@@ -101,7 +101,7 @@ class sysRank(commands.Cog):
                 await asyncio.sleep(50)
                 currentTime = datetime.datetime.now().time()
                 if currentTime.hour == 23 and currentTime.minute == 00:
-                    usersData = Saver.fetch_all(self.dataTables, ["userID", "xp", "rate"])
+                    usersData = Saver.fetch(self.dataTables, ["userID", "xp", "rate"])
                     for userData in usersData:
                         userId, xp, rate = userData
                         if xp < 100:
