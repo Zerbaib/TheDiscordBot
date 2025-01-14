@@ -136,5 +136,5 @@ data = {
     "dbHost": "your_db_host",
     "dbPort": "your_db_port",
     "dbName": "your_db_name",
-    "logLevel": "all",
+    "logLevel": "-",
 }
