@@ -104,7 +104,9 @@ class sysRank(commands.Cog):
                     usersData = Saver.fetch(self.dataTables, ["userID", "xp", "rate"])
                     for userData in usersData:
                         userId, xp, rate = userData
-                        if xp < 100:
+                        if xp < 50:
+                            xp = xp - 0
+                        elif xp < 100:
                             xp = xp - 10
                         elif xp < 500:
                             xp = xp - 50
