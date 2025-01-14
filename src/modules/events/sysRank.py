@@ -103,7 +103,7 @@ class sysRank(commands.Cog):
                 if currentTime.hour == 6 and currentTime.minute == 00:
                     usersData = Saver.fetch(self.dataTables, ["userID", "xp", "rate"])
                     for userData in usersData:
-                        userId, xp, rate, *_ = userData
+                        userId, xp, rate, = userData[0], userData[1], userData[2]
                         if xp < 50:
                             xp = xp - 0
                         elif xp < 100:
