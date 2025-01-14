@@ -102,9 +102,7 @@ class sysRank(commands.Cog):
                 currentTime = datetime.datetime.now().time()
                 if currentTime.hour == 11 and currentTime.minute == 50:
                     usersData = Saver.query("SELECT userID, xp, rate FROM ranking")
-                    print(usersData)
                     for userData in usersData:
-                        print(userData)
                         userId, xp, rate = userData[0], userData[1], userData[2]
                         if xp <= 0:
                             xp = 0
