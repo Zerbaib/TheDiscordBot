@@ -100,7 +100,7 @@ class sysRank(commands.Cog):
             while not self.bot.is_closed():
                 await asyncio.sleep(50)
                 currentTime = datetime.datetime.now().time()
-                if currentTime.hour == 5 and currentTime.minute == 8:
+                if currentTime.hour == 5 and currentTime.minute == 15:
                     usersData = Saver.fetch(self.dataTables, ["userID", "xp", "rate"])
                     for userData in usersData:
                         userId, xp, rate, *_ = userData
@@ -124,7 +124,7 @@ class sysRank(commands.Cog):
                                 grade = g
                         if grade:
                             Saver.update(self.dataTables, [f"userID = {userId}"], {"grade": grade})
-                        Save.update(self.dataTables, [f"userID = {userId}"], {"xp": xp, "rate": rateLimitXpDaily})
+                        Saver.update(self.dataTables, [f"userID = {userId}"], {"xp": xp, "rate": rateLimitXpDaily})
                     Log.log(f"RATE LIMIT RESET")
                     pass
         except Exception as e:
