@@ -100,26 +100,26 @@ class sysRank(commands.Cog):
             while not self.bot.is_closed():
                 await asyncio.sleep(50)
                 currentTime = datetime.datetime.now().time()
-                if currentTime.hour == 11 and currentTime.minute == 44:
+                if currentTime.hour == 11 and currentTime.minute == 50:
                     usersData = Saver.query("SELECT userID, xp, rate FROM ranking")
                     print(usersData)
                     for userData in usersData:
                         print(userData)
                         userId, xp, rate = userData[0], userData[1], userData[2]
-                        if xp < 50:
+                        if xp <= 0:
+                            xp = 0
+                        elif 0 < xp <= 50:
                             xp = xp - 0
-                        elif xp < 100:
+                        elif 51 < xp <= 100:
                             xp = xp - 10
-                        elif xp < 500:
+                        elif 101 < xp <= 500:
                             xp = xp - 50
-                        elif xp < 1000:
+                        elif 501 < xp <= 1000:
                             xp = xp - 100
-                        elif xp < 2500:
+                        elif 1001 < xp <= 2500:
                             xp = xp - 150
                         else:
                             xp = xp - 200
-                        if xp < 0:
-                            xp = 0
                         grade = None
                         for g, value in self.rankGrade.items():
                             if xp >= value:
