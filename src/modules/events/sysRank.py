@@ -100,7 +100,7 @@ class sysRank(commands.Cog):
             while not self.bot.is_closed():
                 await asyncio.sleep(50)
                 currentTime = datetime.datetime.now().time()
-                if currentTime.hour == 11 and currentTime.minute == 50:
+                if currentTime.hour == 23 and currentTime.minute == 00:
                     usersData = Saver.query("SELECT userID, xp, rate FROM ranking")
                     for userData in usersData:
                         userId, xp, rate = userData[0], userData[1], userData[2]
