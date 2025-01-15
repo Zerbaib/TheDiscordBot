@@ -103,7 +103,7 @@ class sysRank(commands.Cog):
                 if currentTime.hour == 23 and currentTime.minute == 00:
                     usersData = Saver.query("SELECT userID, xp, rate FROM ranking")
                     for userData in usersData:
-                        userId, xp, rate = userData[0], userData[1], userData[2]
+                        userId, xp = userData[0], userData[1]
                         if xp <= 0:
                             xp = 0
                         elif 0 < xp <= 50:
