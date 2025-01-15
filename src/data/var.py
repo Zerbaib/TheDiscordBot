@@ -22,7 +22,7 @@ files = {
 }
 
 coinEarn = 100
-rateLimitXpDaily = 300
+rateLimitXpDaily = 400
 
 def initTime(value):
     global startTimestamp
