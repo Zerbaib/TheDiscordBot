@@ -80,14 +80,7 @@ def check_leveling_log(cate):
 
 class Log():
     def __init__(self):
-        self.server_started = False
-        for thread in threading.enumerate():
-            if thread.name == "ServerThread":
-            self.server_started = True
-            break
-        if not self.server_started:
-            server_thread = threading.Thread(target=start_server, daemon=True, name="ServerThread")
-            server_thread.start()
+        pass
 
     def error(message):
         """
