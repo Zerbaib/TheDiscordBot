@@ -6,6 +6,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
 
 
 class Dice(commands.Cog):
@@ -21,14 +22,15 @@ class Dice(commands.Cog):
     @commands.slash_command(name="dice", description="Roll a dice")
     async def dice(self, ctx, bet: int):
         try:
+            lang = get_language_file(ctx.guild.preferred_locale)
             user = ctx.author
             guild = ctx.guild
             presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
 
             if bet < 1:
                 embed = disnake.Embed(
-                    title="🚫 Invalid Bet",
-                    description="You can't bet less than 1 coin.",
+                    title=lang["Casino"]["dice"]["errors"]["title"],
+                    description=lang["Casino"]["dice"]["errors"]["invalidAmount"],
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
@@ -41,8 +43,8 @@ class Dice(commands.Cog):
                 }
                 Saver.save(self.dataTable, data)
                 embed = disnake.Embed(
-                    title="🔩 Economy Account Created",
-                    description="You have been registered to the economy system.",
+                    title=lang["Casino"]["created"]["title"],
+                    description=lang["Casino"]["created"]["description"],
                     color=disnake.Color.green()
                 )
                 await ctx.send(embed=embed)
@@ -52,8 +54,8 @@ class Dice(commands.Cog):
 
             if userBal < bet:
                 embed = disnake.Embed(
-                    title="🚫 Insufficient Balance",
-                    description="You don't have enough coins to bet.",
+                    title=lang["Casino"]["dice"]["errors"]["title"],
+                    description=lang["Casino"]["dice"]["errors"]["noCoins"],
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
@@ -62,8 +64,8 @@ class Dice(commands.Cog):
             dice2 = random.randint(1, 6)
 
             embed = disnake.Embed(
-                title="🎲 Rolling Dice",
-                description=f"Wait for the result...",
+                title=lang["Casino"]["dice"]["title"],
+                description=". . .",
                 color=disnake.Color.blurple()
             )
             embed.set_image(url=f"https://media1.tenor.com/m/jby_bYZfACwAAAAd/the-weeknd-run-it-up.gif")
@@ -73,16 +75,16 @@ class Dice(commands.Cog):
             if dice1 == dice2:
                 multiplier = dice1
                 embed = disnake.Embed(
-                    title="🎲 You Won",
-                    description=f"You rolled a {dice1} and a {dice2}. You won {bet * multiplier} coins.",
+                    title=lang["Casino"]["dice"]["win"]["title"],
+                    description=lang["Casino"]["dice"]["win"]["description"].format(dice1=dice1, dice2=dice2, win=bet*multiplier),
                     color=disnake.Color.green()
                 )
                 embed.set_image(url="https://media.tenor.com/ljG-wtgMFd0AAAAi/rollbit-stake.gif")
                 userBal += bet * multiplier
             else:
                 embed = disnake.Embed(
-                    title="🎲 You Lost",
-                    description=f"You rolled a {dice1} and a {dice2}. You lost {bet} coins.",
+                    title=lang["Casino"]["dice"]["lose"]["title"],
+                    description= lang["Casino"]["dice"]["lose"]["description"].format(dice1=dice1, dice2=dice2, bet=bet),
                     color=disnake.Color.red()
                 )
                 embed.set_image(url="https://media1.tenor.com/m/F1srlDHEYlEAAAAd/luigi-casino.gif")

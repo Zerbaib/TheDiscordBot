@@ -2,16 +2,18 @@ from json import load
 
 import disnake
 from disnake.ext import commands
-from src.data.var import files, tableLiaison
+from src.data.var import files, get_rank_info_config
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
 
 
 class Leaderboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.dataTable = "ranking"
+        self.tableLiaison = get_rank_info_config("liaison")
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -21,11 +23,12 @@ class Leaderboard(commands.Cog):
     @commands.slash_command(name="leaderboard", description="Check the leaderboard")
     async def leaderboard(self, inter):
         try:
+            lang = get_language_file(inter.guild.preferred_locale)
             await inter.response.defer()
             guild = inter.guild
 
             embed = disnake.Embed(
-                title=f"📊 Leaderboard",
+                title=lang["Ranking"]["leaderboard"]["title"],
                 color=disnake.Color.blurple()
                 )
 
@@ -48,7 +51,7 @@ class Leaderboard(commands.Cog):
                     with open(files["emojis"], 'r') as f:
                         rankGradeEmoji = load(f)
 
-                    liaison_name = tableLiaison.get(grade)
+                    liaison_name = self.tableLiaison.get(grade)
                     if liaison_name:
                         emoji_id = rankGradeEmoji.get(liaison_name)
 
@@ -57,9 +60,9 @@ class Leaderboard(commands.Cog):
                         title += f"<:{liaison_name}:{emoji_id}>"
                     title += f" {user.display_name}"
 
-                    embed.add_field(name=title, value=f"Level `{level}` with `{xp}` XP", inline=False)
+                    embed.add_field(name=title, value=lang["Ranking"]["leaderboard"]["fields"].format(level=level, xp=xp), inline=False)
 
-                    if user == user.bot:
+                    if user.bot:
                         Saver.query(f"DELETE FROM ranking WHERE userID = {userData[0]} AND guildID = {guild.id}")
                         Log.warn(f"Bot user {user.id} has been removed from leaderboard")
                         continue

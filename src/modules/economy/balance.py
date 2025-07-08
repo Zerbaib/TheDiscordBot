@@ -3,6 +3,8 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
+from src.utils.starter import Launch
 
 
 class Balance(commands.Cog):
@@ -18,6 +20,8 @@ class Balance(commands.Cog):
     @commands.slash_command(name="balance", description="Check your balance")
     async def balance(self, ctx):
         try:
+            lang = get_language_file(ctx.guild.preferred_locale)
+
             user = ctx.author
             guild = ctx.guild
             presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
@@ -35,8 +39,8 @@ class Balance(commands.Cog):
             userBal = Saver.fetch(self.dataTable, presision, "coins")[0][0]
 
             embed = disnake.Embed(
-                title="💰 Balance 💰",
-                description=f"Your balance is `{userBal}` coins",
+                title=lang["Economy"]["balance"]["title"],
+                description=lang["Economy"]["balance"]["description"].format(coins=userBal),
                 color=disnake.Color.blurple()
                 )
             await ctx.send(embed=embed)

@@ -149,12 +149,12 @@ class Saver():
     def update(dataTable, presision, data):
         """
         Update data in the database
-        
+
         Parameters:
             dataTable (str): The table to update data in
             presision (dict): The conditions to update data
             data (dict): The data to update
-        
+
         Returns:
             None
         """
@@ -200,7 +200,7 @@ class Saver():
             cur.close()
             conn.close()
             Log.sql(query)
-            
+
             return data
         except Exception as e:
             Log.error("Failed to execute query")

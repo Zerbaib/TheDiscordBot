@@ -1,0 +1,71 @@
+{
+    "Casino": {
+        "created": {
+            "title": "🔩 Compte Économie Créé",
+            "description": "Vous avez été enregistré dans le système économique."
+        },
+        "casters": {
+            "title": "🎰 Casino 🎰",
+            "description": "Vous avez `{coins}` pièces",
+            "footer": "Utilisateur : {displayName} | Solde : {userBal} pièces",
+            "win": {
+                "title": "🎉 Vous avez gagné !",
+                "description": "Le résultat est `{result}`.\nVous avez gagné `{win}` pièces !\nFélicitations {mention} !"
+            },
+            "lose": {
+                "title": "😢 Vous avez perdu !",
+                "description": "Le résultat est `{result}`.\nVous avez perdu `{lose}` pièces !\nBonne chance la prochaine fois {mention} !"
+            },
+            "errors": {
+                "title": "⚠️ Erreur ⚠️",
+                "noCoins": "Vous n'avez pas assez de pièces pour jouer",
+                "invalidAmount": "Vous ne pouvez pas miser moins de 1 pièce.",
+                "invalidChoice": "Veuillez choisir une option valide."
+            }
+        }
+    },
+    "Economy": {
+        "balance": {
+            "title": "💰 Solde 💰",
+            "description": "Vous avez `{coins}` pièces"
+        },
+        "baltop": {
+            "title": "🏆 Top 10 des Soldes 🏆",
+            "fields": "**#{i}** <@{userId}> - **{userBal}** pièces",
+            "errors": {
+                "noUser": "Aucun utilisateur trouvé."
+            }
+        },
+        "earn": {
+            "title": "💸 Gagner des Pièces 💸",
+            "description": "Vous avez gagné `{coinEarn}` pièces ! 💰\nTotal des pièces : `{userBal}`",
+            "cooldown": {
+                "title": "⏳ Temps de Recharge ⏳",
+                "description": "Vous devez attendre `{hours}h {minutes}m {seconds}s` avant de gagner à nouveau."
+            }
+        },
+        "pay": {
+            "title": "💸 Payer 💸",
+            "description": "Vous avez payé {userReciever} `{amount}` pièces !\nVotre solde : `{userSenderBal}`\nLe solde de {userReciever} : `{userRecieverBal}`",
+            "errors": {
+                "title": "⚠️ Erreur ⚠️",
+                "selfPay": "Vous ne pouvez pas vous payer vous-même",
+                "invalidAmount": "Vous ne pouvez pas payer moins de 1 pièce",
+                "noCoins": "Vous n'avez pas assez de pièces pour payer"
+            }
+        }
+    },
+    "Ranking": {
+        "rank": {
+            "title": "📊 Informations sur le Rang 📊",
+            "errors": {
+                "isBot": "L'utilisateur {mention} est un bot",
+                "notRank": "L'utilisateur {mention} n'est pas encore classé"
+            }
+        },
+        "leaderboard": {
+            "title": "📊 Classement 📊",
+            "fields": "Niveau `{level}` avec `{xp}` XP"
+        }
+    }
+}

@@ -5,7 +5,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
-
+from src.utils.lang import get_language_file
 
 class Earn(commands.Cog):
     def __init__(self, bot):
@@ -19,6 +19,7 @@ class Earn(commands.Cog):
     @commands.slash_command(name="earn", description="Earn some coins")
     async def earn(self, ctx):
         try:
+            lang = get_language_file(ctx.guild.preferred_locale)
             user = ctx.author
             guild = ctx.guild
             presision = [f"userID = {user.id}", f"guildID = {guild.id}"]
@@ -52,8 +53,8 @@ class Earn(commands.Cog):
                 hours, remainder = divmod(remainingTime, 3600)
                 minutes, seconds = divmod(remainder, 60)
                 embed = disnake.Embed(
-                    title="⏳ Cooldown",
-                    description=f"You need to wait `{int(hours)}h {int(minutes)}m {int(seconds)}s` before earning again.",
+                    title=lang["Economy"]["earn"]["cooldown"]["title"],
+                    description=lang["Economy"]["earn"]["cooldown"]["description"].format(hours=int(hours), minutes=int(minutes), seconds=int(seconds)),
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
@@ -66,8 +67,8 @@ class Earn(commands.Cog):
             try:
                 Saver.update(self.dataTable, presision, {"coins": userBal, "cooldown": timeNow})
                 embed = disnake.Embed(
-                    title="💸 Earn Coins 💸",
-                    description=f"You earned `{coinEarn}` coins! 💰\nTotal coins: `{userBal}`",
+                    title=lang["Economy"]["earn"]["title"],
+                    description=lang["Economy"]["earn"]["description"].format(coinEarn=coinEarn, userBal=userBal),
                     color=disnake.Color.blurple()
                 )
                 await ctx.send(embed=embed)

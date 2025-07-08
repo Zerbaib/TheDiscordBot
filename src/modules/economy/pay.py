@@ -3,7 +3,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
-from main import prefix
+from src.utils.lang import get_language_file
 
 
 class Pay(commands.Cog):
@@ -18,6 +18,7 @@ class Pay(commands.Cog):
     @commands.slash_command(name="pay", description="Pay someone")
     async def pay(self, ctx, user: disnake.User, amount: int):
         try:
+            lang = get_language_file(ctx.guild.preferred_locale)
             userSender = ctx.author
             userReciever = user
             guild = ctx.guild
@@ -26,15 +27,15 @@ class Pay(commands.Cog):
 
             if userSender == userReciever:
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You can't pay yourself.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["selfPay"],
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
             if amount < 1:
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You can't pay less than 1 coin.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["invalidAmount"],
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
@@ -51,8 +52,8 @@ class Pay(commands.Cog):
                 }
                 Saver.save(self.dataTable, userSenderAccount)
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You don't have enough coins.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["noCoins"],
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
@@ -71,8 +72,8 @@ class Pay(commands.Cog):
 
             if userSenderBal < amount:
                 embed = disnake.Embed(
-                    title="❌ Error",
-                    description="You don't have enough coins.",
+                    title=lang["Economy"]["pay"]["errors"]["title"],
+                    description=lang["Economy"]["pay"]["errors"]["noCoins"],
                     color=disnake.Color.red()
                 )
                 return await ctx.send(embed=embed)
@@ -81,8 +82,12 @@ class Pay(commands.Cog):
                 Saver.query(f"UPDATE {self.dataTable} SET coins = CASE WHEN userID = {userSender.id} THEN coins - {amount} WHEN userID = {userReciever.id} THEN coins + {amount} END WHERE userID IN ({userSender.id}, {userReciever.id}) AND guildID = {guild.id}")
 
                 embed = disnake.Embed(
-                    title="💸 Paid",
-                    description=f"You paid {user.mention} `{amount}` coins!\nYour balance: `{userSenderBal-amount}`\n{user.mention}'s balance: `{userRecieverBal+amount}`",
+                    title=lang["Economy"]["pay"]["title"],
+                    description=lang["Economy"]["pay"]["description"].format(
+                        userReciever=userReciever.mention,
+                        amount=amount,
+                        userSenderBal=userSenderBal-amount,
+                        userRecieverBal=userRecieverBal+amount),
                     color=disnake.Color.blurple()
                 )
                 await ctx.send(embed=embed)

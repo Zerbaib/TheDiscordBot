@@ -1,5 +1,6 @@
 # Folder bot
-config/
+config.json
+emojis.json
 logs/
 
 # Data files
@@ -12,8 +13,10 @@ logs/
 
 # V-Environment
 .env/
+env/
 .venv/
 venv/
 
 # Python cache
 __pycache__/
+*.pyc

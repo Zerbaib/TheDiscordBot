@@ -1,10 +1,13 @@
+import json
+
 folders = {
     "config": "./config/",
     "cogs": "./src/modules/",
     "logs": "./logs/",
     "data": "./src/data/",
     "assets": "./assets/",
-    "img": "./assets/img/"
+    "img": "./assets/img/",
+    "lang": "./src/lang/"
 }
 files = {
     "config": f"{folders['config']}config.json",
@@ -12,11 +15,15 @@ files = {
     "instructions": f"{folders['data']}structure.sql",
     "police": f"{folders['assets']}arialbd.ttf",
     "wallpaper": f"{folders['img']}wallpaper.png",
-    "wallpaper_finished": f"{folders['img']}wallpaper_finished.png"
+    "wallpaper_finished": f"{folders['img']}wallpaper_finished.png",
+    "join_banner": f"{folders['img']}join_banner.jpg",
+    "join_banner_finished": f"{folders['img']}join_banner_finished.jpg",
+    "rank": f"{folders['config']}rank.json",
+    "version": f"{folders['data']}version",
 }
 
 coinEarn = 100
-rateLimitXpDaily = 300
+rateLimitXpDaily = 400
 
 def initTime(value):
     global startTimestamp
@@ -32,8 +39,8 @@ class Color():
     blue = "\033[34m"
 def load_config(value):
     try:
-        if value not in ["token", "prefix", "ownerId"]:
-            raise ValueError("Invalid value. Expected 'token' or 'prefix' or 'ownerId'.")
+        if value not in ["token", "prefix", "ownerId", "logLevel"]:
+            raise ValueError("Invalid value. Expected 'token' or 'prefix' or 'ownerId' or 'logLevel'.")
         with open(files["config"], 'r') as f:
             import json
             data = json.load(f)
@@ -51,8 +58,8 @@ class Git():
     repos = "/Zerbaib/TheDiscordBot"
 class Version():
     fileName = "version"
-    localVersionFile = f"./{fileName}"
-    onlineVersionFile = f"{Git.rawLink}{Git.repos}{Git.branch}/{fileName}"
+    localVersionFile = files["version"]
+    onlineVersionFile = f"{Git.rawLink}{Git.repos}{Git.branch}/src/data/{fileName}"
 
     def getLocal():
         with open(Version.localVersionFile, 'r') as f:
@@ -72,48 +79,12 @@ class Version():
             Log.warn(e)
             return
 
-rankGrade = {
-    "Bronze I": 6,
-    "Bronze II": 150,
-    "Bronze III": 300,
-    "Silver I": 375,
-    "Silver II": 450,
-    "Silver III": 550,
-    "Gold I": 700,
-    "Gold II": 850,
-    "Gold III": 1000,
-    "Diamond I": 1150,
-    "Diamond II": 1300,
-    "Diamond III": 1500,
-    "Platinium I": 1750,
-    "Platinium II": 1900,
-    "Platinium III": 2100,
-    "Champion I": 2300,
-    "Champion II": 2600,
-    "Champion III": 2900,
-    "Grand Champion": 4000
-}
-tableLiaison = {
-    "Bronze I": "bronze1",
-    "Bronze II": "bronze2",
-    "Bronze III": "bronze3",
-    "Silver I": "silver1",
-    "Silver II": "silver2",
-    "Silver III": "silver3",
-    "Gold I": "gold1",
-    "Gold II": "gold2",
-    "Gold III": "gold3",
-    "Diamond I": "diamond1",
-    "Diamond II": "diamond2",
-    "Diamond III": "diamond3",
-    "Platinium I": "platinium1",
-    "Platinium II": "platinium2",
-    "Platinium III": "platinium3",
-    "Champion I": "champion1",
-    "Champion II": "champion2",
-    "Champion III": "champion3",
-    "Grand Champion": "grandchampion"
-}
+def get_rank_info_config(index):
+    from json import load
+    with open(files["rank"], 'r') as f:
+        dataRankFiles = load(f)
+    return dataRankFiles.get(index)
+
 emojisID = {
     "bronze1": 1318555597993410600,
     "bronze2": 1318555647863816254,
@@ -165,5 +136,6 @@ data = {
     "dbPass": "your_db_pass",
     "dbHost": "your_db_host",
     "dbPort": "your_db_port",
-    "dbName": "your_db_name"
+    "dbName": "your_db_name",
+    "logLevel": "-",
 }
