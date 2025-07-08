@@ -20,7 +20,6 @@ class BotInfo(commands.Cog):
     async def botinfo(self, ctx):
         try:
             bot = self.bot
-            guild = ctx.guild
             embed = disnake.Embed(
                 title=f"Bot Info - {bot.user.name}",
                 color=disnake.Color.blue(),
