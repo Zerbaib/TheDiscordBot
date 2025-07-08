@@ -22,6 +22,25 @@
                 "invalidAmount": "You can't bet less than 1 coin.",
                 "invalidChoice": "Please choose a valid option."
             }
+        },
+        "dice": {
+            "title": "🎲 Dice Roll 🎲",
+            "description": "You have `{coins}` coins",
+            "footer": "User: {displayName} | Balance: {userBal} coins",
+            "win": {
+                "title": "🎉 You won!",
+                "description": "You rolled a `{dice1}` and a `{dice2}`.\nYou won `{win}` coins!"
+            },
+            "lose": {
+                "title": "😢 You lost!",
+                "description": "You rolled a {dice1} and a {dice2}.\nYou lost {bet} coins."
+            },
+            "errors": {
+                "title": "⚠️ Error ⚠️",
+                "noCoins": "You don't have enough coins to play",
+                "invalidAmount": "You can't bet less than 1 coin.",
+                "invalidChoice": "Please choose a valid option."
+            }
         }
     },
     "Economy": {
