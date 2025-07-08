@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
-
+from src.data.var import files
 import disnake
 from disnake.ext import commands
+import src.data.var
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from main import bot
@@ -27,13 +28,16 @@ class BotInfo(commands.Cog):
             )
 
             owner = bot.get_user(bot.owner_id) or await bot.fetch_user(bot.owner_id)
+            with open(files["version"], "r") as f:
+                version = f.read().strip()
 
             embed.set_thumbnail(url=bot.user.avatar.url)
             embed.add_field(name="Bot ID", value=bot.user.id, inline=True)
+            embed.add_field(name="Bot Version", value=version, inline=True)
             embed.add_field(name="Owner", value=owner.mention, inline=True)
-            embed.add_field(name="Servers", value=len(bot.guilds), inline=True)
+            embed.add_field(name="Servers", value=len(bot.guilds), inline=False)
             embed.add_field(name="Users", value=len(bot.users), inline=True)
-            embed.add_field(name="Slash Commands", value=len(bot.slash_commands), inline=True)
+            embed.add_field(name="Slash Commands", value=len(bot.slash_commands), inline=False)
             embed.add_field(name="Created At", value=bot.user.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=False)
             embed.set_footer(text=f"Requested by {ctx.author.display_name}", icon_url=ctx.author.avatar.url)
 

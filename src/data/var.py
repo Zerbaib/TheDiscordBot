@@ -19,6 +19,7 @@ files = {
     "join_banner": f"{folders['img']}join_banner.jpg",
     "join_banner_finished": f"{folders['img']}join_banner_finished.jpg",
     "rank": f"{folders['config']}rank.json",
+    "version": f"{folders['data']}version",
 }
 
 coinEarn = 100
@@ -57,7 +58,7 @@ class Git():
     repos = "/Zerbaib/TheDiscordBot"
 class Version():
     fileName = "version"
-    localVersionFile = f"./{fileName}"
+    localVersionFile = files["version"]
     onlineVersionFile = f"{Git.rawLink}{Git.repos}{Git.branch}/{fileName}"
 
     def getLocal():
