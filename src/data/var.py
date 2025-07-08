@@ -59,7 +59,7 @@ class Git():
 class Version():
     fileName = "version"
     localVersionFile = files["version"]
-    onlineVersionFile = f"{Git.rawLink}{Git.repos}{Git.branch}/{fileName}"
+    onlineVersionFile = f"{Git.rawLink}{Git.repos}{Git.branch}/src/data/{fileName}"
 
     def getLocal():
         with open(Version.localVersionFile, 'r') as f:
