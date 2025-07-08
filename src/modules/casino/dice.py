@@ -6,6 +6,7 @@ from disnake.ext import commands
 from src.utils.error import error_embed as error
 from src.utils.logger import Log
 from src.utils.saver import Saver
+from src.utils.lang import get_language_file
 
 
 class Dice(commands.Cog):
