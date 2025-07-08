@@ -109,15 +109,15 @@ class sysRank(commands.Cog):
                         elif 0 < xp <= 50:
                             xp = xp - 0
                         elif 51 < xp <= 100:
-                            xp = xp - 10
+                            xp = xp - 5
                         elif 101 < xp <= 500:
-                            xp = xp - 25
+                            xp = xp - 10
                         elif 501 < xp <= 1000:
-                            xp = xp - 50
+                            xp = xp - 20
                         elif 1001 < xp <= 2500:
-                            xp = xp - 75
+                            xp = xp - 30
                         else:
-                            xp = xp - 100
+                            xp = xp - 50
                         grade = None
                         for g, value in self.rankGrade.items():
                             if xp >= value:
