@@ -26,9 +26,11 @@ class BotInfo(commands.Cog):
                 timestamp=datetime.now(timezone.utc)
             )
 
+            owner = bot.get_user(bot.owner_id) or await bot.fetch_user(bot.owner_id)
+
             embed.set_thumbnail(url=bot.user.avatar.url)
             embed.add_field(name="Bot ID", value=bot.user.id, inline=True)
-            embed.add_field(name="Owner", value=bot.owner.mention, inline=True)
+            embed.add_field(name="Owner", value=owner.mention, inline=True)
             embed.add_field(name="Servers", value=len(bot.guilds), inline=True)
             embed.add_field(name="Users", value=len(bot.users), inline=True)
             embed.add_field(name="Slash Commands", value=len(bot.slash_commands), inline=True)
