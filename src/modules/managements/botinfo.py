@@ -34,7 +34,7 @@ class BotInfo(commands.Cog):
             embed.set_thumbnail(url=bot.user.avatar.url)
             embed.add_field(name="Bot ID", value=f"```{bot.user.id}```", inline=True)
             embed.add_field(name="Bot Version", value=f"```{version}```", inline=True)
-            embed.add_field(name="Owner", value=owner.display_name, inline=False)
+            embed.add_field(name="Owner", value=f"```{owner.name}```", inline=False)
             embed.add_field(name="Servers", value=f"```{len(bot.guilds)}```", inline=True)
             embed.add_field(name="Users", value=f"```{len(bot.users)}```", inline=True)
             embed.add_field(name="Slash Commands", value=f"```{len(bot.slash_commands)}```", inline=True)
