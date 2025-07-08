@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 import disnake
 from disnake.ext import commands
@@ -23,7 +23,7 @@ class BotInfo(commands.Cog):
             embed = disnake.Embed(
                 title=f"Bot Info - {bot.user.name}",
                 color=disnake.Color.blue(),
-                timestamp=datetime.now(datetime.timezone.utc)
+                timestamp=datetime.now(timezone.utc)
             )
 
             embed.set_thumbnail(url=bot.user.avatar.url)
