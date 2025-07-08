@@ -19,6 +19,7 @@ class BotInfo(commands.Cog):
     @commands.slash_command(name="botinfo", description="Get information about the bot")
     async def botinfo(self, ctx):
         try:
+            bot = self.bot
             guild = ctx.guild
             embed = disnake.Embed(
                 title=f"Bot Info - {bot.user.name}",
